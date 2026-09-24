@@ -52,7 +52,7 @@
 
   <header class="app-header">
     <h1>和暦・西暦 変換と年齢早見表</h1>
-    <p class="subtitle">令和・平成・昭和・大正・明治 ⇄ 西暦。満年齢・干支・入学卒業年も。</p>
+    <p class="subtitle">令和〜明治と西暦をすぐ変換。入力は外部に送信しません。</p>
     <p class="lang-switch"><a href="./en/" hreflang="en" lang="en">English</a></p>
   </header>
 
@@ -63,7 +63,7 @@
       <div class="field">
         <label for="conv">和暦か西暦を入れる</label>
         <input type="text" id="conv" class="wide" autocomplete="off" placeholder="例：昭和60年／H31.4.30／1989／2019-05-01">
-        <p class="hint">「昭和60年3月5日」「S60.3.5」「令和元年」「1985」「1985年3月5日」のどれでも。</p>
+        <p class="hint">「S60.3.5」「令和元年」「1985-03-05」の形も読みます。</p>
       </div>
       <p class="examples">
         <span class="small">例：</span>
@@ -92,8 +92,7 @@
           </div>
         </div>
       </div>
-      <p class="hint">生年月日は保存も送信もしません。</p>
-      <div id="age-result" class="result" aria-live="polite"></div>
+            <div id="age-result" class="result" aria-live="polite"></div>
     </section>
 
     <section class="card" id="sec-hayami" aria-labelledby="h-hayami">
@@ -114,7 +113,7 @@
         </div>
         <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> 下に「yorozu-craft.com/gengo/print/ で作成」と小さく入れる</label></p>
         <p><button type="button" class="btn" id="print">印刷する（A4 縦 1 枚）</button></p>
-        <p class="hint">「誕生日後」はその年の誕生日を迎えたあとの満年齢、「誕生日前」は迎える前の満年齢です。改元の年は 2 つの元号を並べています。</p>
+        <p class="hint">改元の年は 2 つの元号を並べています。</p>
       </div>
       <div id="hayami"></div>
     </section>
@@ -127,10 +126,10 @@
           <tbody id="era-list"></tbody>
         </table>
       </div>
-      <p class="small">始まりの日は、その元号の元年 1 月 1 日ではなく改元の日です（明治は旧暦の慶応4年1月1日にさかのぼって明治元年）。根拠は<a href="./guide.html#basis">使い方ページ</a>に。</p>
+      <p class="small">始まりは改元の日です。根拠は<a href="./guide.html#basis">使い方ページ</a>に。</p>
     </section>
 
-    <p class="small"><a href="./guide.html">使い方・よくある質問（元年の書き方、昭和64年、早生まれ、2 月 29 日生まれの年齢 など）</a></p>
+    <p class="small"><a href="./guide.html">使い方・よくある質問</a></p>
 
   </main>
 

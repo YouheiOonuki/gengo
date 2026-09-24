@@ -176,6 +176,9 @@ ul.note { padding-left: 1.6rem; }
 .content th, .content td { border: 1px solid var(--border); padding: 0.3rem 0.45rem; text-align: left; vertical-align: top; }
 .content th { background: var(--bg-2); }
 .sources li { overflow-wrap: anywhere; }
+.content details { margin-top: 0.6rem; }
+.content details summary { cursor: pointer; color: var(--accent); font-size: 0.9rem; }
+.content details[open] summary { margin-bottom: 0.4rem; }
 
 /* 印刷: 年齢早見表だけを A4 縦 1 枚に（広告・ほかの部分は出さない） */
 @page { size: A4 portrait; margin: 10mm; }

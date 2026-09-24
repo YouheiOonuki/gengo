@@ -15,6 +15,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - 元号の一覧（`constants.js` から作る）
 - 保存しない（localStorage を使わない）ので、ファイルへの書き出し・読み込み（サイト README の 20）は無い
 
+文章の量は yorozu-plans の `docs/WRITING.md`（道具）に合わせている。直したら `python3 tools/writing/measure.py --type tool index.html guide.html` と `--en en/index.html en/guide.html` で OK を確かめる。詳しい表・条文・出典の URL は使い方ページの `<details>` の中。
+
 ## 計算の仕様・根拠
 
 - 元号の境目は `constants.js` の `ERAS` にだけ持つ（日本語・英語のページとテストが同じ値を読む。GLOBAL.md 3.2「値を 2 か所に持たない」）
