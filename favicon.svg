@@ -1,5 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- 仮のアイコン（和紙風の配色の四角）。ツールに合わせて描き直す -->
-  <rect x="6" y="6" width="52" height="52" rx="10" fill="#faf6ee" stroke="#8b4513" stroke-width="4"/>
-  <rect x="20" y="20" width="24" height="24" rx="4" fill="#3f6b2a"/>
+  <!-- 和暦・西暦 変換: めくりカレンダーと朱の丸 -->
+  <rect width="64" height="64" rx="14" fill="#8b4513"/>
+  <rect x="11" y="13" width="42" height="42" rx="5" fill="#faf6ee"/>
+  <rect x="11" y="13" width="42" height="11" rx="5" fill="#c0392b"/>
+  <rect x="11" y="19" width="42" height="5" fill="#c0392b"/>
+  <path d="M21 9v9M43 9v9" stroke="#faf6ee" stroke-width="4" stroke-linecap="round"/>
+  <path d="M20 33h10M20 40h10M20 47h10" stroke="#3a3025" stroke-width="3" stroke-linecap="round"/>
+  <path d="M35 37h12" stroke="#8b4513" stroke-width="3" stroke-linecap="round"/>
+  <path d="M43 32l5 5-5 5" fill="none" stroke="#8b4513" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
