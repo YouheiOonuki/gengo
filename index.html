@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>和暦・西暦 変換と年齢早見表｜yorozu-craft</title>
-  <meta name="description" content="明治・大正・昭和・平成・令和と西暦をすぐ変換。満年齢・干支・入学卒業年、印刷できる年齢早見表つき。">
+  <title>和暦・西暦 変換と年齢早見表（令和・平成・昭和・大正・明治）｜yorozu-craft</title>
+  <meta name="description" content="和暦と西暦をすぐ変換（令和・平成・昭和・大正・明治）。昭和64年と平成元年など改元の境目も正確に。生年月日から満年齢・干支・学年・入学卒業年（履歴書用）を計算。印刷できる年齢早見表つき。登録不要・無料。">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yorozu-craft.com/gengo/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/gengo/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/gengo/en/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/gengo/">
 
   <meta property="og:title" content="和暦・西暦 変換と年齢早見表｜yorozu-craft">
-  <meta property="og:description" content="明治・大正・昭和・平成・令和と西暦をすぐ変換。満年齢・干支・入学卒業年、印刷できる年齢早見表つき。">
+  <meta property="og:description" content="令和・平成・昭和・大正・明治と西暦をすぐ変換。満年齢・干支・入学卒業年、印刷できる年齢早見表つき。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yorozu-craft.com/gengo/">
   <meta property="og:site_name" content="yorozu-craft">
   <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
   <meta property="og:image" content="https://yorozu-craft.com/gengo/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -35,7 +39,7 @@
   }
   </script>
 
-  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト）。全画面で操作する画面なら script を消して meta だけ残す -->
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
   <meta name="google-adsense-account" content="ca-pub-5375267956079717">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
      crossorigin="anonymous"></script>
@@ -48,29 +52,85 @@
 
   <header class="app-header">
     <h1>和暦・西暦 変換と年齢早見表</h1>
-    <p class="subtitle">明治・大正・昭和・平成・令和と西暦をすぐ変換。満年齢・干支・入学卒業年、印刷できる年齢早見表つき。</p>
+    <p class="subtitle">令和・平成・昭和・大正・明治 ⇄ 西暦。満年齢・干支・入学卒業年も。</p>
+    <p class="lang-switch"><a href="./en/" hreflang="en" lang="en">English</a></p>
   </header>
 
   <main class="app-main">
 
-    <!-- ここにツール本体を書く（例: 金額を 100 円単位で切り上げる） -->
-    <section class="card" aria-labelledby="tool-heading">
-      <h2 id="tool-heading">計算</h2>
+    <section class="card" aria-labelledby="h-conv">
+      <h2 id="h-conv">和暦 ⇄ 西暦</h2>
       <div class="field">
-        <label for="amount">金額</label>
-        <p class="hint">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。</p>
-        <input type="number" id="amount" inputmode="numeric" placeholder="例：1234">
+        <label for="conv">和暦か西暦を入れる</label>
+        <input type="text" id="conv" class="wide" autocomplete="off" placeholder="例：昭和60年／H31.4.30／1989／2019-05-01">
+        <p class="hint">「昭和60年3月5日」「S60.3.5」「令和元年」「1985」「1985年3月5日」のどれでも。</p>
       </div>
-      <p>結果：<strong id="result" aria-live="polite">—</strong></p>
-      <button type="button" id="share" class="btn">結果を開くリンクをコピー</button>
-      <!-- 保存内容のファイルへの書き出し・読み込み（README「ツールを追加するとき」20。保存する・共有するボタンの近くに置く） -->
-      <button type="button" id="backup-export" class="btn">ファイルに書き出す</button>
-      <button type="button" id="backup-import" class="btn">ファイルから読み込む</button>
-      <input type="file" id="backup-file" accept=".json,application/json" hidden>
-      <p id="backup-msg" class="small" aria-live="polite"></p>
+      <p class="examples">
+        <span class="small">例：</span>
+        <button type="button" class="chip" data-example="昭和60年">昭和60年</button>
+        <button type="button" class="chip" data-example="1989">1989年</button>
+        <button type="button" class="chip" data-example="昭和64年1月8日">昭和64年1月8日</button>
+        <button type="button" class="chip" data-example="平成31年4月30日">平成31年4月30日</button>
+        <button type="button" class="chip" data-example="令和元年">令和元年</button>
+        <button type="button" class="chip" data-example="2026">2026年</button>
+      </p>
+      <div id="conv-result" class="result" aria-live="polite"></div>
     </section>
 
-    <p class="small"><a href="./guide.html">使い方・よくある質問・ご利用上の注意</a></p>
+    <section class="card" aria-labelledby="h-age">
+      <h2 id="h-age">年齢・干支・学年</h2>
+      <div class="field-row">
+        <div class="field">
+          <label for="birth">生年月日（和暦でも西暦でも）</label>
+          <input type="text" id="birth" autocomplete="off" placeholder="例：昭和60年3月5日／1985-03-05">
+        </div>
+        <div class="field">
+          <label for="ref">基準日</label>
+          <div class="inline-row">
+            <input type="date" id="ref">
+            <button type="button" class="btn btn-sub" id="ref-today">今日</button>
+          </div>
+        </div>
+      </div>
+      <p class="hint">生年月日は保存も送信もしません。</p>
+      <div id="age-result" class="result" aria-live="polite"></div>
+    </section>
+
+    <section class="card" id="sec-hayami" aria-labelledby="h-hayami">
+      <h2 id="h-hayami">年齢早見表（印刷できます）</h2>
+      <div class="controls">
+        <div class="field-row">
+          <div class="field">
+            <label for="table-year">何年の表か</label>
+            <select id="table-year"></select>
+          </div>
+          <div class="field">
+            <label for="table-max">年齢の範囲</label>
+            <select id="table-max">
+              <option value="100">0〜100 歳</option>
+              <option value="80">0〜80 歳</option>
+            </select>
+          </div>
+        </div>
+        <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> 下に「yorozu-craft.com/gengo/print/ で作成」と小さく入れる</label></p>
+        <p><button type="button" class="btn" id="print">印刷する（A4 縦 1 枚）</button></p>
+        <p class="hint">「誕生日後」はその年の誕生日を迎えたあとの満年齢、「誕生日前」は迎える前の満年齢です。改元の年は 2 つの元号を並べています。</p>
+      </div>
+      <div id="hayami"></div>
+    </section>
+
+    <section class="card" aria-labelledby="h-eras">
+      <h2 id="h-eras">元号の一覧</h2>
+      <div class="table-wrap">
+        <table class="era-table">
+          <thead><tr><th>元号</th><th>読み</th><th>始まり</th><th>終わり</th><th>年数</th></tr></thead>
+          <tbody id="era-list"></tbody>
+        </table>
+      </div>
+      <p class="small">始まりの日は、その元号の元年 1 月 1 日ではなく改元の日です（明治は旧暦の慶応4年1月1日にさかのぼって明治元年）。根拠は<a href="./guide.html#basis">使い方ページ</a>に。</p>
+    </section>
+
+    <p class="small"><a href="./guide.html">使い方・よくある質問（元年の書き方、昭和64年、早生まれ、2 月 29 日生まれの年齢 など）</a></p>
 
   </main>
 

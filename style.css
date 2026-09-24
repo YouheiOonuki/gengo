@@ -125,6 +125,76 @@ a { color: var(--accent); }
 .footer-nav a { color: var(--muted); text-decoration: none; }
 .footer-nav a:hover, .footer-nav a[aria-current="page"] { color: var(--accent); }
 
+/* ===== 和暦変換の部品 ===== */
+.field input.wide { width: 100%; max-width: none; }
+.field input[type="date"] {
+  padding: 0.4rem 0.5rem; font-size: 1rem; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--card); color: var(--text); max-width: 100%;
+}
+.field-row { display: flex; flex-wrap: wrap; gap: 0 1rem; }
+.field-row .field { flex: 1 1 12rem; min-width: 0; }
+.field-row .field select, .field-row .field input[type="text"] { max-width: 100%; }
+.inline-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+label.inline { display: inline; font-weight: 400; font-size: 0.88rem; }
+.examples { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin: -0.3rem 0 0.9rem; }
+.examples .small { margin: 0; }
+.chip {
+  border: 1px solid var(--border); background: var(--accent-soft); color: var(--text);
+  border-radius: 999px; padding: 0.2rem 0.7rem; font-size: 0.8rem; cursor: pointer;
+}
+.chip:hover, .chip:focus-visible { border-color: var(--accent); }
+.btn-sub { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--border); }
+.result:not(:empty) { border-top: 1px dashed var(--border); padding-top: 0.8rem; margin-top: 0.4rem; }
+.big { font-size: 1.15rem; line-height: 1.5; margin-bottom: 0.5rem; }
+.big strong { color: var(--accent); font-size: 1.3rem; }
+.note { font-size: 0.86rem; background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 4px; padding: 0.45rem 0.7rem; margin: 0.4rem 0 0.6rem; }
+ul.note { padding-left: 1.6rem; }
+.error { color: #b3261e; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; }
+@media (prefers-color-scheme: dark) { .error { color: #ff8a80; } }
+.result-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.result-table th, .result-table td { text-align: left; vertical-align: top; padding: 0.35rem 0.4rem; border-bottom: 1px solid var(--border); }
+.result-table th { font-weight: 600; color: var(--muted); width: 30%; }
+.result-table th:empty { width: 0; padding: 0; }
+.table-wrap { overflow-x: auto; }
+.history { margin-top: 0.8rem; font-size: 0.88rem; }
+.history summary { cursor: pointer; color: var(--accent); }
+.hist-table, .era-table { border-collapse: collapse; font-size: 0.85rem; width: 100%; margin-top: 0.4rem; }
+.hist-table th, .hist-table td, .era-table th, .era-table td { border: 1px solid var(--border); padding: 0.3rem 0.45rem; text-align: left; }
+.hist-table thead th, .era-table thead th { background: var(--bg-2); }
+.hayami-title { font-size: 1rem; margin: 0.6rem 0 0.4rem; text-align: center; }
+.hayami-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.8rem; }
+@media (max-width: 560px) { .hayami-cols { grid-template-columns: 1fr; } }
+.hayami-table { border-collapse: collapse; width: 100%; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+.hayami-table th, .hayami-table td { border: 1px solid var(--border); padding: 0.12rem 0.35rem; text-align: center; white-space: nowrap; }
+.hayami-table thead th { background: var(--bg-2); font-size: 0.76rem; white-space: normal; line-height: 1.25; }
+.hayami-table td:nth-child(2) { text-align: left; }
+.hayami-table tr.change td { background: var(--accent-soft); }
+.hayami-table tbody tr:nth-child(5n) td { border-bottom: 2px solid var(--border); }
+.credit { text-align: right; font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; }
+.lang-switch { font-size: 0.82rem; margin-top: 0.35rem; }
+.content table { border-collapse: collapse; font-size: 0.85rem; margin: 0.4rem 0; width: 100%; }
+.content th, .content td { border: 1px solid var(--border); padding: 0.3rem 0.45rem; text-align: left; vertical-align: top; }
+.content th { background: var(--bg-2); }
+.sources li { overflow-wrap: anywhere; }
+
+/* 印刷: 年齢早見表だけを A4 縦 1 枚に（広告・ほかの部分は出さない） */
+@page { size: A4 portrait; margin: 10mm; }
+@media print {
+  :root { --bg: #fff; --bg-2: #eee; --card: #fff; --text: #000; --muted: #333; --accent: #000; --accent-soft: #f2f2f2; --border: #888; --shadow: transparent; }
+  body { background: #fff; }
+  .app-header, .app-footer, main > :not(#sec-hayami), #sec-hayami > h2, #sec-hayami .controls,
+  ins.adsbygoogle, iframe, .google-auto-placed { display: none !important; }
+  .app-main { max-width: none; padding: 0; }
+  #sec-hayami { border: none; box-shadow: none; padding: 0; margin: 0; }
+  .hayami-title { font-size: 13pt; margin: 0 0 2mm; }
+  .hayami-cols { grid-template-columns: 1fr 1fr !important; gap: 0 5mm; }
+  .hayami-table { font-size: 8.6pt; }
+  .hayami-table th, .hayami-table td { padding: 0.25mm 1.2mm; line-height: 1.25; }
+  .hayami-table thead th { font-size: 7.8pt; }
+  .hayami-table tr.change td { background: #eee; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .credit { font-size: 7.5pt; color: #333; }
+}
+
 @media (max-width: 480px) {
   .app-header h1 { font-size: 1.2rem; }
 }

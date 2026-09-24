@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japanese Era Converter – Reiwa, Heisei, Showa to Western Year and Back | yorozu-craft</title>
+  <meta name="description" content="Convert Japanese era years (Reiwa 令和, Heisei 平成, Shōwa 昭和, Taishō 大正, Meiji 明治) to Western years and back, with the exact era change dates. What year is Showa 60? Reiwa 8? Also age from a birth date, school year in Japan, zodiac, and a printable age chart. Free, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/gengo/en/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/gengo/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/gengo/en/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/gengo/">
+
+  <meta property="og:title" content="Japanese Era Converter – Reiwa, Heisei, Showa to Western Year">
+  <meta property="og:description" content="Japanese era years to Western years and back, with exact era change dates, age, zodiac and a printable age chart.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/gengo/en/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/gengo/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Japanese Era Converter",
+    "description": "Convert Japanese era years (Reiwa, Heisei, Showa, Taisho, Meiji) to Western years and back, with age, zodiac and a printable age chart.",
+    "url": "https://yorozu-craft.com/gengo/en/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japanese Era Converter <span lang="ja">和暦 ⇄ 西暦</span></h1>
+    <p class="subtitle">Reiwa, Heisei, Shōwa, Taishō and Meiji years to Western years and back, with age and a printable chart.</p>
+    <p class="lang-switch"><a href="../" hreflang="ja" lang="ja">日本語</a></p>
+  </header>
+
+  <main class="app-main">
+
+    <section class="card" aria-labelledby="h-conv">
+      <h2 id="h-conv">Japanese era ⇄ Western year</h2>
+      <div class="field">
+        <label for="conv">Enter a Japanese era date or a Western year</label>
+        <input type="text" id="conv" class="wide" autocomplete="off" placeholder="e.g. Showa 60 / H31.4.30 / 令和元年 / 1989">
+        <p class="hint">Romaji (Showa 60, Reiwa 1), abbreviations (S60, H31.4.30), kanji from a document (昭和60年3月5日, 令和元年) or a Western year or date (1985, 1985-03-05).</p>
+      </div>
+      <p class="examples">
+        <span class="small">Examples:</span>
+        <button type="button" class="chip" data-example="Showa 60">Showa 60</button>
+        <button type="button" class="chip" data-example="Reiwa 8">Reiwa 8</button>
+        <button type="button" class="chip" data-example="平成31年4月30日">平成31年4月30日</button>
+        <button type="button" class="chip" data-example="H1.1.8">H1.1.8</button>
+        <button type="button" class="chip" data-example="1989">1989</button>
+        <button type="button" class="chip" data-example="2019-05-01">2019-05-01</button>
+      </p>
+      <div id="conv-result" class="result" aria-live="polite"></div>
+    </section>
+
+    <section class="card" aria-labelledby="h-age">
+      <h2 id="h-age">Age, zodiac and school year</h2>
+      <div class="field-row">
+        <div class="field">
+          <label for="birth">Date of birth (Japanese era or Western)</label>
+          <input type="text" id="birth" autocomplete="off" placeholder="e.g. 1985-03-05 / 昭和60年3月5日">
+        </div>
+        <div class="field">
+          <label for="ref">Reference date</label>
+          <div class="inline-row">
+            <input type="date" id="ref">
+            <button type="button" class="btn btn-sub" id="ref-today">Today</button>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Your date of birth is not stored or sent anywhere.</p>
+      <div id="age-result" class="result" aria-live="polite"></div>
+    </section>
+
+    <section class="card" id="sec-hayami" aria-labelledby="h-hayami">
+      <h2 id="h-hayami">Printable age chart</h2>
+      <div class="controls">
+        <div class="field-row">
+          <div class="field">
+            <label for="table-year">Chart for the year</label>
+            <select id="table-year"></select>
+          </div>
+          <div class="field">
+            <label for="table-max">Ages</label>
+            <select id="table-max">
+              <option value="100">0–100</option>
+              <option value="80">0–80</option>
+            </select>
+          </div>
+        </div>
+        <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> Add a small "Made at yorozu-craft.com/gengo/print/" line</label></p>
+        <p><button type="button" class="btn" id="print">Print (one A4 page)</button></p>
+        <p class="hint">"After birthday" is the age once the birthday in that year has passed; "Before birthday" is the age until then. Years with an era change list both eras (S64/H1 = Shōwa 64 / Heisei 1).</p>
+      </div>
+      <div id="hayami"></div>
+    </section>
+
+    <section class="card" aria-labelledby="h-eras">
+      <h2 id="h-eras">Japanese eras since 1868</h2>
+      <div class="table-wrap">
+        <table class="era-table">
+          <thead><tr><th>Era</th><th>Reading</th><th>Began</th><th>Ended</th><th>Years</th></tr></thead>
+          <tbody id="era-list"></tbody>
+        </table>
+      </div>
+      <p class="small">"Began" is the day the era changed, not 1 January. Meiji 1 was counted back to the first day of the lunisolar year (25 January 1868). Sources are listed in the <a href="./guide.html#basis">guide</a>.</p>
+    </section>
+
+    <section class="card content" aria-labelledby="h-read">
+      <h2 id="h-read">Reading dates on Japanese documents</h2>
+      <ul>
+        <li><strong>年 月 日</strong> mean year, month and day: <span lang="ja">令和8年9月24日</span> is Reiwa 8, September 24 = 24 September 2026.</li>
+        <li><strong>元年</strong> (gannen) means year 1 of an era: <span lang="ja">令和元年</span> = Reiwa 1 = 2019.</li>
+        <li>Forms often use one letter: <strong>R</strong> Reiwa, <strong>H</strong> Heisei, <strong>S</strong> Shōwa, <strong>T</strong> Taishō, <strong>M</strong> Meiji. <span lang="ja">H1.1.8</span> is 8 January 1989.</li>
+        <li>To convert quickly: Reiwa + 2018, Heisei + 1988, Shōwa + 1925 = Western year.</li>
+      </ul>
+      <p><a href="./guide.html">More in the guide: era change years, why there is a Shōwa 64, birthdays on 29 February, the Japanese school year</a></p>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../">yorozu-craft (Japanese)</a></li>
+        <li><a href="./" aria-current="page">Japanese Era Converter</a></li>
+        <li><a href="./guide.html">Guide and FAQ</a></li>
+        <li><a href="../../en/about.html">About</a></li>
+        <li><a href="../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../constants.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../main.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
