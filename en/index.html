@@ -58,6 +58,7 @@
 
   <main class="app-main">
 
+    <!-- 画面の骨組み「入力 → 結果」（yorozu-plans の docs/SCREEN.md 1.1）。和暦か西暦を入れる欄 → 結果（空のときは「—」）→ 年齢・早見表・元号の一覧は details -->
     <section class="card" aria-labelledby="h-conv">
       <h2 id="h-conv">Japanese era ⇄ Western year</h2>
       <div class="field">
@@ -74,11 +75,11 @@
         <button type="button" class="chip" data-example="1989">1989</button>
         <button type="button" class="chip" data-example="2019-05-01">2019-05-01</button>
       </p>
-      <div id="conv-result" class="result" aria-live="polite"></div>
+      <div id="conv-result" class="result" aria-live="polite"><p class="empty">—</p></div>
     </section>
 
-    <section class="card" aria-labelledby="h-age">
-      <h2 id="h-age">Age, zodiac and school year</h2>
+    <details class="card opt" id="opt-age">
+      <summary id="h-age">Age, zodiac and school year</summary>
       <div class="field-row">
         <div class="field">
           <label for="birth">Date of birth (Japanese era or Western)</label>
@@ -92,11 +93,11 @@
           </div>
         </div>
       </div>
-            <div id="age-result" class="result" aria-live="polite"></div>
-    </section>
+      <div id="age-result" class="result" aria-live="polite"></div>
+    </details>
 
-    <section class="card" id="sec-hayami" aria-labelledby="h-hayami">
-      <h2 id="h-hayami">Printable age chart</h2>
+    <details class="card opt" id="sec-hayami">
+      <summary id="h-hayami">Printable age chart: <span class="opt-state"></span></summary>
       <div class="controls">
         <div class="field-row">
           <div class="field">
@@ -116,10 +117,10 @@
         <p class="hint">Years with an era change list both eras (S64/H1).</p>
       </div>
       <div id="hayami"></div>
-    </section>
+    </details>
 
-    <section class="card" aria-labelledby="h-eras">
-      <h2 id="h-eras">Japanese eras since 1868</h2>
+    <details class="card opt" id="opt-eras">
+      <summary id="h-eras">Japanese eras since 1868</summary>
       <div class="table-wrap">
         <table class="era-table">
           <thead><tr><th>Era</th><th>Reading</th><th>Began</th><th>Ended</th><th>Years</th></tr></thead>
@@ -127,7 +128,7 @@
         </table>
       </div>
       <p class="small">"Began" is the day the era changed. <a href="./guide.html#basis">Sources</a></p>
-    </section>
+    </details>
 
     <section class="card content" aria-labelledby="h-read">
       <h2 id="h-read">Reading dates on Japanese documents</h2>
@@ -161,6 +162,7 @@
 
   <script src="../constants.js"></script>
   <script src="../calc.js"></script>
+  <script src="../screen.js"></script>
   <script src="../main.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

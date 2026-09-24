@@ -48,6 +48,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `calc.js` | 和暦・年齢・学年・干支・早見表（純粋関数。日英共通） |
 | `constants.js` | 元号の境目と法令（値・出典・確認日） |
 | `main.js` | 画面の制御。日英の文言（`STR`）を `<html lang>` で切り替える |
+| `screen.js` | 画面の部品（折りたたみの状態表示。yorozu-template と同じ） |
 | `style.css` | 見た目（和紙風の配色、ダークモード、印刷は早見表だけを A4 縦 1 枚） |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630） |

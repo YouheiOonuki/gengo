@@ -108,7 +108,8 @@
 
   function renderConv() {
     var text = conv.value;
-    if (!text.trim()) { convOut.innerHTML = ''; return; }
+    // 空のときは「—」（SCREEN.md 3 章。結果の場所は読み込み時から見せておく）
+    if (!text.trim()) { convOut.innerHTML = '<p class="empty">—</p>'; return; }
     var p = C.parseInput(text);
     if (!p) { convOut.innerHTML = '<p class="error">' + esc(T.err.format) + '</p>'; return; }
     var now = today();
@@ -260,11 +261,15 @@
     tableOut.innerHTML = '<h3 class="hayami-title">' + esc(fmt(T.tableTitle, { y: ry, w: w })) + '</h3>' +
       '<div class="hayami-cols">' + tbl(rows.slice(0, half)) + tbl(rows.slice(half)) + '</div>' +
       (creditChk.checked ? '<p class="credit">' + esc(T.credit) + '</p>' : '');
+    // 早見表の details（SCREEN.md 1.1 の 4）の summary に、何年の表か・年齢の範囲（選択肢の文字のまま）
+    window.YorozuScreen.detailsSummary({ 'sec-hayami': yearSel.options[yearSel.selectedIndex].text + (LANG === 'en' ? ', ' : '・') + maxSel.options[maxSel.selectedIndex].text });
   }
   yearSel.addEventListener('change', renderTable);
   maxSel.addEventListener('change', renderTable);
   creditChk.addEventListener('change', renderTable);
   $('print').addEventListener('click', function () { renderTable(); window.print(); });
+  // 早見表は details の中にあるので、ブラウザのメニューから印刷したときも閉じたままにしない
+  window.addEventListener('beforeprint', function () { $('sec-hayami').open = true; });
 
   renderConv();
   renderTable();

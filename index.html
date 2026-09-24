@@ -58,6 +58,7 @@
 
   <main class="app-main">
 
+    <!-- 画面の骨組み「入力 → 結果」（yorozu-plans の docs/SCREEN.md 1.1）。和暦か西暦を入れる欄 → 結果（空のときは「—」）→ 年齢・早見表・元号の一覧は details -->
     <section class="card" aria-labelledby="h-conv">
       <h2 id="h-conv">和暦 ⇄ 西暦</h2>
       <div class="field">
@@ -74,11 +75,11 @@
         <button type="button" class="chip" data-example="令和元年">令和元年</button>
         <button type="button" class="chip" data-example="2026">2026年</button>
       </p>
-      <div id="conv-result" class="result" aria-live="polite"></div>
+      <div id="conv-result" class="result" aria-live="polite"><p class="empty">—</p></div>
     </section>
 
-    <section class="card" aria-labelledby="h-age">
-      <h2 id="h-age">年齢・干支・学年</h2>
+    <details class="card opt" id="opt-age">
+      <summary id="h-age">年齢・干支・学年</summary>
       <div class="field-row">
         <div class="field">
           <label for="birth">生年月日（和暦でも西暦でも）</label>
@@ -92,11 +93,11 @@
           </div>
         </div>
       </div>
-            <div id="age-result" class="result" aria-live="polite"></div>
-    </section>
+      <div id="age-result" class="result" aria-live="polite"></div>
+    </details>
 
-    <section class="card" id="sec-hayami" aria-labelledby="h-hayami">
-      <h2 id="h-hayami">年齢早見表（印刷できます）</h2>
+    <details class="card opt" id="sec-hayami">
+      <summary id="h-hayami">年齢早見表（印刷できます）: <span class="opt-state"></span></summary>
       <div class="controls">
         <div class="field-row">
           <div class="field">
@@ -117,10 +118,10 @@
         <p class="hint">改元の年は 2 つの元号を並べています。</p>
       </div>
       <div id="hayami"></div>
-    </section>
+    </details>
 
-    <section class="card" aria-labelledby="h-eras">
-      <h2 id="h-eras">元号の一覧</h2>
+    <details class="card opt" id="opt-eras">
+      <summary id="h-eras">元号の一覧</summary>
       <div class="table-wrap">
         <table class="era-table">
           <thead><tr><th>元号</th><th>読み</th><th>始まり</th><th>終わり</th><th>年数</th></tr></thead>
@@ -128,7 +129,7 @@
         </table>
       </div>
       <p class="small">始まりは改元の日です。根拠は<a href="./guide.html#basis">使い方ページ</a>に。</p>
-    </section>
+    </details>
 
     <p class="small"><a href="./guide.html">使い方・よくある質問</a></p>
 
@@ -149,6 +150,7 @@
 
   <script src="./constants.js"></script>
   <script src="./calc.js"></script>
+  <script src="./screen.js"></script>
   <script src="./main.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
