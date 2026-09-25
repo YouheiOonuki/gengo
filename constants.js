@@ -127,6 +127,78 @@
       source: 'e-Gov 法令検索「学校教育法施行規則」第百六十三条',
       url: 'https://laws.e-gov.go.jp/law/322M40000080011',
       checked: '2026-09-25'
+    },
+
+    // --- 厄年・年祝い（yakudoshi/）と回忌（kaiki/）。法令ではなく慣習なので、寺社・宗派の公式ページで確かめた「例」として持つ ---
+    // 2026-09-25 に各ページを開いて本文と令和8年の表を読んだ。決まった一つの規則は無い（寺社・地域で違う）
+    yakudoshi: {
+      value: {
+        // 数え年（生まれた年を 1 歳、元日で 1 つ増える）。37 歳は神社本庁・西新井大師にあり、成田山には無い。女性の 61 歳は 3 か所とも本厄
+        kazoe: { male: [25, 42, 61], female: [19, 33, 37, 61], taiyaku: { male: 42, female: 33 }, optional: { female: [37] } },
+        // 川崎大師: 「その年の満年令」（その年の誕生日を迎えた後の満年齢 = 数え年 − 1）で 男 25・42・60、女 19・33・60
+        mannen: { male: [25, 42, 60], female: [19, 33, 60], taiyaku: { male: 42, female: 33 }, optional: {} }
+      },
+      label: '厄年（本厄）の年齢の例。前後 1 年が前厄・後厄',
+      source: '神社本庁「厄祓い」ほか（sources）',
+      url: 'https://www.jinjahoncho.or.jp/omairi/yakubarai/',
+      sources: [
+        { name: '神社本庁「厄祓い」', url: 'https://www.jinjahoncho.or.jp/omairi/yakubarai/', note: '通常は数え年（元日で 1 つ歳をとる）。男 25・42・61、女 19・33・37（・61）。地域によって多少異なる。大厄は男 42・女 33' },
+        { name: '成田山新勝寺「開運厄除御祓」', url: 'https://www.naritasan.or.jp/pray/yakuyoke/', note: '数え年。男 25・42・61、女 19・33・61（37 は無い）。令和8年の本厄 42 歳は昭和60年生' },
+        { name: '西新井大師總持寺「厄除け祈願」', url: 'https://www.nishiaraidaishi.or.jp/yakuyoke/', note: '数え年（元日ごとに 1 歳加算）。男 25・42・61、女 19・33・37、男女共通の 61（還暦）' },
+        { name: '川崎大師平間寺「厄年」と令和8年 年令早見表（PDF）', url: 'https://www.kawasakidaishi.com/yakuyoke/yakudoshi/', note: '「その年の満年令」で男 25・42、女 19・33、男女 60。令和8年の男性本厄 42 歳は昭和59年生（数え年の寺社より 1 年早い生まれ）' }
+      ],
+      checked: '2026-09-25'
+    },
+    toshiiwai: {
+      // age: 祝いの年齢。還暦だけは「数え年 61 ＝ 満 60」（同じ生まれ年）。ほかは数え年・満年齢で生まれ年が 1 年ずれる
+      value: [
+        { key: 'kanreki', name: '還暦', kana: 'かんれき', age: 61, manAge: 60 },
+        { key: 'koki', name: '古希（古稀）', kana: 'こき', age: 70 },
+        { key: 'kiju', name: '喜寿', kana: 'きじゅ', age: 77 },
+        { key: 'sanju', name: '傘寿', kana: 'さんじゅ', age: 80 },
+        { key: 'beiju', name: '米寿', kana: 'べいじゅ', age: 88 },
+        { key: 'sotsuju', name: '卒寿', kana: 'そつじゅ', age: 90 },
+        { key: 'hakuju', name: '白寿', kana: 'はくじゅ', age: 99 },
+        { key: 'momoju', name: '百寿', kana: 'ももじゅ', age: 100 }
+      ],
+      label: '長寿の祝い（年祝い）の年齢',
+      source: '神社本庁「長寿を祝う神事」ほか（sources）',
+      url: 'https://www.jinjahoncho.or.jp/omairi/choju/',
+      sources: [
+        { name: '神社本庁「長寿を祝う神事」', url: 'https://www.jinjahoncho.or.jp/omairi/choju/', note: '還暦 61・古稀 70・喜寿 77・傘寿 80・米寿 88・卒寿 90・白寿 99・百寿 100 ほか。「数え年、満年齢のいずれで数えても差し支えない（地域によって様々な習慣）」。数え年の 61 歳が還暦' },
+        { name: '愛知県神社庁「年祝い一覧」', url: 'https://aichi-jinjacho.or.jp/toshiiwai.html', note: '還暦（満60才・数え61才）、古希（満69才・数え70才）… と併記' },
+        { name: '川崎大師 令和8年 年令早見表（PDF）', url: 'https://www.kawasakidaishi.com/doc/yakudoshi/yakudoshi_table_r08.pdf', note: '「健康長寿」の古稀 70・喜寿 77・傘寿 80・米寿 88・卒寿 90・白寿 99 を満年齢（今年の誕生日の年令）で色分け' }
+      ],
+      checked: '2026-09-25'
+    },
+    kaiki: {
+      value: {
+        // n: 回忌の数（一周忌は 1）。年は命日の年 + n − 1（一周忌だけ + 1）
+        base: [1, 3, 7, 13, 17, 23, 27, 33, 50],
+        n25: [25],            // 二十五回忌（浄土真宗本願寺派の寺院の例。23・27 に分ける地域もある）
+        extra: [37, 43, 47]   // 曹洞宗の年回表・真宗大谷派の寺院の例
+      },
+      source: '浄土宗「よくあるご質問」ほか（sources）',
+      url: 'https://jodo.or.jp/faq/',
+      label: '年回（年忌）法要。亡くなって 1 年後が一周忌、2 年後が三回忌（亡くなった年を 1 回と数える）。以後 回忌の数 − 1 年後',
+      sources: [
+        { name: '浄土宗「よくあるご質問」（年回法要とはなんですか？）', url: 'https://jodo.or.jp/faq/', note: '一年目を一周忌、仏事では数え年を用いるので二年目が三回忌、六年目が七回忌、以降 十三・十七・二十三・二十七・三十三回忌。五十回忌の後は五十年ごと' },
+        { name: '曹洞宗 SOTOZEN-NET「忌日表（中陰表）・年回表」', url: 'https://sotozen-net.or.jp/hayamihyo/', note: '年回表は 1・3・7・13・17・23・27・33・37・43・47・50 回忌、以後 50 年ずつ。「21・25・30 回忌など、所により施行する回忌法要もある」。中陰は正当日（命日を 1 日目）と逮夜日（その前日）を選べる' },
+        { name: '浄土真宗本願寺派 光寿山 正宣寺「年忌法要」', url: 'https://www.shosenji.or.jp/service/anniversary.html', note: '三回忌は往生された年を 1 回として数えるため 2 年後。七・十三・十七・二十五・三十三・五十回忌、以降 50 年ごと。地域によって二十五回忌を二十三・二十七回忌に分ける' },
+        { name: '真宗大谷派 三宝寺「回忌法要の数え方」', url: 'https://www.sampoji.or.jp/archives/ufaqs/kaiki', note: '1 年後が一周忌、2 年後が三回忌、以後 七・十三・十七・二十三・二十七・三十三・三十七・四十三・四十七・五十回忌。地域によって二十五回忌' }
+      ],
+      checked: '2026-09-25'
+    },
+    chuin: {
+      value: { days: [7, 14, 21, 28, 35, 42, 49, 100] },
+      source: 'はせがわ「四十九日はどう計算する？」ほか（sources）',
+      url: 'https://www.hasegawa.jp/blogs/kuyou/shijukunichi-kiake',
+      label: '忌日（中陰）法要。亡くなった日を 1 日目として 7 日ごと、49 日目が四十九日（満中陰）、100 日目が百か日。関西では前日（逮夜）から数える',
+      sources: [
+        { name: 'はせがわ「四十九日はどう計算する？」', url: 'https://www.hasegawa.jp/blogs/kuyou/shijukunichi-kiake', note: '亡くなった日を 1 日目と数え 49 日目。関西では亡くなった前日を 1 日目と数えるので 1 日早い（お逮夜）' },
+        { name: '曹洞宗 SOTOZEN-NET「忌日表（中陰表）・年回表」', url: 'https://sotozen-net.or.jp/hayamihyo/', note: '令和8年5月1日の命日で 初七日 5月7日・四十九日 6月18日・百箇日 8月8日（正当日）。逮夜日は 1 日前（1月1日の命日で初七日 1月6日）' }
+      ],
+      checked: '2026-09-25'
     }
   };
 

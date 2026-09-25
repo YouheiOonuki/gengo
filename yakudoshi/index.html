@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>厄年・還暦 早見表 2026・2027（令和8・9年）男女・生まれ年｜印刷できる｜yorozu-craft</title>
+  <meta name="description" content="年を選ぶと、男女の前厄・本厄・後厄と還暦・古希・喜寿・米寿などの生まれ年（西暦・和暦・干支）が出る早見表。生年月日を入れると数え年と厄年かどうかが分かります。寺社による数え方の違いつき。A4 1 枚で印刷。登録不要・無料。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/gengo/yakudoshi/">
+
+  <meta property="og:title" content="厄年・還暦 早見表（男女・生まれ年・数え年）｜yorozu-craft">
+  <meta property="og:description" content="年を選ぶと、男女の厄年と年祝いの生まれ年（西暦・和暦）。寺社による数え方の違いつき。A4 1 枚で印刷。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/gengo/yakudoshi/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/gengo/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "厄年・還暦 早見表",
+    "description": "年を選ぶと、男女の前厄・本厄・後厄と、還暦・古希・喜寿・米寿などの年祝いの生まれ年を出す早見表。A4 1 枚で印刷。",
+    "url": "https://yorozu-craft.com/gengo/yakudoshi/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <!-- 上端の固定バー（SCREEN.md 1.2。印刷物は主なボタンを固定する）。印刷ボタンが画面の外にあるときだけ出す -->
+  <div class="fixbar" id="fixbar" role="status" hidden>
+    <button type="button" id="fixbar-print"><span id="fixbar-text"></span></button>
+  </div>
+
+  <header class="app-header">
+    <h1>厄年・還暦 早見表（男女・生まれ年）</h1>
+    <p class="subtitle">年を選ぶと厄年と年祝いの生まれ年。入力は外部に送信しません。</p>
+  </header>
+
+  <main class="app-main">
+
+    <!-- 設定 → 出力（SCREEN.md 1.2）。年と生年月日（任意）→ 印刷ボタン → 表 → 数え方（details） -->
+    <fieldset class="card gk-controls">
+      <legend class="visually-hidden">年と生年月日</legend>
+      <div class="field-row">
+        <div class="field">
+          <label for="year">何年の表か</label>
+          <select id="year"></select>
+        </div>
+        <div class="field">
+          <label for="birth">生年月日（任意）</label>
+          <input type="text" id="birth" autocomplete="off" placeholder="例：昭和60年3月5日／1985-03-05">
+        </div>
+      </div>
+      <div id="birth-result" class="result" aria-live="polite"></div>
+      <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> 下に「yorozu-craft.com/gengo/print/ で作成」と小さく入れる</label></p>
+      <p><button type="button" class="btn" id="print">印刷する（A4 縦 1 枚）</button></p>
+    </fieldset>
+
+    <section class="card print-area" id="sheet" aria-label="厄年・年祝い 早見表">
+      <h2 class="hayami-title" id="sheet-title">厄年・年祝い 早見表</h2>
+      <div class="yk-cols">
+        <div>
+          <h3 class="yk-h">男性の厄年</h3>
+          <table class="yk-table"><thead><tr><th scope="col">前厄</th><th scope="col">本厄</th><th scope="col">後厄</th></tr></thead><tbody id="yk-male"></tbody></table>
+        </div>
+        <div>
+          <h3 class="yk-h">女性の厄年</h3>
+          <table class="yk-table"><thead><tr><th scope="col">前厄</th><th scope="col">本厄</th><th scope="col">後厄</th></tr></thead><tbody id="yk-female"></tbody></table>
+        </div>
+      </div>
+      <p class="gk-foot" id="yk-note"></p>
+      <h3 class="yk-h">年祝い（長寿の祝い）の生まれ年</h3>
+      <div class="table-wrap">
+        <table class="gk-table yk-iwai">
+          <thead><tr><th scope="col">祝い</th><th scope="col">数え年で祝う</th><th scope="col">満年齢で祝う</th></tr></thead>
+          <tbody id="iwai-body"></tbody>
+        </table>
+      </div>
+      <p class="gk-foot">還暦は数え 61 歳＝満 60 歳で、どちらも同じ生まれ年です。ほかの祝いは数え年と満年齢で 1 年ずれます。</p>
+      <p class="credit" id="credit-line">yorozu-craft.com/gengo/print/ で作成</p>
+    </section>
+
+    <details class="card opt" id="opt-rule">
+      <summary>数え方: <span class="opt-state">数え年</span></summary>
+      <div class="field">
+        <label for="rule">厄年の年齢の数え方</label>
+        <select id="rule">
+          <option value="kazoe">数え年（神社本庁・成田山・西新井大師など）</option>
+          <option value="mannen">その年の満年齢（川崎大師）</option>
+        </select>
+        <p class="hint">寺社によって違います。お参りする寺社の表で確かめてください。</p>
+      </div>
+    </details>
+
+    <p class="small">亡くなった方の法要の年は <a href="../kaiki/">回忌の計算</a>へ。<a href="./guide.html">使い方・数え方の違い・よくある質問</a>・<a href="../../print-help.html">スマホで印刷するには</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">和暦・西暦 変換と年齢早見表</a></li>
+        <li><a href="./" aria-current="page">厄年・還暦 早見表</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../constants.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../screen.js"></script>
+  <script src="./yakudoshi.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
