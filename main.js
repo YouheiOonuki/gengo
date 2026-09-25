@@ -100,6 +100,15 @@
     var e = C.eto(y);
     return LANG === 'en' ? e.animalEn + ' (' + e.kanji + ', ' + e.kana + ')' : e.kanji + '（' + e.kana + '）';
   }
+  /** 年齢の欄の 1 行（日本語だけ）: 数え 42 歳。男性なら本厄（大厄）、女性は厄年ではない。年祝い（数え年は数え年、満年齢は満年齢で当たるもの） */
+  function yakuIwaiText(by, y) {
+    var KIND = { mae: '前厄', hon: '本厄', ato: '後厄' };
+    function yk(sex) { var r = C.yakuOf(by, sex, y, 'kazoe')[0]; return r ? KIND[r.kind] + (r.kind === 'hon' && r.taiyaku ? '（大厄）' : '') : 'なし'; }
+    var s = '数え ' + C.kazoeAge(by, y) + ' 歳。厄年は 男性 ' + yk('male') + '・女性 ' + yk('female') + '（数え年の例）';
+    var iw = C.toshiiwaiOf(by, y);
+    if (iw.length) s += '。' + iw.map(function (t) { return t.name + (t.kazoe && t.man ? '' : t.kazoe ? '（数え年）' : '（満年齢）'); }).join('・');
+    return esc(s);
+  }
   function today() { var n = new Date(); return { y: n.getFullYear(), m: n.getMonth() + 1, d: n.getDate() }; }
 
   // --- 変換 ---
@@ -208,6 +217,7 @@
     html += '<table class="result-table"><tbody>';
     html += row(T.born, esc(dateText(birth) + ' / ' + warekiDate(birth)) + ' (' + esc(weekday(birth)) + ')');
     html += row(T.eto, esc(etoText(birth.y)));
+    if (LANG === 'ja') html += row(ref.y + '年の厄年・年祝い', yakuIwaiText(birth.y, ref.y) + ' <a href="./yakudoshi/">早見表 →</a>');
     html += row('', esc(fmt(T.next, { d: dateText(a.nextBirthday), n: a.years + 1 })));
     html += row('', esc(fmt(T.reach, { n: a.years + 1, d: dateText(a.reach) })));
     if (birth.m === 2 && birth.d === 29) html += row('', esc(fmt(T.leapNote, { n: a.years + 1 })));

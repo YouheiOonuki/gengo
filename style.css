@@ -268,3 +268,50 @@ fieldset.card { min-width: 0; }
   .gk-foot { font-size: 8pt; color: #333; }
 }
 
+
+/* ===========================
+   厄年・還暦 早見表（yakudoshi/）と回忌の計算（kaiki/）
+   =========================== */
+.yk-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.8rem; }
+@media screen and (max-width: 600px) { .yk-cols { grid-template-columns: 1fr; } }
+.yk-h { font-size: 0.9rem; margin: 0.6rem 0 0.25rem; color: var(--accent); }
+.yk-table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; table-layout: fixed; }
+.yk-table th, .yk-table td { border: 1px solid var(--border); padding: 0.2rem 0.3rem; text-align: center; line-height: 1.3; vertical-align: top; }
+.yk-table thead th { background: var(--bg-2); font-size: 0.76rem; }
+.yk-table td.hon { background: var(--accent-soft); }
+.yk-table td.me, .yk-iwai td.me { outline: 2px solid var(--accent); outline-offset: -2px; font-weight: 700; }
+.yk-table tr.optional td { color: var(--muted); }
+.yk-age { display: block; font-weight: 700; }
+.yk-by { display: block; font-size: 0.74rem; }
+.yk-iwai th .small, .yk-iwai td .small { margin: 0; }
+.field-label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
+.noad { font-size: 0.82rem; color: var(--muted); text-align: center; margin: 0 0 0.6rem; }
+.kk-sub { text-align: center; font-size: 0.85rem; margin: -0.2rem 0 0.4rem; }
+
+.kk-table tr.grad > * { color: var(--muted); }
+.kk-table tr.hon > * { background: var(--accent-soft); }
+.kk-print { display: block; margin-top: 0.6rem; min-height: 44px; }
+#chuin-result { margin-top: 0.4rem; }
+
+@media print {
+  .yk-cols { grid-template-columns: 1fr 1fr !important; gap: 0 5mm; }
+  .yk-h { font-size: 10.5pt; margin: 3mm 0 1mm; color: #000; }
+  .yk-table { font-size: 9.5pt; }
+  .yk-by { font-size: 8.5pt; }
+  .yk-table td.hon, .kk-table tr.hon > * { background: #e6e6e6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .kk-table { font-size: 10.5pt; }
+  .kk-table th, .kk-table td { padding: 1.2mm 2mm; }
+  .kk-table tr.grad > * { color: #000; }
+  .kk-sub { font-size: 10pt; }
+  .noad { display: none; }
+  /* 回忌: 年ごとの早見表は、そのボタンから印刷したときだけ（details の中にあるので、details ごと出して中身の操作部分を隠す） */
+  body:not(.print-year) #year-sheet { display: none !important; }
+  body.print-year #sheet { display: none !important; }
+  body.print-year main > #opt-year { display: block !important; border: none; box-shadow: none; padding: 0; margin: 0; }
+  body.print-year #opt-year::details-content { content-visibility: visible; display: block; }
+  body.print-year #opt-year > summary, body.print-year #opt-year > .field, body.print-year #opt-year > p { display: none !important; }
+}
+@media screen { #chuin-print { display: none; } }
+.kk-table th .small { display: block; margin: 0; }
+.yk-iwai tbody th, .kk-table tbody th { white-space: normal; }
+.kk-table td { white-space: nowrap; }

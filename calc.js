@@ -386,6 +386,129 @@
     return rows;
   }
 
+  // --- 厄年・年祝い（yakudoshi/） ---
+
+  /** 数え年（生まれた年を 1 歳、元日で 1 つ増える） */
+  function kazoeAge(birthYear, y) { return y - birthYear + 1; }
+  var YAKU_KIND = ['mae', 'hon', 'ato'];
+
+  /**
+   * y 年の厄年の表
+   * @param {number} y 年
+   * @param {'kazoe'|'mannen'} [rule] kazoe: 数え年（多くの寺社）、mannen: その年の満年齢（川崎大師）
+   * @returns {Array<{sex:'male'|'female', hon:number, kind:'mae'|'hon'|'ato', age:number, birthYear:number, taiyaku:boolean, optional:boolean}>}
+   *   age はその数え方での年齢（数え年、または その年の誕生日後の満年齢）
+   */
+  function yakuTable(y, rule) {
+    var R = K.yakudoshi.value[rule === 'mannen' ? 'mannen' : 'kazoe'];
+    var out = [];
+    ['male', 'female'].forEach(function (sex) {
+      R[sex].forEach(function (hon) {
+        [-1, 0, 1].forEach(function (d, i) {
+          var age = hon + d;
+          // 数え年なら 生まれ年 = y − 数え年 + 1、満年齢なら y − 満年齢
+          var by = rule === 'mannen' ? y - age : y - age + 1;
+          out.push({ sex: sex, hon: hon, kind: YAKU_KIND[i], age: age, birthYear: by,
+            taiyaku: R.taiyaku[sex] === hon, optional: (R.optional[sex] || []).indexOf(hon) >= 0 });
+        });
+      });
+    });
+    return out;
+  }
+  /** 生まれ年・性別の、y 年の厄（無ければ []。37 と 61 の前後厄のように重なることは今の年齢の組では無い） */
+  function yakuOf(birthYear, sex, y, rule) {
+    return yakuTable(y, rule).filter(function (r) { return r.sex === sex && r.birthYear === birthYear; });
+  }
+
+  /**
+   * y 年の年祝いの表。数え年で祝う場合と満年齢で祝う場合の生まれ年
+   * 還暦は 数え 61 ＝ 満 60 なので、どちらも同じ生まれ年（y − 60）
+   * @returns {Array<{key,name,kana,age,kazoeBirth:number,manAge:number,manBirth:number}>}
+   */
+  function toshiiwaiTable(y) {
+    return K.toshiiwai.value.map(function (t) {
+      var manAge = t.manAge || t.age;
+      return { key: t.key, name: t.name, kana: t.kana, age: t.age, kazoeBirth: y - t.age + 1, manAge: manAge, manBirth: y - manAge };
+    });
+  }
+  /** 生まれ年の人が y 年に当たる年祝い（数え年・満年齢のどちらかで当たるもの） */
+  function toshiiwaiOf(birthYear, y) {
+    var out = [];
+    toshiiwaiTable(y).forEach(function (t) {
+      var byKazoe = t.kazoeBirth === birthYear, byMan = t.manBirth === birthYear;
+      if (byKazoe || byMan) out.push({ key: t.key, name: t.name, kazoe: byKazoe, man: byMan, age: t.age, manAge: t.manAge });
+    });
+    return out;
+  }
+
+  // --- 回忌・忌日（kaiki/） ---
+
+  var KANJI_NUM = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+  /** 1〜99 を漢数字に（二十三・五十） */
+  function kanjiNumber(n) {
+    if (n < 10) return KANJI_NUM[n];
+    var t = Math.floor(n / 10), o = n % 10;
+    return (t === 1 ? '' : KANJI_NUM[t]) + '十' + KANJI_NUM[o];
+  }
+  /** 回忌の名前: 一周忌・三回忌・二十三回忌 */
+  function kaikiName(n) { return n === 1 ? '一周忌' : kanjiNumber(n) + '回忌'; }
+
+  /**
+   * y 年の祥月命日（亡くなった月日）。2 月 29 日の命日は、2 月 29 日が無い年は 2 月 28 日を返し noLeap を立てる
+   * @returns {{date:{y,m,d}, noLeap:boolean}}
+   */
+  function memorialDay(death, y) {
+    if (death.m === 2 && death.d === 29 && !isLeap(y)) return { date: { y: y, m: 2, d: 28 }, noLeap: true };
+    return { date: { y: y, m: death.m, d: death.d }, noLeap: false };
+  }
+
+  /**
+   * 年回（年忌）法要の表
+   * @param {{y,m,d}} death 命日
+   * @param {object} [opt] n2x: 'both'（二十三・二十五・二十七回忌を出す。既定）| 'split'（二十三・二十七）| 'n25'（二十五だけ）
+   *                      extra: true なら 三十七・四十三・四十七回忌も
+   * @returns {Array<{n:number, name:string, years:number, date:{y,m,d}, noLeap:boolean}>|null} years は亡くなってからの年数
+   */
+  function kaikiList(death, opt) {
+    opt = opt || {};
+    if (!death || !validDate(death.y, death.m, death.d)) return null;
+    var V = K.kaiki.value;
+    var ns = V.base.slice();
+    var mode = opt.n2x || 'both';
+    if (mode === 'n25') ns = ns.filter(function (n) { return n !== 23 && n !== 27; });
+    if (mode === 'n25' || mode === 'both') ns = ns.concat(V.n25);
+    if (opt.extra) ns = ns.concat(V.extra);
+    ns.sort(function (a, b) { return a - b; });
+    return ns.map(function (n) {
+      var years = n === 1 ? 1 : n - 1;
+      var md = memorialDay(death, death.y + years);
+      return { n: n, name: kaikiName(n), years: years, date: md.date, noLeap: md.noLeap };
+    });
+  }
+
+  /**
+   * 忌日（中陰）法要の日。正当日は亡くなった日を 1 日目（N 日目 = 命日 + N − 1）、逮夜はその前日
+   * @param {'shoto'|'taiya'} [mode]
+   * @returns {Array<{day:number, date:{y,m,d}}>|null}
+   */
+  function chuinList(death, mode) {
+    if (!death || !validDate(death.y, death.m, death.d)) return null;
+    var shift = mode === 'taiya' ? 2 : 1;
+    return K.chuin.value.days.map(function (n) { return { day: n, date: addDays(death, n - shift) }; });
+  }
+
+  /**
+   * y 年に年回法要がある没年の表（「令和8年の回忌早見表」）。没年 = y − 年数
+   * @returns {Array<{n:number, name:string, deathYear:number}>}
+   */
+  function kaikiYearTable(y, opt) {
+    var list = kaikiList({ y: 2000, m: 1, d: 1 }, opt);
+    return list.map(function (r) { return { n: r.n, name: r.name, deathYear: y - r.years }; });
+  }
+
+  /** 曜日（0 = 日曜）。グレゴリオ暦で数える（明治5年以前の旧暦の日付には使わない） */
+  function weekdayOf(o) { return new Date(Date.UTC(o.y, o.m - 1, o.d)).getUTCDay(); }
+
   var api = {
     isLeap: isLeap, validDate: validDate, parseYmd: parseYmd, ymdStr: ymdStr, cmp: cmp, addDays: addDays,
     ERAS: ERAS, eraByKey: eraByKey, lastYearOf: lastYearOf, eraOf: eraOf, erasOfYear: erasOfYear,
@@ -393,7 +516,10 @@
     toSeireki: toSeireki, parseJaNumber: parseJaNumber, parseInput: parseInput, inputToDate: inputToDate,
     ageAt: ageAt, anniversary: anniversary, isHayaumare: isHayaumare, schoolEntryYear: schoolEntryYear,
     schoolHistory: schoolHistory, gradeAt: gradeAt, eto: eto, ageTable: ageTable,
-    fiscalYearOf: fiscalYearOf, gradeNumber: gradeNumber, gradeTable: gradeTable, resumeHistory: resumeHistory
+    fiscalYearOf: fiscalYearOf, gradeNumber: gradeNumber, gradeTable: gradeTable, resumeHistory: resumeHistory,
+    kazoeAge: kazoeAge, yakuTable: yakuTable, yakuOf: yakuOf, toshiiwaiTable: toshiiwaiTable, toshiiwaiOf: toshiiwaiOf,
+    kanjiNumber: kanjiNumber, kaikiName: kaikiName, memorialDay: memorialDay, kaikiList: kaikiList, chuinList: chuinList,
+    kaikiYearTable: kaikiYearTable, weekdayOf: weekdayOf
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Calc = api;

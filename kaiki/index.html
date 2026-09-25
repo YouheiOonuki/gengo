@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回忌の計算と早見表（命日から一周忌・三回忌〜五十回忌・四十九日）｜印刷できる｜yorozu-craft</title>
+  <meta name="description" content="命日（和暦でも西暦でも）を入れると、一周忌・三回忌・七回忌〜五十回忌の年月日と曜日、四十九日・百か日の日付が出ます。浄土真宗の二十五回忌など宗派・地域の数え方も選べます。年ごとの回忌早見表つき。A4 1 枚で印刷。広告なし・登録なし。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/gengo/kaiki/">
+
+  <meta property="og:title" content="回忌の計算と早見表（一周忌〜五十回忌・四十九日）｜yorozu-craft">
+  <meta property="og:description" content="命日から年回法要の年月日と曜日、四十九日・百か日。宗派の数え方の注記つき。A4 1 枚で印刷。広告なし。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/gengo/kaiki/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/gengo/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "回忌の計算と早見表",
+    "description": "命日から一周忌〜五十回忌の年月日と曜日、四十九日・百か日の日付を出す。年ごとの回忌早見表つき。A4 1 枚で印刷。",
+    "url": "https://yorozu-craft.com/gengo/kaiki/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- 高齢者向けのページは広告を出さない（yorozu-plans ROADMAP 7.8 の D118）。所有確認の meta だけ置き、広告スクリプトは読まない -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>回忌の計算（一周忌〜五十回忌・四十九日）</h1>
+    <p class="subtitle">命日から法要の年月日と曜日。入力は外部に送信しません。</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="noad">このページは広告なし・登録なし・入力は端末の外に出ません。</p>
+
+    <!-- 入力 → 結果（SCREEN.md 1.1）。命日 → 年回法要の表 → 四十九日・宗派の数え方・印刷の設定・年ごとの早見表（details） -->
+    <fieldset class="card">
+      <legend class="visually-hidden">命日</legend>
+      <div class="field">
+        <label for="death">亡くなった日（命日。和暦でも西暦でも）</label>
+        <input type="text" id="death" class="wide" autocomplete="off" placeholder="例：令和8年5月1日／2026-05-01">
+      </div>
+      <div id="kaiki-result" class="result" aria-live="polite"><p class="empty">—</p></div>
+    </fieldset>
+
+    <section class="card print-area" id="sheet" aria-label="年回法要の表" hidden>
+      <h2 class="hayami-title" id="sheet-title">年回法要の表</h2>
+      <p class="kk-sub" id="sheet-sub"></p>
+      <div class="table-wrap">
+        <table class="gk-table kk-table">
+          <thead><tr><th scope="col">法要</th><th scope="col">年月日</th><th scope="col">和暦</th><th scope="col">曜日</th></tr></thead>
+          <tbody id="kaiki-body"></tbody>
+        </table>
+      </div>
+      <div id="chuin-print"></div>
+      <p class="gk-foot" id="sheet-foot"></p>
+      <p class="credit" id="credit-line">yorozu-craft.com/gengo/print/ で作成</p>
+    </section>
+
+    <details class="card opt" id="opt-chuin">
+      <summary>四十九日・百か日: <span class="opt-state">命日を 1 日目</span></summary>
+      <div class="field">
+        <span class="field-label">数え方</span>
+        <label class="inline"><input type="radio" name="chuin" value="shoto" checked> 亡くなった日を 1 日目（全国で多い）</label><br>
+        <label class="inline"><input type="radio" name="chuin" value="taiya"> 前日を 1 日目（逮夜。関西の数え方）</label>
+      </div>
+      <div id="chuin-result"></div>
+      <p class="field"><label class="inline"><input type="checkbox" id="chuin-print-chk"> この表も印刷する</label></p>
+    </details>
+
+    <details class="card opt" id="opt-count">
+      <summary>宗派・地域の数え方: <span class="opt-state"></span></summary>
+      <div class="field">
+        <label for="n2x">二十三〜二十七回忌</label>
+        <select id="n2x">
+          <option value="both">二十三・二十五・二十七回忌をすべて出す</option>
+          <option value="split">二十三・二十七回忌（浄土宗・曹洞宗など）</option>
+          <option value="n25">二十五回忌（浄土真宗本願寺派の例など）</option>
+        </select>
+      </div>
+      <p class="field"><label class="inline"><input type="checkbox" id="extra"> 三十七・四十三・四十七回忌も出す</label></p>
+      <p class="small">どれを勤めるかは宗派・地域・お寺で違います。菩提寺に確かめてください。</p>
+    </details>
+
+    <details class="card opt" id="opt-print">
+      <summary>印刷の設定: <span class="opt-state"></span></summary>
+      <div class="field">
+        <label for="name">表の上に入れる名前（任意）</label>
+        <input type="text" id="name" autocomplete="off" placeholder="例：山田太郎">
+        <p class="hint">「故 山田太郎 様」のように入ります。保存はしません。</p>
+      </div>
+      <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> 下に「yorozu-craft.com/gengo/print/ で作成」と小さく入れる</label></p>
+    </details>
+
+    <details class="card opt" id="opt-year">
+      <summary>年ごとの回忌早見表（没年から）: <span class="opt-state"></span></summary>
+      <div class="field">
+        <label for="kyear">法要をする年</label>
+        <select id="kyear"></select>
+      </div>
+      <section class="print-area" id="year-sheet" aria-label="年ごとの回忌早見表">
+        <h2 class="hayami-title" id="year-title">回忌早見表</h2>
+        <div class="table-wrap">
+          <table class="gk-table kk-table">
+            <thead><tr><th scope="col">法要</th><th scope="col">亡くなった年</th></tr></thead>
+            <tbody id="year-body"></tbody>
+          </table>
+        </div>
+        <p class="gk-foot">亡くなった年を 1 回と数えるので、三回忌は 2 年後です。二十三〜四十七回忌のどれを勤めるかは、宗派・地域で違います。</p>
+        <p class="credit" id="year-credit">yorozu-craft.com/gengo/print/ で作成</p>
+      </section>
+      <p><button type="button" class="btn btn-sub" id="print-year">この早見表を印刷する</button></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">使い方・数え方・よくある質問</a>・<a href="../../print-help.html">スマホで印刷するには</a>・<a href="../">和暦・西暦 変換</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">和暦・西暦 変換と年齢早見表</a></li>
+        <li><a href="./" aria-current="page">回忌の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../constants.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../screen.js"></script>
+  <script src="./kaiki.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
