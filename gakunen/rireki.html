@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>履歴書の学歴 計算（入学・卒業年を西暦・和暦で）浪人・大学院・高専も｜yorozu-craft</title>
+  <meta name="description" content="生年月日と最終学歴から、履歴書の学歴欄に書く入学・卒業（修了）の年月を西暦と和暦で出します。早生まれ・浪人・留年、高専・短大・専門学校・6 年制大学・大学院（修士・博士）にも対応。コピーできます。登録不要・無料。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/gengo/gakunen/rireki.html">
+
+  <meta property="og:title" content="履歴書の学歴 計算（入学・卒業年を西暦・和暦で）｜yorozu-craft">
+  <meta property="og:description" content="生年月日と最終学歴から、入学・卒業の年月を西暦と和暦で。浪人・留年・大学院・高専も。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/gengo/gakunen/rireki.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/gengo/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "履歴書の学歴 計算",
+    "description": "生年月日と最終学歴から、入学・卒業（修了）の年月を西暦と和暦で出す。浪人・留年・高専・短大・専門学校・大学院に対応。",
+    "url": "https://yorozu-craft.com/gengo/gakunen/rireki.html",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>履歴書の学歴 計算（入学・卒業年）</h1>
+    <p class="subtitle">入学・卒業の年月を西暦と和暦で。入力は外部に送信しません。</p>
+  </header>
+
+  <main class="app-main">
+
+    <!-- 入力 → 結果（SCREEN.md 1.1）。生年月日と最終学歴 → 学歴の表 → 浪人・在学年数（details） -->
+    <fieldset class="card">
+      <legend class="visually-hidden">生年月日と最終学歴</legend>
+      <div class="field-row">
+        <div class="field">
+          <label for="birth">生年月日（和暦でも西暦でも）</label>
+          <input type="text" id="birth" autocomplete="off" placeholder="例：平成12年5月1日／2000-05-01">
+        </div>
+        <div class="field">
+          <label for="final">最終学歴</label>
+          <select id="final">
+            <option value="high">高等学校</option>
+            <option value="senmon">専門学校（2 年）</option>
+            <option value="tandai">短期大学（2 年）</option>
+            <option value="kosen">高等専門学校（5 年）</option>
+            <option value="univ4" selected>大学（4 年）</option>
+            <option value="univ6">大学（6 年: 医・歯・薬・獣医）</option>
+            <option value="master">大学院 修士課程</option>
+            <option value="doctor">大学院 博士課程（修士の後）</option>
+            <option value="doctor6">大学院 博士課程（6 年制の後）</option>
+          </select>
+        </div>
+      </div>
+      <div id="rireki-result" class="result" aria-live="polite"><p class="empty">—</p></div>
+    </fieldset>
+
+    <details class="card opt" id="opt-years">
+      <summary>浪人・留年: <span class="opt-state">なし</span></summary>
+      <div class="field">
+        <label for="ronin">浪人（高校を出てから次の学校まで）</label>
+        <select id="ronin">
+          <option value="0">なし</option>
+          <option value="1">1 年</option>
+          <option value="2">2 年</option>
+          <option value="3">3 年</option>
+          <option value="4">4 年</option>
+          <option value="5">5 年</option>
+        </select>
+      </div>
+      <p class="small">留年・休学・定時制などは、学校ごとの在学年数を変えます。</p>
+      <div id="years" class="field-row"></div>
+    </details>
+
+    <p class="small">子どもの学年は <a href="./">学年早見表</a>へ。<a href="./guide.html">使い方・根拠・よくある質問</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">和暦・西暦 変換と年齢早見表</a></li>
+        <li><a href="./">学年早見表</a></li>
+        <li><a href="./rireki.html" aria-current="page">履歴書の学歴 計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../constants.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../screen.js"></script>
+  <script src="./gakunen.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

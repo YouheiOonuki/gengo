@@ -13,9 +13,11 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - **学年**: 基準日の学年（年少〜大学・目安）、早生まれかどうか、小学校〜大学の入学・卒業の年月（西暦・和暦、履歴書用）
 - **年齢早見表**: 年を選んで A4 縦 1 枚で印刷（0〜100 歳・0〜80 歳）。生まれ年・和暦・干支・誕生日後／前の満年齢。改元の年は色つき。クレジット「yorozu-craft.com/gengo/print/ で作成」は既定で入り、外せる（着地ページ `print/` は noindex・sitemap に載せない）
 - 元号の一覧（`constants.js` から作る）
+- **学年早見表**（`gakunen/`。K79）: 年度を選ぶと、年少〜大学 4 年・修士・博士の学年ごとに生年月日の範囲（西暦・和暦）と年度中の年齢。生年月日（任意）を入れるとその学年に印と早生まれの判定。A4 縦 1 枚で印刷（クレジットは年齢早見表と同じ `print/` へ）。画面が狭いときは生年月日を短い形（2019.4.2〜2020.4.1／平成31.4.2〜令和2.4.1）で出す
+- **履歴書の学歴 計算**（`gakunen/rireki.html`）: 生年月日と最終学歴（高校・専門 2 年・短大 2 年・高専 5 年・大学 4 年／6 年・修士・博士（修士の後・6 年制の後））から入学・卒業（修了）の年月を西暦・和暦で。浪人（高校の後）と学校ごとの在学年数（留年・休学・定時制）を結果の後ろの `<details>` で変える。西暦・和暦でコピー（年・月・学歴をタブ区切り）
 - 保存しない（localStorage を使わない）ので、ファイルへの書き出し・読み込み（サイト README の 20）は無い
 
-文章の量は yorozu-plans の `docs/WRITING.md`（道具）に合わせている。直したら `python3 tools/writing/measure.py --type tool index.html guide.html` と `--en en/index.html en/guide.html` で OK を確かめる。詳しい表・条文・出典の URL は使い方ページの `<details>` の中。
+文章の量は yorozu-plans の `docs/WRITING.md`（道具）に合わせている。直したら `python3 tools/writing/measure.py --type tool index.html guide.html gakunen/index.html gakunen/rireki.html gakunen/guide.html` と `--en en/index.html en/guide.html` で OK を確かめる。詳しい表・条文・出典の URL は使い方ページの `<details>` の中。
 
 ## 計算の仕様・根拠
 
@@ -30,6 +32,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - **学年**: 学校教育法 17 条（満 6 歳に達した日の翌日以後の最初の学年の初めに入学）と施行規則 59 条（4 月 1 日始まり）。4 月 2 日〜翌 4 月 1 日生まれが同じ学年
 - **干支**: 1 月 1 日で切り替える一般的な数え方（立春で切り替える考え方もあることを使い方ページに書いた）
 - 確認日 2026-09-24（e-Gov 法令 API で条文を取得して確認）
+- **修業年限**（`constants.js` の `schoolLength`・`gradSchoolLength`。2026-09-25 に e-Gov 法令 API で確認）: 学校教育法 32 条（小 6）・47 条（中 3）・56 条（高 全日制 3）・87 条（大学 4、医・歯・薬の臨床・獣医 6）・108 条（短大 2 または 3）・117 条（高専 5、商船 5 年 6 月）・124 条（専修学校 1 年以上。**画面の既定の 2 年は法令の値ではない**）、大学院設置基準 3 条（修士 2）・4 条（博士 5＝前期 2＋後期 3）・45 条（医・歯・薬 6 年制・獣医の博士 4）。入学 4 月・卒業 3 月で数える（大学の学年は施行規則 163 条で学長が定める。秋入学・高専からの編入・飛び級・商船の 9 月卒業は出さない）
 
 ## 保守
 
@@ -37,6 +40,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 |------|------------|---------|
 | 改元のとき | 政令の公布・施行日 | `constants.js` の `ERAS`（末尾に足し、直前の元号に `end`）、`tests/calc.test.js` の境目、`guide.html`・`en/guide.html` の早見・更新履歴 |
 | 年に 1 回 | 年齢早見表の年の選択肢（今年＋10 年まで自動）が足りているか | `main.js` |
+| 毎年 3 月（新年度の前） | 学年早見表の `<title>` の年度（「2026年度（令和8年度）」）と、使い方ページの FAQ「2026年度の小学 1 年生は何年生まれ？」の年と答え（表そのものは今日の日付から自動） | `gakunen/index.html`・`gakunen/guide.html`（JSON-LD と本文の両方） |
 
 ## ファイル
 
@@ -44,7 +48,9 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 |---------|------|
 | `index.html` / `en/index.html` | ツール本体（日本語 / 英語） |
 | `guide.html` / `en/guide.html` | 使い方・早見・よくある質問（FAQPage）・根拠・注意・更新履歴。英語版は書類の日付の読み方も |
-| `print/index.html` | 印刷物のクレジットから来た人の着地ページ（`noindex`、sitemap に載せない） |
+| `print/index.html` | 印刷物（年齢早見表・学年早見表）のクレジットから来た人の着地ページ（`noindex`、sitemap に載せない） |
+| `gakunen/index.html` / `gakunen/rireki.html` / `gakunen/guide.html` | 学年早見表 / 履歴書の学歴 計算 / その使い方・根拠（日本語だけ。英語版はまだ無い） |
+| `gakunen/gakunen.js` | 学年早見表と履歴書の学歴の画面の制御（計算は `calc.js` の `gradeTable`・`gradeNumber`・`resumeHistory`） |
 | `calc.js` | 和暦・年齢・学年・干支・早見表（純粋関数。日英共通） |
 | `constants.js` | 元号の境目と法令（値・出典・確認日） |
 | `main.js` | 画面の制御。日英の文言（`STR`）を `<html lang>` で切り替える |
@@ -52,7 +58,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `style.css` | 見た目（和紙風の配色、ダークモード、印刷は早見表だけを A4 縦 1 枚） |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630） |
-| `sitemap.xml` | サイトマップ（日英 4 ページ、hreflang つき。`print/` は載せない） |
+| `sitemap.xml` | サイトマップ（日英 4 ページは hreflang つき、`gakunen/` の 3 ページは日本語だけ。`print/` は載せない） |
 | `tests/*.test.js` | テスト（`node --test tests/*.test.js`） |
 
 ## ライセンス

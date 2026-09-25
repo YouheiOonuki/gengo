@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学年早見表 2026年度（令和8年度）生年月日・和暦・年齢｜印刷できる｜yorozu-craft</title>
+  <meta name="description" content="年度を選ぶと、年少から大学・大学院まで学年ごとの生年月日の範囲（西暦・和暦）と年齢が出る学年早見表。生年月日を入れると早生まれかどうかと学年が分かります。A4 1 枚で印刷。登録不要・無料。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/gengo/gakunen/">
+
+  <meta property="og:title" content="学年早見表（生年月日・和暦・年齢）｜yorozu-craft">
+  <meta property="og:description" content="年度ごとに、学年と生年月日の範囲（西暦・和暦）・年齢を一覧に。早生まれの判定つき。A4 1 枚で印刷。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/gengo/gakunen/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/gengo/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "学年早見表",
+    "description": "年度ごとに、年少から大学・大学院まで学年ごとの生年月日の範囲（西暦・和暦）と年齢を出す。早生まれの判定つき。A4 1 枚で印刷。",
+    "url": "https://yorozu-craft.com/gengo/gakunen/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <!-- 上端の固定バー（SCREEN.md 1.2。印刷物は主なボタンを固定する）。印刷ボタンが画面の外にあるときだけ出す -->
+  <div class="fixbar" id="fixbar" role="status" hidden>
+    <button type="button" id="fixbar-print"><span id="fixbar-text"></span></button>
+  </div>
+
+  <header class="app-header">
+    <h1>学年早見表（生年月日・和暦・年齢）</h1>
+    <p class="subtitle">年度ごとの学年と生まれの範囲。入力は外部に送信しません。</p>
+  </header>
+
+  <main class="app-main">
+
+    <!-- 設定 → 出力（SCREEN.md 1.2）。年度と生年月日（任意）→ 印刷ボタン → 表 -->
+    <fieldset class="card gk-controls">
+      <legend class="visually-hidden">年度と生年月日</legend>
+      <div class="field-row">
+        <div class="field">
+          <label for="fy">年度（4 月〜翌年 3 月）</label>
+          <select id="fy"></select>
+        </div>
+        <div class="field">
+          <label for="birth">生年月日（任意）</label>
+          <input type="text" id="birth" autocomplete="off" placeholder="例：平成31年4月1日／2019-04-01">
+        </div>
+      </div>
+      <div id="birth-result" class="result" aria-live="polite"></div>
+      <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> 下に「yorozu-craft.com/gengo/print/ で作成」と小さく入れる</label></p>
+      <p><button type="button" class="btn" id="print">印刷する（A4 縦 1 枚）</button></p>
+    </fieldset>
+
+    <section class="card print-area" id="sheet" aria-label="学年早見表">
+      <h2 class="hayami-title" id="sheet-title">学年早見表</h2>
+      <div class="table-wrap">
+        <table class="gk-table">
+          <thead><tr><th scope="col">学年</th><th scope="col">生年月日<span class="gk-short">（西暦・和暦）</span><span class="gk-long">（西暦）</span></th><th scope="col" class="gk-wa">和暦</th><th scope="col">年齢</th></tr></thead>
+          <tbody id="gk-body"></tbody>
+        </table>
+      </div>
+      <p class="gk-foot">4 月 2 日〜翌年 4 月 1 日生まれが同じ学年。年齢は年度中の満年齢。大学院は大学 4 年・修士 2 年・博士後期 3 年と進んだ場合です。</p>
+      <p class="credit" id="credit-line">yorozu-craft.com/gengo/print/ で作成</p>
+    </section>
+
+    <p class="small">入学・卒業の年は <a href="./rireki.html">履歴書の学歴 計算</a>へ。<a href="./guide.html">使い方・根拠・よくある質問</a>・<a href="../../print-help.html">スマホで印刷するには</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">和暦・西暦 変換と年齢早見表</a></li>
+        <li><a href="./" aria-current="page">学年早見表</a></li>
+        <li><a href="./rireki.html">履歴書の学歴 計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../constants.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../screen.js"></script>
+  <script src="./gakunen.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
