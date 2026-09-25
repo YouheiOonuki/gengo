@@ -290,6 +290,74 @@
     return { stage: 'graduated', grade: 0 };
   }
 
+  // --- 学年早見表・履歴書の学歴（gakunen/） ---
+
+  /** その日の学年の年度（4 月 1 日始まり。学校教育法施行規則 59 条） */
+  function fiscalYearOf(date) { return date.m >= 4 ? date.y : date.y - 1; }
+  /** fy 年度の通し番号の学年（小 1 が 1、年長 0、年少 -2、大学 1 年 13、修士 1 年 17、博士 3 年 21） */
+  function gradeNumber(birth, fy) { return fy - schoolEntryYear(birth) + 1; }
+
+  // 学年早見表の行（画面の名前のキーと通し番号）。大学院は大学 4 年・修士 2 年・博士後期 3 年とストレートに進んだ場合
+  var GRADE_ROWS = [
+    ['k3', -2], ['k4', -1], ['k5', 0],
+    ['e1', 1], ['e2', 2], ['e3', 3], ['e4', 4], ['e5', 5], ['e6', 6],
+    ['j1', 7], ['j2', 8], ['j3', 9], ['h1', 10], ['h2', 11], ['h3', 12],
+    ['u1', 13], ['u2', 14], ['u3', 15], ['u4', 16],
+    ['m1', 17], ['m2', 18], ['d1', 19], ['d2', 20], ['d3', 21]
+  ];
+
+  /**
+   * fy 年度の学年早見表。通し番号 n の学年は (fy − n − 6) 年 4 月 2 日 〜 (fy − n − 5) 年 4 月 1 日生まれ
+   * age は年度の初め（4 月 1 日）の満年齢。年度中に誕生日を迎えて age + 1 になる
+   * @returns {Array<{key:string, n:number, from:{y,m,d}, to:{y,m,d}, age:number}>}
+   */
+  function gradeTable(fy) {
+    return GRADE_ROWS.map(function (r) {
+      var n = r[1], entry = fy - n + 1;   // 小学校に入学した（する）年
+      return { key: r[0], n: n, from: { y: entry - 7, m: 4, d: 2 }, to: { y: entry - 6, m: 4, d: 1 }, age: n + 5 };
+    });
+  }
+
+  /**
+   * 履歴書の学歴（最終学歴まで。入学は 4 月、卒業・修了は 3 月）
+   * @param {{y,m,d}} birth
+   * @param {object} [opt]
+   *   final: 'high' | 'senmon' | 'tandai' | 'kosen' | 'univ4' | 'univ6' | 'master' | 'doctor'（修士 2 年＋博士後期 3 年）| 'doctor6'（6 年制＋博士 4 年）
+   *   years: { 学校のキー: 在学年数 }（留年・休学・定時制など。既定は修業年限、専門学校は 2 年）
+   *   ronin: 高校を出てから次の学校に入るまでの年数（浪人）
+   * @returns {Array<{key:string, event:'in'|'out', date:{y,m,d}}>|null}
+   */
+  function resumeHistory(birth, opt) {
+    opt = opt || {};
+    var L = K.schoolLength.value, G = K.gradSchoolLength.value;
+    var PATH = {
+      high: ['elementary', 'junior', 'high'],
+      senmon: ['elementary', 'junior', 'high', 'senmon'],
+      tandai: ['elementary', 'junior', 'high', 'tandai'],
+      kosen: ['elementary', 'junior', 'kosen'],
+      univ4: ['elementary', 'junior', 'high', 'univ4'],
+      univ6: ['elementary', 'junior', 'high', 'univ6'],
+      master: ['elementary', 'junior', 'high', 'univ4', 'master'],
+      doctor: ['elementary', 'junior', 'high', 'univ4', 'master', 'doctorLater'],
+      doctor6: ['elementary', 'junior', 'high', 'univ6', 'doctor6']
+    };
+    var path = PATH[opt.final || 'univ4'];
+    if (!path || !birth || !validDate(birth.y, birth.m, birth.d)) return null;
+    var STD = { senmon: 2, master: G.master, doctorLater: G.doctorLater, doctor6: G.doctor6 };
+    var years = opt.years || {};
+    var ronin = Math.max(0, Math.min(10, Math.floor(Number(opt.ronin) || 0)));
+    var y = schoolEntryYear(birth), out = [];
+    path.forEach(function (key, i) {
+      if (path[i - 1] === 'high') y += ronin;
+      var n = Math.floor(Number(years[key]));
+      if (!(n >= 1 && n <= 12)) n = L[key] !== undefined ? L[key] : STD[key];
+      out.push({ key: key, event: 'in', date: { y: y, m: 4, d: 1 } });
+      y += n;
+      out.push({ key: key, event: 'out', date: { y: y, m: 3, d: 31 } });
+    });
+    return out;
+  }
+
   // --- 干支 ---
   var STEMS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
   var STEMS_KANA = ['きのえ', 'きのと', 'ひのえ', 'ひのと', 'つちのえ', 'つちのと', 'かのえ', 'かのと', 'みずのえ', 'みずのと'];
@@ -324,7 +392,8 @@
     formatEraYear: formatEraYear, formatWareki: formatWareki, formatAbbr: formatAbbr, MONTHS_EN: MONTHS_EN,
     toSeireki: toSeireki, parseJaNumber: parseJaNumber, parseInput: parseInput, inputToDate: inputToDate,
     ageAt: ageAt, anniversary: anniversary, isHayaumare: isHayaumare, schoolEntryYear: schoolEntryYear,
-    schoolHistory: schoolHistory, gradeAt: gradeAt, eto: eto, ageTable: ageTable
+    schoolHistory: schoolHistory, gradeAt: gradeAt, eto: eto, ageTable: ageTable,
+    fiscalYearOf: fiscalYearOf, gradeNumber: gradeNumber, gradeTable: gradeTable, resumeHistory: resumeHistory
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Calc = api;

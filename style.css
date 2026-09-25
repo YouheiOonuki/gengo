@@ -203,7 +203,7 @@ details.card.opt > summary:focus-visible { outline: 2px solid var(--accent); out
 @media print {
   :root { --bg: #fff; --bg-2: #eee; --card: #fff; --text: #000; --muted: #333; --accent: #000; --accent-soft: #f2f2f2; --border: #888; --shadow: transparent; }
   body { background: #fff; }
-  .app-header, .app-footer, main > :not(#sec-hayami), #sec-hayami > summary, #sec-hayami .controls,
+  .app-header, .app-footer, main > :not(#sec-hayami):not(.print-area), #sec-hayami > summary, #sec-hayami .controls, .fixbar,
   ins.adsbygoogle, iframe, .google-auto-placed { display: none !important; }
   .app-main { max-width: none; padding: 0; }
   #sec-hayami { border: none; box-shadow: none; padding: 0; margin: 0; }
@@ -220,3 +220,51 @@ details.card.opt > summary:focus-visible { outline: 2px solid var(--accent); out
 @media (max-width: 480px) {
   .app-header h1 { font-size: 1.2rem; }
 }
+
+/* ===========================
+   学年早見表・履歴書の学歴（gakunen/）
+   =========================== */
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+fieldset.card { min-width: 0; }
+/* 上端の固定バー（yorozu-template と同じ。screen.js が出し入れする） */
+.fixbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 44px;
+  background: var(--card); border-bottom: 2px solid var(--accent); box-shadow: 0 2px 8px var(--shadow);
+}
+.fixbar a, .fixbar button {
+  display: block; width: 100%; max-width: 720px; margin: 0 auto; padding: 0 1rem; height: 42px; line-height: 42px; text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font: inherit; font-weight: 700;
+  color: var(--accent); background: none; border: none; text-decoration: none; cursor: pointer;
+}
+.fixbar a:focus-visible, .fixbar button:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+.gk-table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.gk-table th, .gk-table td { border: 1px solid var(--border); padding: 0.2rem 0.35rem; text-align: left; line-height: 1.35; }
+.gk-table thead th { background: var(--bg-2); font-size: 0.76rem; }
+.gk-table tbody th { font-weight: 600; white-space: nowrap; }
+.gk-table td:last-child { white-space: nowrap; }
+.gk-table tr.stage-start > * { border-top: 2px solid var(--muted); }
+.gk-table tr.grad > * { color: var(--muted); }
+.gk-table tr.me > * { background: var(--accent-soft); color: var(--text); font-weight: 700; }
+.me-mark { color: var(--accent); }
+.gk-short { display: none; }
+@media screen and (max-width: 600px) {
+  .gk-table .gk-long, .gk-table .gk-wa { display: none; }
+  .gk-table .gk-short { display: inline; }
+  .gk-table td { white-space: nowrap; }
+}
+.gk-foot { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+.copy-row { margin-top: 0.6rem; }
+.copy-row .btn { min-height: 44px; }
+.rireki-table td { white-space: nowrap; }
+
+@media print {
+  .print-area { border: none; box-shadow: none; padding: 0; margin: 0; }
+  .print-area .table-wrap { overflow: visible; }
+  .print-area .hayami-title { font-size: 14pt; margin: 0 0 3mm; border: none; }
+  .gk-table { font-size: 9.5pt; }
+  .gk-table th, .gk-table td { padding: 1mm 1.6mm; }
+  .gk-table thead th { font-size: 8.5pt; }
+  .gk-table tr.me > * { background: #e6e6e6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .gk-foot { font-size: 8pt; color: #333; }
+}
+
