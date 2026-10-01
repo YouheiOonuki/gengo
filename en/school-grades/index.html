@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japan School Grades by Age – Birth Date Chart (April 2 Cutoff), Printable | yorozu-craft</title>
+  <meta name="description" content="Japan school grades by age: pick a school year (April–March) to see every grade from kindergarten to university with birth date ranges and ages. Enter a birth date to find a child's grade. Print on one A4 or Letter page. Free, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/gengo/en/school-grades/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/gengo/gakunen/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/gengo/en/school-grades/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/gengo/gakunen/">
+
+  <meta property="og:title" content="Japan School Grades by Age – Birth Date Chart">
+  <meta property="og:description" content="Every Japanese school grade with birth date ranges and ages for the school year you pick. Find a child's grade from a birth date. Prints on one page.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/gengo/en/school-grades/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/gengo/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Japan School Grades by Age",
+    "description": "Japanese school grades from kindergarten to university with birth date ranges and ages for any school year. Finds a child's grade from a birth date. Printable on one page.",
+    "url": "https://yorozu-craft.com/gengo/en/school-grades/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト）。印刷では消える（style.css の @media print） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <!-- 英語版は A4 と US Letter のどちらでも 1 枚に（用紙はプリンターの設定に任せる。日本語版の @page は A4 のまま） -->
+  <style>@page { size: auto; margin: 10mm; }</style>
+</head>
+<body>
+
+  <!-- 上端の固定バー（SCREEN.md 1.2）。印刷ボタンが画面の外にあるときだけ出す -->
+  <div class="fixbar" id="fixbar" role="status" hidden>
+    <button type="button" id="fixbar-print"><span id="fixbar-text"></span></button>
+  </div>
+
+  <header class="app-header">
+    <h1>Japan school grades by age</h1>
+    <p class="subtitle">Grades and birth date ranges for any Japanese school year. Your inputs never leave this browser.</p>
+    <p class="lang-switch"><a href="../../gakunen/" hreflang="ja" lang="ja">日本語</a></p>
+  </header>
+
+  <main class="app-main">
+
+    <!-- 設定 → 出力（SCREEN.md 1.2）。年度と生年月日（任意）→ 印刷ボタン → 表 -->
+    <fieldset class="card gk-controls">
+      <legend class="visually-hidden">School year and date of birth</legend>
+      <div class="field-row">
+        <div class="field">
+          <label for="fy">School year (April to March)</label>
+          <select id="fy"></select>
+        </div>
+        <div class="field">
+          <label for="birth">Child's date of birth (optional)</label>
+          <input type="date" id="birth" min="1900-01-01">
+        </div>
+      </div>
+      <div id="birth-result" class="result" aria-live="polite"></div>
+      <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> Add a small "Made at yorozu-craft.com" line</label></p>
+      <p><button type="button" class="btn" id="print">Print (one page, A4 or Letter)</button></p>
+    </fieldset>
+
+    <section class="card print-area" id="sheet" aria-label="Chart">
+      <h2 class="hayami-title" id="sheet-title">Japan school grades by age</h2>
+      <div class="table-wrap">
+        <table class="gk-table gk-en">
+          <thead><tr><th scope="col">Grade</th><th scope="col" class="gk-ja">In Japanese</th><th scope="col">Born</th><th scope="col">Age</th></tr></thead>
+          <tbody id="gk-body"></tbody>
+        </table>
+      </div>
+      <p class="gk-foot">Children born 2 April to 1 April of the next year share a grade. Age is during the school year. Graduate rows assume no gap years.</p>
+      <p class="credit" id="credit-line">Made at yorozu-craft.com/gengo/en/school-grades/</p>
+    </section>
+
+    <p class="small"><a href="./guide.html">Why 2 April? School names, sources and FAQ</a> · <a href="../">Japanese era converter</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="https://yorozu-craft.com/en/">yorozu-craft</a></li>
+        <li><a href="../">Japanese Era Converter</a></li>
+        <li><a href="./" aria-current="page">Japan school grades by age</a></li>
+        <li><a href="./guide.html">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../constants.js"></script>
+  <script src="../../calc.js"></script>
+  <script src="../../screen.js"></script>
+  <script src="./school-grades.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

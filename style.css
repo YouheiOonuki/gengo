@@ -253,6 +253,15 @@ fieldset.card { min-width: 0; }
   .gk-table td { white-space: nowrap; }
 }
 .gk-foot { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+/* 英語版（en/school-grades/）: 日本語の呼び方（ローマ字）の列。狭い画面では学年の下に小さく出す */
+.gk-en .gk-ja i, .gk-en .gk-ja-in i { font-style: italic; font-weight: 400; }
+.gk-en .gk-ja-in { display: none; }
+@media screen and (max-width: 600px) {
+  .gk-en .gk-ja { display: none; }
+  .gk-en .gk-ja-in { display: block; font-size: 0.72rem; color: var(--muted); }
+  .gk-en td { white-space: normal; }
+  .gk-en td:last-child { white-space: nowrap; }
+}
 .copy-row { margin-top: 0.6rem; }
 .copy-row .btn { min-height: 44px; }
 .rireki-table td { white-space: nowrap; }

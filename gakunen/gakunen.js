@@ -1,7 +1,7 @@
 // ===========================
 // 学年早見表（gakunen/index.html）と履歴書の学歴 計算（gakunen/rireki.html）の画面
 // 計算は ../calc.js（gradeTable・gradeNumber・resumeHistory）、修業年限と法令は ../constants.js
-// 入力した生年月日は保存も送信もしない。日本語だけ（英語版は未作成）
+// 入力した生年月日は保存も送信もしない。英語版の学年早見表は ../en/school-grades/（同じ calc.js の関数を使う。履歴書の学歴は日本語だけ）
 // ===========================
 (function () {
   'use strict';
