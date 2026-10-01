@@ -14,12 +14,13 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - **年齢早見表**: 年を選んで A4 縦 1 枚で印刷（0〜100 歳・0〜80 歳）。生まれ年・和暦・干支・誕生日後／前の満年齢。改元の年は色つき。クレジット「yorozu-craft.com/gengo/print/ で作成」は既定で入り、外せる（着地ページ `print/` は noindex・sitemap に載せない）
 - 元号の一覧（`constants.js` から作る）
 - **学年早見表**（`gakunen/`。K79）: 年度を選ぶと、年少〜大学 4 年・修士・博士の学年ごとに生年月日の範囲（西暦・和暦）と年度中の年齢。生年月日（任意）を入れるとその学年に印と早生まれの判定。A4 縦 1 枚で印刷（クレジットは年齢早見表と同じ `print/` へ）。画面が狭いときは生年月日を短い形（2019.4.2〜2020.4.1／平成31.4.2〜令和2.4.1）で出す
+- **学年早見表の英語版**（`en/school-grades/`。K79 の英語、yorozu-plans の企画書 49）: 「Japan school grades by age」。年度（April–March）を選ぶと、kindergarten〜doctoral の学年ごとに生年月日の範囲と年齢、日本語の呼び方（ローマ字: shōgakkō 1 など）。生年月日（`<input type="date">`）で学年・小学校の入学年・早生まれ。A4・Letter のどちらでも 1 枚で印刷。使い方ページに 4 月 2 日の区切りの理由（学校教育法 17 条ほか。英訳は法務省の日本法令外国語訳、`constants.js` の `schoolLawEn`）
 - **履歴書の学歴 計算**（`gakunen/rireki.html`）: 生年月日と最終学歴（高校・専門 2 年・短大 2 年・高専 5 年・大学 4 年／6 年・修士・博士（修士の後・6 年制の後））から入学・卒業（修了）の年月を西暦・和暦で。浪人（高校の後）と学校ごとの在学年数（留年・休学・定時制）を結果の後ろの `<details>` で変える。西暦・和暦でコピー（年・月・学歴をタブ区切り）
 - **厄年・還暦 早見表**（`yakudoshi/`。K99）: 年を選ぶと、男女の前厄・本厄・後厄（25・42・61／19・33・37・61）と還暦・古希・喜寿・傘寿・米寿・卒寿・白寿・百寿の生まれ年（西暦・和暦・干支）。年祝いは数え年で祝う場合と満年齢で祝う場合を並べる。生年月日（任意）で曜日・干支・その年の数え年・厄年・年祝い。数え方は「数え年（神社本庁・成田山・西新井大師など）」と「その年の満年齢（川崎大師）」を選べる。A4 縦 1 枚で印刷。トップの年齢の欄にも、その年の厄年・年祝いを 1 行
 - **回忌の計算**（`kaiki/`。K110）: 命日（和暦・西暦）から一周忌〜五十回忌の年月日・和暦・曜日、次の法要。四十九日・百か日（亡くなった日を 1 日目／逮夜で前日から）、二十三・二十五・二十七回忌の選び方、三十七〜四十七回忌、印刷用の名前（保存しない）、年ごとの回忌早見表（没年から）。A4 1 枚で印刷。**広告なし**（高齢者向けのページ。yorozu-plans の D118。AdSense は所有確認の meta だけ）
 - 保存しない（localStorage を使わない）ので、ファイルへの書き出し・読み込み（サイト README の 20）は無い
 
-文章の量は yorozu-plans の `docs/WRITING.md`（道具）に合わせている。直したら `python3 tools/writing/measure.py --type tool index.html guide.html gakunen/index.html gakunen/rireki.html gakunen/guide.html yakudoshi/index.html yakudoshi/guide.html kaiki/index.html kaiki/guide.html` と `--en en/index.html en/guide.html` で OK を確かめる。詳しい表・条文・出典の URL は使い方ページの `<details>` の中。
+文章の量は yorozu-plans の `docs/WRITING.md`（道具）に合わせている。直したら `python3 tools/writing/measure.py --type tool index.html guide.html gakunen/index.html gakunen/rireki.html gakunen/guide.html yakudoshi/index.html yakudoshi/guide.html kaiki/index.html kaiki/guide.html` と `--en en/index.html en/guide.html en/school-grades/index.html en/school-grades/guide.html` で OK を確かめる。詳しい表・条文・出典の URL は使い方ページの `<details>` の中。
 
 ## 計算の仕様・根拠
 
@@ -45,7 +46,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 年に 1 回 | 年齢早見表の年の選択肢（今年＋10 年まで自動）が足りているか | `main.js` |
 | 毎年 12 月 | 厄年・還暦 早見表の `<title>` の年（今は「2026・2027（令和8・9年）」）を翌年と翌々年に。表そのものは今日の日付から自動 | `yakudoshi/index.html` |
 | 年に 1 回 | 厄年・年祝い・回忌の出典のページ（`constants.js` の `sources`）が変わっていないか。特に各寺社の令和 N 年の厄年表 | `constants.js` の `checked`、`yakudoshi/guide.html`・`kaiki/guide.html` |
-| 毎年 3 月（新年度の前） | 学年早見表の `<title>` の年度（「2026年度（令和8年度）」）と、使い方ページの FAQ「2026年度の小学 1 年生は何年生まれ？」の年と答え（表そのものは今日の日付から自動） | `gakunen/index.html`・`gakunen/guide.html`（JSON-LD と本文の両方） |
+| 毎年 3 月（新年度の前） | 学年早見表の `<title>` の年度（「2026年度（令和8年度）」）と、使い方ページの FAQ「2026年度の小学 1 年生は何年生まれ？」の年と答え（表そのものは今日の日付から自動）。英語版の FAQ「Which grade is a child born in 2019 in Japan?」（2026–27 の答え）も | `gakunen/index.html`・`gakunen/guide.html`・`en/school-grades/guide.html`（JSON-LD と本文の両方）、`tests/school-grades-en.test.js` |
 
 ## ファイル
 
@@ -54,7 +55,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `index.html` / `en/index.html` | ツール本体（日本語 / 英語） |
 | `guide.html` / `en/guide.html` | 使い方・早見・よくある質問（FAQPage）・根拠・注意・更新履歴。英語版は書類の日付の読み方も |
 | `print/index.html` | 印刷物（年齢早見表・学年早見表）のクレジットから来た人の着地ページ（`noindex`、sitemap に載せない） |
-| `gakunen/index.html` / `gakunen/rireki.html` / `gakunen/guide.html` | 学年早見表 / 履歴書の学歴 計算 / その使い方・根拠（日本語だけ。英語版はまだ無い） |
+| `gakunen/index.html` / `gakunen/rireki.html` / `gakunen/guide.html` | 学年早見表 / 履歴書の学歴 計算 / その使い方・根拠（履歴書の学歴は日本語だけ） |
+| `en/school-grades/index.html` / `en/school-grades/guide.html` / `en/school-grades/school-grades.js` | 学年早見表の英語版「Japan school grades by age」/ その使い方・出典（4 月 2 日の区切り・学校の名前）/ 画面と英語の表示（計算は `calc.js` の `gradeTable`・`gradeNumber`・`schoolEntryYear`。値を持たない）。hreflang で `gakunen/`・`gakunen/guide.html` と対。印刷は A4・Letter のどちらでも 1 枚（`@page { size: auto }`） |
 | `yakudoshi/index.html` / `yakudoshi/guide.html` / `yakudoshi/yakudoshi.js` | 厄年・還暦 早見表 / その使い方・出典 / 画面の制御（計算は `calc.js` の `yakuTable`・`yakuOf`・`toshiiwaiTable`・`toshiiwaiOf`） |
 | `kaiki/index.html` / `kaiki/guide.html` / `kaiki/kaiki.js` | 回忌の計算（広告なし）/ その使い方・出典（広告なし）/ 画面の制御（計算は `calc.js` の `kaikiList`・`chuinList`・`kaikiYearTable`） |
 | `gakunen/gakunen.js` | 学年早見表と履歴書の学歴の画面の制御（計算は `calc.js` の `gradeTable`・`gradeNumber`・`resumeHistory`） |

@@ -128,6 +128,18 @@
       url: 'https://laws.e-gov.go.jp/law/322M40000080011',
       checked: '2026-09-25'
     },
+    // 英語版の学年早見表（en/school-grades/）が引く英訳。法務省「日本法令外国語訳データベース」の訳は参考訳で、効力は日本語の条文（上の e-Gov）にある。
+    // 2026-10-01 に開いて、16 条（9 年）・17 条（6 歳の翌日以後の最初の学年）・26 条・32 条・47 条・56 条・87 条・117 条と施行規則 59 条・163 条の英文を確認（訳の版は学校教育法が平成30年法律第39号、施行規則が平成30年文部科学省令第35号まで）
+    schoolLawEn: {
+      value: {
+        act: 'https://www.japaneselawtranslation.go.jp/en/laws/view/4743/en',
+        regulations: 'https://www.japaneselawtranslation.go.jp/en/laws/view/4744/en'
+      },
+      label: 'School Education Act (Act No. 26 of 1947) and its Regulations for Enforcement — English translation',
+      source: 'Japanese Law Translation (Ministry of Justice)',
+      url: 'https://www.japaneselawtranslation.go.jp/en/laws/view/4743/en',
+      checked: '2026-10-01'
+    },
 
     // --- 厄年・年祝い（yakudoshi/）と回忌（kaiki/）。法令ではなく慣習なので、寺社・宗派の公式ページで確かめた「例」として持つ ---
     // 2026-09-25 に各ページを開いて本文と令和8年の表を読んだ。決まった一つの規則は無い（寺社・地域で違う）
