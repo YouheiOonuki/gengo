@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>家族の年表 作成（入学・成人・定年・年祝いを自動で）｜和暦つき・印刷できる｜yorozu-craft</title>
+  <meta name="description" content="家族の生年月日を入れると、毎年の年齢・学年と、入園・入学・卒業・成人・還暦・定年などの節目が並ぶ年表を作ります。祖父母から子どもまで 8 人、和暦つき、ローン完済などの家の予定も書けます。A4 で印刷。入力は端末の外に送信しません。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/gengo/nenpyo/">
+
+  <meta property="og:title" content="家族の年表 作成（入学・成人・定年・年祝いを自動で）｜yorozu-craft">
+  <meta property="og:description" content="生年月日を入れると、毎年の年齢・学年と節目が並ぶ家族の年表。和暦つき、A4 で印刷。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/gengo/nenpyo/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/gengo/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "家族の年表",
+    "description": "家族の生年月日から、毎年の年齢・学年と、入学・成人・定年・年祝いなどの節目が並ぶ年表を作り、A4 で印刷する。",
+    "url": "https://yorozu-craft.com/gengo/nenpyo/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./nenpyo.css">
+</head>
+<body>
+
+  <!-- 上端の固定バー（SCREEN.md 1.2。印刷物は主なボタンを固定する） -->
+  <div class="fixbar" id="fixbar" role="status" hidden>
+    <button type="button" id="fixbar-print"><span id="fixbar-text"></span></button>
+  </div>
+
+  <header class="app-header">
+    <h1>家族の年表（年齢・学年・節目）</h1>
+    <p class="subtitle">生年月日から毎年の年齢と節目を並べます。入力は外部に送信しません。</p>
+  </header>
+
+  <main class="app-main">
+
+    <!-- 設定 → 出力（SCREEN.md 1.2）。家族の生年月日 → 印刷ボタン → 年表 → くわしい設定（details） -->
+    <fieldset class="card np-controls">
+      <legend class="visually-hidden">家族の名前と生年月日</legend>
+      <div id="people"></div>
+      <p class="np-row-btns"><button type="button" class="btn btn-sub" id="add-person">＋ 家族を足す</button></p>
+      <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> 下に「yorozu-craft.com/gengo/print/ で作成」と小さく入れる</label></p>
+      <p><button type="button" class="btn" id="print">印刷する（A4 縦）</button></p>
+    </fieldset>
+
+    <section class="card print-area" id="sheet" aria-label="家族の年表">
+      <h2 class="hayami-title" id="sheet-title">家族の年表</h2>
+      <div class="table-wrap">
+        <table class="gk-table np-table" id="np-table">
+          <thead id="np-head"></thead>
+          <tbody id="np-body"></tbody>
+        </table>
+      </div>
+      <p class="gk-foot" id="np-note">年齢はその年の誕生日を迎えた後の満年齢。学年は 4 月からの学年で、浪人・留年のない場合の目安です。</p>
+      <p class="credit" id="credit-line">yorozu-craft.com/gengo/print/ で作成</p>
+    </section>
+
+    <details class="card opt" id="opt-range">
+      <summary>表の年: <span class="opt-state">今年から 30 年</span></summary>
+      <div class="field-row">
+        <div class="field"><label for="start">はじめの年</label><select id="start"></select></div>
+        <div class="field"><label for="span">何年分</label><select id="span"></select></div>
+      </div>
+    </details>
+
+    <details class="card opt" id="opt-events">
+      <summary>入れる節目: <span class="opt-state">学校・成人・年祝い</span></summary>
+      <div class="field">
+        <label class="inline"><input type="checkbox" id="school" checked> 入園・入学・卒業と学年</label>
+        <label for="preschool">入園の年</label>
+        <select id="preschool">
+          <option value="3">3 年保育（年少から）</option>
+          <option value="2">2 年保育（年中から）</option>
+          <option value="1">1 年保育（年長から）</option>
+          <option value="0">入園を入れない</option>
+        </select>
+        <p class="hint">学年は浪人・留年・飛び級のない場合。大学は 4 年制で数えます。</p>
+      </div>
+      <div class="field">
+        <label class="inline"><input type="checkbox" id="adult" checked> 成人（18 歳）</label>
+        <label class="inline"><input type="checkbox" id="iwai" checked> 還暦・古希・喜寿などの年祝い（数え年）</label>
+        <label class="inline"><input type="checkbox" id="pension"> 年金の受け取り開始（65 歳。原則）</label>
+        <p class="hint">定年はひとりずつ「定年の年齢」に入れます（勤め先の決まりで違います）。</p>
+      </div>
+    </details>
+
+    <details class="card opt" id="opt-family">
+      <summary>家の予定（ローン完済など）: <span class="opt-state">0 件</span></summary>
+      <div id="family-events"></div>
+      <p><button type="button" class="btn btn-sub" id="add-event">＋ 予定を足す</button></p>
+    </details>
+
+    <details class="card opt" id="opt-save">
+      <summary>入力の保存・書き出し</summary>
+      <p class="small">入力内容はこの端末のブラウザ（localStorage、キー <code>gengo_nenpyo</code>）にだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+      <p class="np-row-btns">
+        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+        <button type="button" class="btn btn-sub" data-reset-storage="gengo_nenpyo">保存した内容をすべて消す（初期状態に戻す）</button>
+      </p>
+      <p class="small" id="save-msg" aria-live="polite"></p>
+    </details>
+
+    <p class="small">学年だけを見るなら <a href="../gakunen/">学年早見表</a>、年祝いは <a href="../yakudoshi/">厄年・還暦 早見表</a>へ。<a href="./guide.html">使い方・よくある質問</a>・<a href="../../print-help.html">スマホで印刷するには</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">和暦・西暦 変換と年齢早見表</a></li>
+        <li><a href="./" aria-current="page">家族の年表</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../constants.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../screen.js"></script>
+  <script src="../reset-storage.js"></script>
+  <script src="./nenpyo-calc.js"></script>
+  <script src="./nenpyo.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
