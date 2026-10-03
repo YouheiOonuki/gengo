@@ -18,9 +18,10 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - **履歴書の学歴 計算**（`gakunen/rireki.html`）: 生年月日と最終学歴（高校・専門 2 年・短大 2 年・高専 5 年・大学 4 年／6 年・修士・博士（修士の後・6 年制の後））から入学・卒業（修了）の年月を西暦・和暦で。浪人（高校の後）と学校ごとの在学年数（留年・休学・定時制）を結果の後ろの `<details>` で変える。西暦・和暦でコピー（年・月・学歴をタブ区切り）
 - **厄年・還暦 早見表**（`yakudoshi/`。K99）: 年を選ぶと、男女の前厄・本厄・後厄（25・42・61／19・33・37・61）と還暦・古希・喜寿・傘寿・米寿・卒寿・白寿・百寿の生まれ年（西暦・和暦・干支）。年祝いは数え年で祝う場合と満年齢で祝う場合を並べる。生年月日（任意）で曜日・干支・その年の数え年・厄年・年祝い。数え方は「数え年（神社本庁・成田山・西新井大師など）」と「その年の満年齢（川崎大師）」を選べる。A4 縦 1 枚で印刷。トップの年齢の欄にも、その年の厄年・年祝いを 1 行
 - **回忌の計算**（`kaiki/`。K110）: 命日（和暦・西暦）から一周忌〜五十回忌の年月日・和暦・曜日、次の法要。四十九日・百か日（亡くなった日を 1 日目／逮夜で前日から）、二十三・二十五・二十七回忌の選び方、三十七〜四十七回忌、印刷用の名前（保存しない）、年ごとの回忌早見表（没年から）。A4 1 枚で印刷。**広告なし**（高齢者向けのページ。yorozu-plans の D118。AdSense は所有確認の meta だけ）
-- 保存しない（localStorage を使わない）ので、ファイルへの書き出し・読み込み（サイト README の 20）は無い
+- **家族の年表**（`nenpyo/`。K16、yorozu-plans の企画書 66）: 家族 8 人までの呼び名・生年月日（和暦・西暦）と定年の年齢（任意）から、10〜60 年分の年表（1 行 1 年）。人ごとに その年の誕生日後の満年齢・4 月からの学年（年少〜大 4。ストレートの場合）・節目（入園 3/2/1 年保育・小中高大の入学・大学卒業・成人 18 歳・年祝い（数え年）・定年・年金 65 歳）。家の予定（ローン完済など）を年の列に。A4 縦で印刷。「○歳に達する年」は誕生日の前日の年（民法 143 条。1 月 1 日生まれは前の年）。計算は `nenpyo/nenpyo-calc.js`（`calc.js` の `schoolEntryYear`・`gradeNumber`・`anniversary`・`toshiiwaiOf` を使う）
+- 保存するのは家族の年表だけ（localStorage の `gengo_nenpyo`。ファイルへの書き出し・読み込み `gengo-backup-YYYYMMDD.json`、消すボタン `reset-storage.js`）。ほかのページは保存しない
 
-文章の量は yorozu-plans の `docs/WRITING.md`（道具）に合わせている。直したら `python3 tools/writing/measure.py --type tool index.html guide.html gakunen/index.html gakunen/rireki.html gakunen/guide.html yakudoshi/index.html yakudoshi/guide.html kaiki/index.html kaiki/guide.html` と `--en en/index.html en/guide.html en/school-grades/index.html en/school-grades/guide.html` で OK を確かめる。詳しい表・条文・出典の URL は使い方ページの `<details>` の中。
+文章の量は yorozu-plans の `docs/WRITING.md`（道具）に合わせている。直したら `python3 tools/writing/measure.py --type tool index.html guide.html gakunen/index.html gakunen/rireki.html gakunen/guide.html yakudoshi/index.html yakudoshi/guide.html kaiki/index.html kaiki/guide.html nenpyo/index.html nenpyo/guide.html` と `--en en/index.html en/guide.html en/school-grades/index.html en/school-grades/guide.html` で OK を確かめる。詳しい表・条文・出典の URL は使い方ページの `<details>` の中。
 
 ## 計算の仕様・根拠
 
@@ -59,15 +60,17 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `en/school-grades/index.html` / `en/school-grades/guide.html` / `en/school-grades/school-grades.js` | 学年早見表の英語版「Japan school grades by age」/ その使い方・出典（4 月 2 日の区切り・学校の名前）/ 画面と英語の表示（計算は `calc.js` の `gradeTable`・`gradeNumber`・`schoolEntryYear`。値を持たない）。hreflang で `gakunen/`・`gakunen/guide.html` と対。印刷は A4・Letter のどちらでも 1 枚（`@page { size: auto }`） |
 | `yakudoshi/index.html` / `yakudoshi/guide.html` / `yakudoshi/yakudoshi.js` | 厄年・還暦 早見表 / その使い方・出典 / 画面の制御（計算は `calc.js` の `yakuTable`・`yakuOf`・`toshiiwaiTable`・`toshiiwaiOf`） |
 | `kaiki/index.html` / `kaiki/guide.html` / `kaiki/kaiki.js` | 回忌の計算（広告なし）/ その使い方・出典（広告なし）/ 画面の制御（計算は `calc.js` の `kaikiList`・`chuinList`・`kaikiYearTable`） |
+| `nenpyo/index.html` / `nenpyo/guide.html` / `nenpyo/nenpyo-calc.js` / `nenpyo/nenpyo.js` / `nenpyo/nenpyo.css` | 家族の年表 / その使い方・条文 / 計算（純粋関数）/ 画面・保存 / 見た目と印刷 |
+| `reset-storage.js` | 「保存した内容をすべて消す」ボタン（サイト共通の部品の写し。家族の年表だけが使う） |
 | `gakunen/gakunen.js` | 学年早見表と履歴書の学歴の画面の制御（計算は `calc.js` の `gradeTable`・`gradeNumber`・`resumeHistory`） |
 | `calc.js` | 和暦・年齢・学年・干支・早見表（純粋関数。日英共通） |
-| `constants.js` | 元号の境目と法令（値・出典・確認日） |
+| `constants.js` | 元号の境目と法令（値・出典・確認日）。家族の年表の成年 18・年金 65・定年 60 もここ |
 | `main.js` | 画面の制御。日英の文言（`STR`）を `<html lang>` で切り替える |
 | `screen.js` | 画面の部品（折りたたみの状態表示。yorozu-template と同じ） |
 | `style.css` | 見た目（和紙風の配色、ダークモード、印刷は早見表だけを A4 縦 1 枚） |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630） |
-| `sitemap.xml` | サイトマップ（日英 4 ページは hreflang つき、`gakunen/`・`yakudoshi/`・`kaiki/` の 7 ページは日本語だけ。`print/` は載せない） |
+| `sitemap.xml` | サイトマップ（日英 4 ページは hreflang つき、`gakunen/`・`yakudoshi/`・`kaiki/`・`nenpyo/` の 9 ページは日本語だけ。`print/` は載せない） |
 | `data/gengo.json` / `data/gakunen.json` / `tools/build-data.mjs` | 元号表と学年早見表（2020〜2035 年度）の公開データ（**CC0**。`data/README.md`）。`constants.js` と `calc.js` の `gradeTable` から機械で書き出す。元号・法令を直したら `node tools/build-data.mjs`（`tests/data.test.js` がずれを見張る。yorozu-plans ROADMAP 7.17 の K133） |
 | `tests/*.test.js` | テスト（`node --test tests/*.test.js`） |
 
