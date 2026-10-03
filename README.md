@@ -67,7 +67,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `constants.js` | 元号の境目と法令（値・出典・確認日）。家族の年表の成年 18・年金 65・定年 60 もここ |
 | `main.js` | 画面の制御。日英の文言（`STR`）を `<html lang>` で切り替える |
 | `screen.js` | 画面の部品（折りたたみの状態表示。yorozu-template と同じ） |
-| `style.css` | 見た目（和紙風の配色、ダークモード、印刷は早見表だけを A4 縦 1 枚） |
+| `style.css` | 見た目（和紙風の配色、ダークモード、印刷は早見表だけを A4 縦 1 枚）。先頭の `yorozu-common:begin`〜`end` はサイト共通の部品とトークン（手で直さない。正本は youheioonuki.github.io の `tools/common/yorozu-common.css`、`tools/sync-common.mjs` で配る） |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630） |
 | `sitemap.xml` | サイトマップ（日英 4 ページは hreflang つき、`gakunen/`・`yakudoshi/`・`kaiki/`・`nenpyo/` の 9 ページは日本語だけ。`print/` は載せない） |

@@ -10,6 +10,7 @@
 @media (prefers-color-scheme: dark) { .np-err.bad { color: #ff8a80; } }
 .np-del { min-width: 44px; min-height: 44px; margin-bottom: 0.6rem; }
 .np-row-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.np-row-btns .btn { line-height: 1.4; }   /* 共通の font: inherit で行間 1.7 になった分を戻す（3 画面以内: SCREEN 2 章） */
 .np-controls label.inline, #opt-events label.inline { display: block; font-weight: 400; margin: 0.3rem 0; }
 
 .np-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
@@ -17,7 +18,8 @@
 .np-table thead th { background: var(--bg-2); white-space: nowrap; }
 .np-table tbody th { white-space: nowrap; text-align: left; }
 .np-y { display: block; font-weight: 700; }
-.np-w { display: block; font-size: 0.72rem; color: var(--muted); font-weight: 400; }
+.np-w { display: block; font-size: 0.75rem; color: var(--muted); font-weight: 400; }   /* 12px 以上（REVIEW C9） */
+@media screen { .np-w { line-height: 1.2; } }   /* 画面の行の高さを前と同じに（印刷は下の pt のまま） */
 .np-age { white-space: nowrap; }
 .np-g { color: var(--muted); font-size: 0.75rem; }
 .np-e { display: block; font-weight: 700; color: var(--accent); font-size: 0.78rem; }
