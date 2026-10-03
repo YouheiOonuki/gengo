@@ -68,6 +68,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630） |
 | `sitemap.xml` | サイトマップ（日英 4 ページは hreflang つき、`gakunen/`・`yakudoshi/`・`kaiki/` の 7 ページは日本語だけ。`print/` は載せない） |
+| `data/gengo.json` / `data/gakunen.json` / `tools/build-data.mjs` | 元号表と学年早見表（2020〜2035 年度）の公開データ（**CC0**。`data/README.md`）。`constants.js` と `calc.js` の `gradeTable` から機械で書き出す。元号・法令を直したら `node tools/build-data.mjs`（`tests/data.test.js` がずれを見張る。yorozu-plans ROADMAP 7.17 の K133） |
 | `tests/*.test.js` | テスト（`node --test tests/*.test.js`） |
 
 ## ライセンス
