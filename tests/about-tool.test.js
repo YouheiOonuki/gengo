@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const PAGES = ['index.html', 'gakunen/index.html', 'gakunen/rireki.html', 'yakudoshi/index.html'];
+const PAGES = ['index.html', 'gakunen/index.html', 'gakunen/rireki.html', 'yakudoshi/index.html', 'nenpyo/index.html'];
 const ENT = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" };
 
 for (const p of PAGES) {

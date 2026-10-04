@@ -139,3 +139,11 @@ test('ページの決まり: 保存キーは gengo_nenpyo、消すボタン、�
   for (const k of ['adultAge', 'pensionAge', 'retirementAge', 'schoolEntry', 'kindergarten']) assert.ok(guide.includes(K[k].url), k);
   assert.ok(fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8').includes('https://yorozu-craft.com/gengo/nenpyo/'));
 });
+
+test('生年月日も家の予定も無いときは表を出さず「—」（SCREEN 2 章）', () => {
+  assert.equal(N.isEmpty([{ birth: null }, { birth: null }], []), true);
+  assert.equal(N.isEmpty([{ birth: null }, { birth: D('2015-04-02') }], []), false);
+  assert.equal(N.isEmpty([{ birth: null }], [{ year: 2040, text: 'ローン完済' }]), false);
+  const js = fs.readFileSync(path.join(__dirname, '..', 'nenpyo/nenpyo.js'), 'utf8');
+  assert.match(js, /N\.isEmpty\(people, events\)/);
+});

@@ -35,3 +35,4 @@
   .np-table tr { break-inside: avoid; }
   .np-table thead { display: table-header-group; }
 }
+.np-table td.np-empty { text-align: center; color: var(--muted); }

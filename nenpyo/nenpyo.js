@@ -141,7 +141,7 @@
 
     $('np-head').innerHTML = '<tr><th scope="col">年</th>' + people.map(function (p) { return '<th scope="col">' + esc(p.label) + '</th>'; }).join('') +
       (hasFamily ? '<th scope="col">家の予定</th>' : '') + '</tr>';
-    $('np-body').innerHTML = rows.map(function (r) {
+    $('np-body').innerHTML = N.isEmpty(people, events) ? '<tr><td colspan="' + (people.length + 1) + '" class="np-empty">—</td></tr>' : rows.map(function (r) {
       var mark = r.cells.some(function (c) { return c.events.length; }) || r.family.length;
       return '<tr' + (r.year === thisYear ? ' class="me"' : '') + '><th scope="row"><span class="np-y">' + r.year + '</span><span class="np-w">' + esc(eraYears(r.year)) + '</span></th>' +
         r.cells.map(function (c) {

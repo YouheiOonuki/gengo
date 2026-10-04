@@ -120,8 +120,13 @@
     return s;
   }
 
+  // 生年月日が 1 人も無く、家の予定も無いときは表を出さない（SCREEN 2 章「必須が空なら結果は『—』」）
+  function isEmpty(people, events) {
+    return !people.some(function (p) { return p.birth; }) && !(events && events.length);
+  }
+
   var api = { MAX_PEOPLE: MAX_PEOPLE, MAX_EVENTS: MAX_EVENTS, SPANS: SPANS, DEFAULTS: DEFAULTS,
-    reachDate: reachDate, gradeShort: gradeShort, eventsOf: eventsOf, buildRows: buildRows, normalize: normalize };
+    reachDate: reachDate, gradeShort: gradeShort, eventsOf: eventsOf, buildRows: buildRows, normalize: normalize, isEmpty: isEmpty };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Nenpyo = api;
 })(this);
