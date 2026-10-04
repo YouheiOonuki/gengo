@@ -120,7 +120,7 @@
     return s;
   }
 
-  // 生年月日が 1 人も無く、家の予定も無いときは表を出さない（SCREEN 2 章「必須が空なら結果は『—』」）
+  // 生年月日が 1 人も無く、家の予定も無いときは表を出さない（SCREEN 3 章「必須が空なら結果は『—』」）
   function isEmpty(people, events) {
     return !people.some(function (p) { return p.birth; }) && !(events && events.length);
   }
