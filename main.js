@@ -20,12 +20,13 @@
         format: '読み取れませんでした。「昭和60年」「H31.4.30」「1985」「1985-03-05」のように入れてください。',
         era: '元号が分かりませんでした。', date: 'ありえない日付です。', needDate: '年・月・日まで入れてください。',
         lunar: '明治5年12月2日までは旧暦（太陰太陽暦）のため、月日は変換できません。',
-        year: 'その元号にその年はありません。', before: '明治より前（慶応以前）は対象外です。', future: '日付の範囲を超えています。'
+        year: 'その元号にその年はありません。', before: '慶長（1596年）より前は対象外です。', future: '日付の範囲を超えています。'
       },
       lastYear: '{era}は{n}年までです。',
       outOfEra: '{input}はありません。その日は <strong>{correct}</strong> です。',
       partial: '{w}は {from}〜{to} だけです。',
       lunarNote: '明治5年（1872年）までは旧暦のため、西暦の年と 1〜2 月ほどずれます（明治6年1月1日＝1873年1月1日から新暦）。',
+      preNote: '明治より前（慶長〜慶応）は、改元の日が旧暦のため、年の対応だけを出しています。改元の年は 2 つの元号にまたがります（出典: 日本大百科全書「日本年号一覧」）。',
       eto: '干支', ageThisYear: '{y}年生まれの人は、今年（{now}年）の誕生日で {a} 歳',
       yearHas: '{y}年に含まれる和暦',
       abbr: '略記', weekday: '曜日',
@@ -52,12 +53,13 @@
         format: 'Could not read that. Try "Showa 60", "H31.4.30", "令和元年", "1985" or "1985-03-05".',
         era: 'Unknown era.', date: 'That date does not exist.', needDate: 'Enter a full year, month and day.',
         lunar: 'Until Meiji 5 (1872) Japan used the lunisolar calendar, so month and day cannot be converted.',
-        year: 'That era does not have that year.', before: 'Dates before the Meiji era are not covered.', future: 'Out of range.'
+        year: 'That era does not have that year.', before: 'Years before Keichō (1596) are not covered.', future: 'Out of range.'
       },
       lastYear: '{era} ended in year {n}.',
       outOfEra: 'There is no {input}. That day is <strong>{correct}</strong>.',
       partial: '{w} only covers {from} to {to}.',
       lunarNote: 'Until Meiji 5 (1872) Japan used the lunisolar calendar, so the Japanese year is 1–2 months off from the Western year. The Gregorian calendar started on Meiji 6, January 1 (1 January 1873).',
+      preNote: 'Before the Meiji era (Keichō to Keiō), eras changed on lunisolar-calendar dates, so only the year is converted. A year with an era change belongs to two eras (source: Nipponica encyclopedia, list of Japanese era names, in Japanese).',
       eto: 'Zodiac (eto)', ageThisYear: 'Someone born in {y} turns {a} on their birthday this year ({now}).',
       yearHas: 'Japanese years in {y}',
       abbr: 'Abbreviation', weekday: 'Day of week',
@@ -147,12 +149,16 @@
         html += '<p class="big"><span>' + esc(eraYearText(r.era, r.year)) + '</span> = <strong>' + esc(fmt(T.year, { y: r.y })) + '</strong></p>';
         if (r.partial) html += '<p class="note">' + esc(fmt(T.partial, { w: eraYearShort(r.era, r.year), from: dateText(r.partial.from), to: dateText(r.partial.to) })) + '</p>';
         if (r.lunar) html += '<p class="note">' + esc(T.lunarNote) + (r.dateIgnored ? ' ' + esc(T.err.lunar) : '') + '</p>';
+        if (r.preMeiji) html += '<p class="note">' + esc(T.preNote) + '</p>';
         html += '<table class="result-table"><tbody>';
         html += row(T.eto, esc(etoText(r.y)));
-        if (r.y <= now.y) html += row('', esc(fmt(T.ageThisYear, { y: r.y, now: now.y, a: now.y - r.y })));
+        if (r.y <= now.y && !r.preMeiji) html += row('', esc(fmt(T.ageThisYear, { y: r.y, now: now.y, a: now.y - r.y })));
         html += '</tbody></table>';
       }
     } else {
+      // 明治より前の日付は、月日を捨てて年だけ（旧暦のため）
+      var dateIgnored = false;
+      if (p.m && p.y < C.ERAS[0].startD.y && C.preErasOfYear(p.y).length) { dateIgnored = true; p = { kind: 'seireki', y: p.y }; }
       if (p.m) {
         var d = { y: p.y, m: p.m, d: p.d || 1 };
         if (!C.validDate(d.y, d.m, d.d)) { convOut.innerHTML = '<p class="error">' + esc(T.err.date) + '</p>'; return; }
@@ -167,15 +173,17 @@
         html += '</tbody></table>';
       } else {
         var list = C.erasOfYear(p.y);
+        if (!list.length) list = C.preErasOfYear(p.y);
         if (!list.length) { convOut.innerHTML = '<p class="error">' + esc(T.err.before) + '</p>'; return; }
         html += '<p class="big"><span>' + esc(fmt(T.year, { y: p.y })) + '</span> = <strong>' + list.map(function (x) { return esc(eraYearText(x.era, x.year)); }).join(LANG === 'en' ? ' / ' : '・') + '</strong></p>';
-        if (list.length > 1) {
+        if (list.length > 1 && list[0].from) {
           html += '<ul class="note">' + list.map(function (x) { return '<li>' + esc(eraYearShort(x.era, x.year)) + ': ' + esc(dateText(x.from)) + ' – ' + esc(dateText(x.to)) + '</li>'; }).join('') + '</ul>';
         }
-        if (list[0].lunar) html += '<p class="note">' + esc(T.lunarNote) + '</p>';
+        if (list[0].lunar) html += '<p class="note">' + esc(T.lunarNote) + (dateIgnored ? ' ' + esc(T.err.lunar) : '') + '</p>';
+        if (list[0].preMeiji) html += '<p class="note">' + esc(T.preNote) + '</p>';
         html += '<table class="result-table"><tbody>';
         html += row(T.eto, esc(etoText(p.y)));
-        if (p.y <= now.y) html += row('', esc(fmt(T.ageThisYear, { y: p.y, now: now.y, a: now.y - p.y })));
+        if (p.y <= now.y && !list[0].preMeiji) html += row('', esc(fmt(T.ageThisYear, { y: p.y, now: now.y, a: now.y - p.y })));
         html += '</tbody></table>';
       }
     }
