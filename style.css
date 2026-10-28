@@ -1,8 +1,5 @@
-/* ===========================
-   和暦・西暦 変換と年齢早見表 — yorozu-craft 共通の和紙風の配色
-   色はトークン（--bg / --card / --text / --muted / --accent / --border）だけを使う。
-   ダークモードは端末の設定に自動で合わせる（prefers-color-scheme。手動切替は付けない）
-   =========================== */
+/* 和暦・西暦 変換と年齢早見表 — yorozu-common v2 の皮に載せる。色・字・角・線はトークン（--bg / --card / --text / --muted / --accent / --border / --radius / --sp-* / --fs-*）だけ。
+   暗い表示は端末の設定に自動で合わせる（トークンの差し替えは皮が持つ） */
 /* yorozu-common:begin v2 — サイト共通の土台と皮。正本は youheioonuki.github.io の tools/common/v2/base.css と skin.css（yorozu-plans DESIGN.md）。
    この begin〜end の間は手で直さない（tools/sync-common.mjs で全ツールに配る。ツール固有の上書きは end の後に書く） */
 /* yorozu-common v2 土台の層（yorozu-plans ROADMAP 7.98 D369、DESIGN.md）。すべてのページ（見せる・遊ぶ・世界を持つページも）に当てる。
@@ -71,226 +68,135 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 :where(html:not([data-skin="base"])) :where(.notice, [data-keep]) { border-left: 4px solid var(--text); background: var(--bg-2); padding: var(--sp-2) var(--sp-3); }
 :where(html:not([data-skin="base"])) :where(.fixed-bar) { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--border); padding: var(--sp-2) var(--sp-4); }
 /* yorozu-common:end */
-/* yorozu-v1-carry — v1 の共通（和紙の色、2026-09-23〜10-17）から、このファイルのページが使っていた見た目をそのまま持ち込んだ（yorozu-plans ROADMAP 7.99、K192 段 3 の 0）。
-   段 3 の 2〜4 でこのページを v2 のトークンに載せ替えるときに、yorozu-v1-carry:end まで消す */
-:root {
-  color-scheme: light dark;
-  --bg: #f0ebe0; --bg-2: #e6dfd0; --card: #faf6ee; --text: #3a3025; --muted: #6e604f;
-  --accent: #8b4513; --accent-soft: #f3e6d8; --border: #cfc0a0; --input-border: #857561; --shadow: rgba(58, 48, 37, 0.12);
-  --error: #ce0000; --ok: #197a4b; --focus: #ffd43d; --focus-ring: #000;
-  --font-ui: "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-  --lh-body: 1.7; --lh-tight: 1.4; --radius: 8px;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1c1814; --bg-2: #25201a; --card: #2b251e; --text: #ece4d6; --muted: #b9ab96;
-    --accent: #e0a066; --accent-soft: #3a2e22; --border: #4a3f33; --input-border: #8c7d68; --shadow: rgba(0, 0, 0, 0.4);
-    --error: #ff8a7a; --ok: #6fcf97; --focus-ring: #ffd43d; --focus: #000;
-  }
-}
-body { font-family: var(--font-ui); background: var(--bg); color: var(--text); line-height: var(--lh-body); }
-a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-@media (hover: hover) { a:hover { text-decoration-thickness: 3px; } }
-:where(input, textarea)::placeholder { color: var(--muted); opacity: 1; }
-.app-header > p { max-width: 40em; margin-left: auto; margin-right: auto; }
-/* yorozu-v1-carry:end */
 
 /* ヘッダー */
 .app-header {
   text-align: center;
-  padding: 1.4rem 1rem 1.1rem;
-  background: var(--bg-2);
-  border-bottom: 2px solid var(--border);
-}
-.app-header h1 { font-size: 1.45rem; color: var(--accent); line-height: 1.4; }
-.app-header .subtitle { font-size: 0.88rem; color: var(--muted); margin-top: 0.3rem; }
-
-/* レイアウト */
-.app-main { max-width: 680px; margin: 0 auto; padding: 1rem; }
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.2rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 8px var(--shadow);
-}
-.card h2 {
-  font-size: 1.02rem;
-  color: var(--accent);
+  padding: var(--sp-4);
   border-bottom: 1px solid var(--border);
-  padding-bottom: 0.4rem;
-  margin-bottom: 0.9rem;
+}
+.app-header .subtitle { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
+.app-header > p { max-width: 40em; margin-left: auto; margin-right: auto; }
+@media (max-width: 480px) { .app-header h1 { font-size: var(--fs-l); } }
+.lang-switch { font-size: var(--fs-s); }
+.lang-switch a { display: inline-flex; align-items: center; min-height: var(--tap); }
+
+/* レイアウト。PC（960px 以上）の .two-col は入力を左・結果を右の 2 列（D371）。
+   .col-in は左、.col-out は右。.side は右の列が縦に長く流れ、左に入力と折りたたみを積む形 */
+.app-main { max-width: 680px; margin: 0 auto; padding: var(--sp-4); }
+.card { margin-bottom: var(--sp-4); }
+.card h2 { margin-bottom: var(--sp-3); }
+.card h3 { margin: var(--sp-4) 0 var(--sp-1); }
+@media (min-width: 960px) {
+  .app-main.two-col {
+    max-width: 1120px; display: grid; grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+    column-gap: var(--sp-4); grid-template-rows: repeat(7, auto) 1fr; align-items: start;
+  }
+  .two-col > * { grid-column: 1 / -1; }
+  .two-col > .col-in { grid-column: 1; }
+  .two-col > .col-out { grid-column: 2; grid-row: 1; }
+  .two-col.side > * { grid-column: 1; }
+  .two-col.side > .col-out { grid-column: 2; grid-row: 1 / -1; }
 }
 
 /* 入力 */
-.field { margin-bottom: 1rem; }
-.field label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
-.field .hint { font-size: var(--fs-s); color: var(--muted); margin-bottom: 0.4rem; }
-.field input[type="number"], .field input[type="text"], .field select {
-  width: 100%;
-  max-width: 16rem;
-  padding: 0.45rem 0.5rem;
-  font-size: 1rem;
-  border: 1px solid var(--input-border);
-  border-radius: 6px;
-  background: var(--card);
-  color: var(--text);
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.5rem 1.1rem;
-  border: none;
-  border-radius: 6px;
-  background: var(--accent);
-  color: var(--card);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-}
+.field { margin-bottom: var(--sp-4); }
+.field label { display: block; font-weight: 700; margin-bottom: var(--sp-1); }
+.field .hint { font-size: var(--fs-s); color: var(--muted); margin-bottom: var(--sp-2); }
+.field input[type="text"], .field select { width: 100%; max-width: 16rem; }
+.field input.wide { max-width: none; }
+.field input[type="date"] { max-width: 100%; }
+.field-row { display: flex; flex-wrap: wrap; gap: 0 var(--sp-4); }
+.field-row .field { flex: 1 1 12rem; min-width: 0; }
+.field-row .field select, .field-row .field input[type="text"] { max-width: 100%; }
+.inline-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
+.field .field-label { display: block; font-weight: 700; margin-bottom: var(--sp-1); }
+label.inline { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: var(--tap); margin-bottom: 0; font-weight: 400; }
+input[type="checkbox"], input[type="radio"] { width: 1.25rem; height: 1.25rem; flex: none; }
+.examples { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; margin-bottom: var(--sp-3); }
+.examples .small { margin: 0; }
+.small { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
 
 /* 読みもの（guide.html） */
-.content h3 { font-size: 0.95rem; margin: 1rem 0 0.3rem; }
-.content p, .content li { font-size: 0.9rem; }
-.content p + p { margin-top: 0.5rem; }
-.content ul, .content ol { padding-left: 1.3rem; margin: 0.3rem 0; }
-.faq dt { font-weight: 600; margin-top: 0.9rem; font-size: 0.92rem; }
+.content h3 { margin: var(--sp-4) 0 var(--sp-1); }
+.content p + p { margin-top: var(--sp-2); }
+.content ul, .content ol { padding-left: 1.3rem; margin: var(--sp-1) 0; }
+.faq dt { font-weight: 700; margin-top: var(--sp-4); }
 .faq dt::before { content: 'Q. '; color: var(--accent); }
-.faq dd { font-size: 0.88rem; color: var(--muted); padding: 0.2rem 0 0.5rem 1.2rem; border-bottom: 1px solid var(--border); }
-.info-list { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 1.2rem; font-size: 0.9rem; }
-.info-list dt { font-weight: 600; }
-.info-list dd { color: var(--muted); }
-.small { font-size: var(--fs-s); color: var(--muted); margin-top: 0.4rem; }
+.faq dd { color: var(--muted); padding: var(--sp-1) 0 var(--sp-2) 1.2rem; border-bottom: 1px solid var(--border); }
+.content table { border-collapse: collapse; font-size: var(--fs-s); margin: var(--sp-1) 0; width: 100%; }
+.content th, .content td { border: 1px solid var(--border); padding: var(--sp-1) var(--sp-2); text-align: left; vertical-align: top; }
+.content th { background: var(--bg-2); }
+.sources li { overflow-wrap: anywhere; }
+.content details { margin-top: var(--sp-2); }
+.content details[open] > summary { margin-bottom: var(--sp-1); }
 
 /* フッター */
 .app-footer {
   text-align: center;
-  padding: 1rem;
+  padding: var(--sp-4);
   font-size: var(--fs-s);
   color: var(--muted);
   border-top: 1px solid var(--border);
-  margin-top: 0.5rem;
+  margin-top: var(--sp-2);
 }
-.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-bottom: 0.6rem; }
-.footer-nav a { color: var(--muted); text-decoration: none; }
+.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0 var(--sp-4); margin-bottom: var(--sp-2); }
+.footer-nav a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--muted); text-decoration: none; }
 .footer-nav a:hover, .footer-nav a[aria-current="page"] { color: var(--accent); }
 
 /* ===== 和暦変換の部品 ===== */
-.field input.wide { width: 100%; max-width: none; }
-.field input[type="date"] {
-  padding: 0.4rem 0.5rem; font-size: 1rem; border: 1px solid var(--input-border); border-radius: 6px;
-  background: var(--card); color: var(--text); max-width: 100%;
-}
-.field-row { display: flex; flex-wrap: wrap; gap: 0 1rem; }
-.field-row .field { flex: 1 1 12rem; min-width: 0; }
-.field-row .field select, .field-row .field input[type="text"] { max-width: 100%; }
-.inline-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
-label.inline { display: inline; font-weight: 400; font-size: 0.88rem; }
-.examples { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin: -0.3rem 0 0.9rem; }
-.examples .small { margin: 0; }
-.chip {
-  border: 1px solid var(--border); background: var(--accent-soft); color: var(--text);
-  border-radius: 999px; padding: 0.2rem 0.7rem; font-size: 0.8rem; cursor: pointer;
-}
-.chip:hover, .chip:focus-visible { border-color: var(--accent); }
-.btn-sub { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--border); }
-.result:not(:empty) { border-top: 1px dashed var(--border); padding-top: 0.8rem; margin-top: 0.4rem; }
-.big { font-size: 1.15rem; line-height: 1.5; margin-bottom: 0.5rem; }
-.big strong { color: var(--accent); font-size: 1.3rem; }
-.note { font-size: 0.86rem; background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 4px; padding: 0.45rem 0.7rem; margin: 0.4rem 0 0.6rem; }
-ul.note { padding-left: 1.6rem; }
-.error { color: #b3261e; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; }
-@media (prefers-color-scheme: dark) { .error { color: #ff8a80; } }
-.result-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-.result-table th, .result-table td { text-align: left; vertical-align: top; padding: 0.35rem 0.4rem; border-bottom: 1px solid var(--border); }
-.result-table th { font-weight: 600; color: var(--muted); width: 30%; }
+.result .empty { color: var(--muted); margin: 0; }
+.big { font-size: var(--fs-l); line-height: 1.5; margin-bottom: var(--sp-2); }
+.big strong { font-size: var(--fs-xl); font-weight: 800; }
+.notice { font-size: var(--fs-m); margin: var(--sp-1) 0 var(--sp-2); }
+ul.notice { padding-left: 1.6rem; }
+.result-table { width: 100%; border-collapse: collapse; }
+.result-table th, .result-table td { text-align: left; vertical-align: top; padding: var(--sp-1); border-bottom: 1px solid var(--border); }
+.result-table th { color: var(--muted); width: 30%; }
 .result-table th:empty { width: 0; padding: 0; }
 .table-wrap { overflow-x: auto; }
-.history { margin-top: 0.8rem; font-size: 0.88rem; }
-.history summary { cursor: pointer; color: var(--accent); }
-.hist-table, .era-table { border-collapse: collapse; font-size: 0.85rem; width: 100%; margin-top: 0.4rem; }
-.hist-table th, .hist-table td, .era-table th, .era-table td { border: 1px solid var(--border); padding: 0.3rem 0.45rem; text-align: left; }
+.history { margin-top: var(--sp-3); }
+.hist-table, .era-table { border-collapse: collapse; font-size: var(--fs-s); width: 100%; margin-top: var(--sp-1); }
+.hist-table th, .hist-table td, .era-table th, .era-table td { border: 1px solid var(--border); padding: var(--sp-1) var(--sp-2); text-align: left; }
 .hist-table thead th, .era-table thead th { background: var(--bg-2); }
-.hayami-title { font-size: 1rem; margin: 0.6rem 0 0.4rem; text-align: center; }
-.hayami-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.8rem; }
+.result .small, .hist-table { font-size: var(--fs-m); }   /* 結果の字は 16px 以上 */
+.hayami-title { margin: var(--sp-2) 0 var(--sp-1); text-align: center; }
+.hayami-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--sp-3); }
 @media (max-width: 560px) { .hayami-cols { grid-template-columns: 1fr; } }
-.hayami-table { border-collapse: collapse; width: 100%; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
-.hayami-table th, .hayami-table td { border: 1px solid var(--border); padding: 0.12rem 0.35rem; text-align: center; white-space: nowrap; }
-.hayami-table thead th { background: var(--bg-2); font-size: 0.76rem; white-space: normal; line-height: 1.25; }
+.hayami-table { border-collapse: collapse; width: 100%; font-size: var(--fs-s); }
+.hayami-table th, .hayami-table td { border: 1px solid var(--border); padding: 0 var(--sp-1); text-align: center; white-space: nowrap; }
+.hayami-table thead th { background: var(--bg-2); white-space: normal; line-height: 1.25; }
 .hayami-table td:nth-child(2) { text-align: left; }
 .hayami-table tr.change td { background: var(--accent-soft); }
 .hayami-table tbody tr:nth-child(5n) td { border-bottom: 2px solid var(--border); }
-.credit { text-align: right; font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
-.lang-switch { font-size: 0.82rem; margin-top: 0.35rem; }
-.content table { border-collapse: collapse; font-size: 0.85rem; margin: 0.4rem 0; width: 100%; }
-.content th, .content td { border: 1px solid var(--border); padding: 0.3rem 0.45rem; text-align: left; vertical-align: top; }
-.content th { background: var(--bg-2); }
-.sources li { overflow-wrap: anywhere; }
-.content details { margin-top: 0.6rem; }
-.content details summary { cursor: pointer; color: var(--accent); font-size: 0.9rem; }
-.content details[open] summary { margin-bottom: 0.4rem; }
+.credit { text-align: right; font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
+.opt-state { color: var(--text); font-weight: 400; }
 
-/* ===========================
-   画面の骨組み（yorozu-plans の docs/SCREEN.md 1.1。yorozu-template の style.css の部品）
-   和暦か西暦を入れる欄 → 結果（空のときは「—」）→ 年齢・早見表・元号の一覧（details.opt）
-   =========================== */
-.result .empty { color: var(--muted); margin: 0; }
-details.card.opt { padding: 0 1.2rem; margin-bottom: 0.6rem; }
-details.card.opt > summary {
-  cursor: pointer; display: block; min-height: 44px; padding: 0.6rem 0;
-  color: var(--accent); font-weight: 600; font-size: 0.95rem; list-style: none;
-}
-details.card.opt > summary::-webkit-details-marker { display: none; }
-details.card.opt > summary::before { content: '▸'; margin-right: 0.4rem; }
-details.card.opt[open] > summary::before { content: '▾'; }
-details.card.opt[open] { padding-bottom: 0.9rem; }
-details.card.opt[open] > summary { border-bottom: 1px solid var(--border); margin-bottom: 0.9rem; }
-.opt-state { color: var(--text); font-weight: normal; }
+/* 折りたたみ（結果の後ろの部品。皮の details を card に載せる） */
+details.card.opt { margin-bottom: var(--sp-3); padding-block: 0; }   /* 閉じた行は summary の 44px だけ（3 画面以内: SCREEN 2 章） */
+details.card.opt[open] { padding-bottom: var(--sp-4); }
+details.card.opt[open] > summary { margin-bottom: var(--sp-2); }
+details.card.opt.about-tool > summary { white-space: normal; }
+details.about-tool h3 { margin: var(--sp-4) 0 var(--sp-1); }
+details.about-tool p + p { margin-top: var(--sp-2); }
+details.about-tool ul { padding-left: 1.2rem; margin: var(--sp-1) 0 var(--sp-2); }
 
-/* 印刷: 年齢早見表だけを A4 縦 1 枚に（広告・ほかの部分は出さない） */
-@page { size: A4 portrait; margin: 10mm; }
-@media print {
-  :root { --bg: #fff; --bg-2: #eee; --card: #fff; --text: #000; --muted: #333; --accent: #000; --accent-soft: #f2f2f2; --border: #888; --shadow: transparent; }
-  body { background: #fff; }
-  .app-header, .app-footer, main > :not(#sec-hayami):not(.print-area), #sec-hayami > summary, #sec-hayami .controls, .fixbar,
-  ins.adsbygoogle, iframe, .google-auto-placed { display: none !important; }
-  .app-main { max-width: none; padding: 0; }
-  #sec-hayami { border: none; box-shadow: none; padding: 0; margin: 0; }
-  #sec-hayami::details-content { content-visibility: visible; display: block; }   /* 閉じていても表は出す（beforeprint でも開く） */
-  .hayami-title { font-size: 13pt; margin: 0 0 2mm; }
-  .hayami-cols { grid-template-columns: 1fr 1fr !important; gap: 0 5mm; }
-  .hayami-table { font-size: 8.6pt; }
-  .hayami-table th, .hayami-table td { padding: 0.25mm 1.2mm; line-height: 1.25; }
-  .hayami-table thead th { font-size: 7.8pt; }
-  .hayami-table tr.change td { background: #eee; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .credit { font-size: 7.5pt; color: #333; }
+/* 上端の固定バー（SCREEN D59: 上端。下端はアンカー広告が使う）。皮の .fixed-bar を上に貼る。screen.js が出し入れする */
+.fixed-bar { position: fixed; top: 0; bottom: auto; left: 0; right: 0; z-index: 50; border-top: 0; border-bottom: 1px solid var(--border); padding: 0; }
+.fixed-bar button {
+  display: block; width: 100%; max-width: 680px; margin: 0 auto; padding: 0 var(--sp-4); height: var(--tap);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: 0; border-radius: 0; color: var(--accent);
 }
-
-@media (max-width: 480px) {
-  .app-header h1 { font-size: 1.2rem; }
-}
+.fixed-bar button:focus-visible { outline-offset: -4px; }   /* 共通の輪を内側に（端で切れないように） */
 
 /* ===========================
    学年早見表・履歴書の学歴（gakunen/）
    =========================== */
-.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 fieldset.card { min-width: 0; }
-/* 上端の固定バー（yorozu-template と同じ。screen.js が出し入れする） */
-.fixbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 44px;
-  background: var(--card); border-bottom: 2px solid var(--accent); box-shadow: 0 2px 8px var(--shadow);
-}
-.fixbar a, .fixbar button {
-  display: block; width: 100%; max-width: 720px; margin: 0 auto; padding: 0 1rem; height: 42px; line-height: 42px; text-align: center;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font: inherit; font-weight: 700;
-  color: var(--accent); background: none; border: none; text-decoration: none; cursor: pointer;
-}
-.fixbar a:focus-visible, .fixbar button:focus-visible { outline-offset: -4px; }   /* 共通の輪を内側に（端で切れないように） */
-.gk-table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
-.gk-table th, .gk-table td { border: 1px solid var(--border); padding: 0.2rem 0.35rem; text-align: left; line-height: 1.35; }
-.gk-table thead th { background: var(--bg-2); font-size: 0.76rem; }
-.gk-table tbody th { font-weight: 600; white-space: nowrap; }
+.gk-table { border-collapse: collapse; width: 100%; font-size: var(--fs-s); }
+.gk-table th, .gk-table td { border: 1px solid var(--border); padding: var(--sp-1) var(--sp-2); text-align: left; line-height: 1.35; }
+.gk-table thead th { background: var(--bg-2); }
+.gk-table tbody th { white-space: nowrap; font-weight: 600; }
 .gk-table td:last-child { white-space: nowrap; }
 .gk-table tr.stage-start > * { border-top: 2px solid var(--muted); }
 .gk-table tr.grad > * { color: var(--muted); }
@@ -300,82 +206,98 @@ fieldset.card { min-width: 0; }
 @media screen and (max-width: 600px) {
   .gk-table .gk-long, .gk-table .gk-wa { display: none; }
   .gk-table .gk-short { display: inline; }
+  .gk-table { font-size: 0.8rem; }   /* 狭い画面は表を 3 行に折らない（3 画面以内: SCREEN 2 章） */
+  .gk-table th, .gk-table td { padding: var(--sp-1); }
   .gk-table td { white-space: nowrap; }
 }
-.gk-foot { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+@media screen and (min-width: 960px) { .gk-table td { white-space: nowrap; } }   /* 右の列は日付を折らない */
+.gk-foot { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
 /* 英語版（en/school-grades/）: 日本語の呼び方（ローマ字）の列。狭い画面では学年の下に小さく出す */
 .gk-en .gk-ja i, .gk-en .gk-ja-in i { font-style: italic; font-weight: 400; }
 .gk-en .gk-ja-in { display: none; }
 @media screen and (max-width: 600px) {
   .gk-en .gk-ja { display: none; }
-  .gk-en .gk-ja-in { display: block; font-size: 0.75rem; color: var(--muted); }
+  .gk-en .gk-ja-in { display: block; font-size: var(--fs-s); color: var(--muted); }
   .gk-en td { white-space: normal; }
   .gk-en td:last-child { white-space: nowrap; }
 }
-.copy-row { margin-top: 0.6rem; }
-.copy-row .btn { min-height: 44px; }
+.copy-row { margin-top: var(--sp-2); }
 .rireki-table td { white-space: nowrap; }
-
-@media print {
-  .print-area { border: none; box-shadow: none; padding: 0; margin: 0; }
-  .print-area .table-wrap { overflow: visible; }
-  .print-area .hayami-title { font-size: 14pt; margin: 0 0 3mm; border: none; }
-  .gk-table { font-size: 9.5pt; }
-  .gk-table th, .gk-table td { padding: 1mm 1.6mm; }
-  .gk-table thead th { font-size: 8.5pt; }
-  .gk-table tr.me > * { background: #e6e6e6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .gk-foot { font-size: 8pt; color: #333; }
-}
 
 /* ===========================
    厄年・還暦 早見表（yakudoshi/）と回忌の計算（kaiki/）
    =========================== */
-.yk-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.8rem; }
+.yk-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--sp-3); }
 @media screen and (max-width: 600px) { .yk-cols { grid-template-columns: 1fr; } }
-.yk-h { font-size: 0.9rem; margin: 0.6rem 0 0.25rem; color: var(--accent); }
-.yk-table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; table-layout: fixed; }
-.yk-table th, .yk-table td { border: 1px solid var(--border); padding: 0.2rem 0.3rem; text-align: center; line-height: 1.3; vertical-align: top; }
-.yk-table thead th { background: var(--bg-2); font-size: 0.76rem; }
+.yk-h { margin: var(--sp-2) 0 var(--sp-1); color: var(--accent); }
+.yk-table { border-collapse: collapse; width: 100%; font-size: var(--fs-s); table-layout: fixed; }
+.yk-table th, .yk-table td { border: 1px solid var(--border); padding: var(--sp-1); text-align: center; line-height: 1.3; vertical-align: top; }
+.yk-table thead th { background: var(--bg-2); }
 .yk-table td.hon { background: var(--accent-soft); }
 .yk-table td.me, .yk-iwai td.me { outline: 2px solid var(--accent); outline-offset: -2px; font-weight: 700; }
 .yk-table tr.optional td { color: var(--muted); }
 .yk-age { display: block; font-weight: 700; }
-.yk-by { display: block; font-size: 0.75rem; }
+.yk-by { display: block; font-size: var(--fs-s); }
 .yk-iwai th .small, .yk-iwai td .small { margin: 0; }
-.field-label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
-.noad { font-size: 0.82rem; color: var(--muted); text-align: center; margin: 0 0 0.6rem; }
-.kk-sub { text-align: center; font-size: 0.85rem; margin: -0.2rem 0 0.4rem; }
+.noad { font-size: var(--fs-s); color: var(--muted); text-align: center; margin: 0 0 var(--sp-2); }
+.kk-sub { text-align: center; margin: 0 0 var(--sp-1); }
 
 .kk-table tr.grad > * { color: var(--muted); }
 .kk-table tr.hon > * { background: var(--accent-soft); }
-.kk-print { display: block; margin-top: 0.6rem; min-height: 44px; }
-#chuin-result { margin-top: 0.4rem; }
+.kk-print { display: block; margin-top: var(--sp-2); }
+#chuin-result { margin-top: var(--sp-1); }
+.kk-table th .small { display: block; margin: 0; }
+.yk-iwai tbody th, .kk-table tbody th { white-space: normal; }
+.kk-table td { white-space: nowrap; }
+@media screen { #chuin-print { display: none; } }
 
+/* ===========================
+   印刷: 早見表・年表だけを A4 縦 1 枚に（広告・ほかの部分は出さない）。紙面は載せ替え前と同じ
+   =========================== */
+@page { size: A4 portrait; margin: 10mm; }
 @media print {
+  :root { --bg: #fff; --bg-2: #eee; --card: #fff; --text: #000; --muted: #333; --accent: #000; --accent-soft: #f2f2f2; --border: #888; }
+  body { background: #fff; }
+  .app-header, .app-footer, main > :not(#sec-hayami):not(.print-area), #sec-hayami > summary, #sec-hayami .controls, .fixed-bar,
+  ins.adsbygoogle, iframe, .google-auto-placed { display: none !important; }
+  .app-main, .app-main.two-col { display: block; max-width: none; padding: 0; }
+  #sec-hayami { border: none; padding: 0; margin: 0; }
+  #sec-hayami::details-content { content-visibility: visible; display: block; }   /* 閉じていても表は出す（beforeprint でも開く） */
+  #sec-hayami .hayami-title { font-size: 13pt; margin: 0 0 2mm; }
+  .hayami-cols { grid-template-columns: 1fr 1fr !important; gap: 0 5mm; }
+  .hayami-table { font-size: 8.6pt; }
+  .hayami-table th, .hayami-table td { padding: 0.25mm 1.2mm; line-height: 1.25; }
+  .hayami-table thead th { font-size: 7.8pt; }
+  .hayami-table tr.change td { background: #eee; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .credit { font-size: 7.5pt; color: #333; margin-top: 0.3rem; }
+  .print-area { border: none; padding: 0; margin: 0; }
+  .print-area .table-wrap { overflow: visible; }
+  .print-area .hayami-title { font-size: 14pt; margin: 0 0 3mm; }
+  h2.hayami-title { padding-bottom: 0.4rem; }
+  .gk-table { font-size: 9.5pt; }
+  .gk-table th, .gk-table td { padding: 1mm 1.6mm; }
+  .gk-table thead th { font-size: 8.5pt; }
+  .gk-table tr.me > * { background: #e6e6e6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .gk-foot { font-size: 8pt; color: #333; margin-top: 0.3rem; }
   .yk-cols { grid-template-columns: 1fr 1fr !important; gap: 0 5mm; }
-  .yk-h { font-size: 10.5pt; margin: 3mm 0 1mm; color: #000; }
+  .print-area .yk-h { font-size: 10.5pt; margin: 3mm 0 1mm; color: #000; }
   .yk-table { font-size: 9.5pt; }
+  .yk-table th, .yk-table td { padding: 0.2rem 0.3rem; }
+  .yk-table thead th { font-size: 0.76rem; }
   .yk-by { font-size: 8.5pt; }
   .yk-table td.hon, .kk-table tr.hon > * { background: #e6e6e6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .kk-table { font-size: 10.5pt; }
   .kk-table th, .kk-table td { padding: 1.2mm 2mm; }
   .kk-table tr.grad > * { color: #000; }
-  .kk-sub { font-size: 10pt; }
+  .kk-sub { font-size: 10pt; margin: -0.2rem 0 0.4rem; }
   .noad { display: none; }
   /* 回忌: 年ごとの早見表は、そのボタンから印刷したときだけ（details の中にあるので、details ごと出して中身の操作部分を隠す） */
   body:not(.print-year) #year-sheet { display: none !important; }
   body.print-year #sheet { display: none !important; }
-  body.print-year main > #opt-year { display: block !important; border: none; box-shadow: none; padding: 0; margin: 0; }
+  body.print-year main > #opt-year { display: block !important; border: none; padding: 0; margin: 0; }
   body.print-year #opt-year::details-content { content-visibility: visible; display: block; }
   body.print-year #opt-year > summary, body.print-year #opt-year > .field, body.print-year #opt-year > p { display: none !important; }
 }
-@media screen { #chuin-print { display: none; } }
-.kk-table th .small { display: block; margin: 0; }
-.yk-iwai tbody th, .kk-table tbody th { white-space: normal; }
-.kk-table td { white-space: nowrap; }
 
-/* この道具について（結果の後ろの折りたたみ。使い方ページの要約。AdSense 審査 2026-10-04） */
-details.card.opt.about-tool > summary { white-space: normal; }   /* 長い summary を折り返す */
-details.about-tool h3 { font-size: 0.95rem; margin: 0.9rem 0 0.3rem; }
-details.about-tool p, details.about-tool li { font-size: 0.9rem; line-height: 1.75; }
-details.about-tool ul { padding-left: 1.2rem; margin: 0.3rem 0 0.5rem; }
+/* 1 行に 1 つのリンク（使い方への行・案内のカード・出典の一覧）も押せる高さに（DESIGN の 44px。K192 段 3 の 4 の検収） */
+:where(html:not([data-skin="base"])) :where(p, li) > a:only-child { display: inline-flex; align-items: center; min-height: var(--tap); }

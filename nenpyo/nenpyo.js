@@ -44,7 +44,7 @@
         '<div class="field np-name"><label for="name-' + i + '">呼び名</label><input type="text" id="name-' + i + '" data-k="name" maxlength="12" placeholder="例：父・長女" value="' + esc(p.name) + '"></div>' +
         '<div class="field np-birth"><label for="birth-' + i + '">生年月日</label><input type="text" id="birth-' + i + '" data-k="birth" autocomplete="off" placeholder="例：昭和60年3月5日" value="' + esc(p.birth) + '"><span class="np-err" id="err-' + i + '" aria-live="polite"></span></div>' +
         '<div class="field np-retire"><label for="retire-' + i + '">定年（任意）</label><input type="number" id="retire-' + i + '" data-k="retire" min="50" max="80" inputmode="numeric" placeholder="例：65" value="' + esc(p.retire) + '"></div>' +
-        (st.people.length > 1 ? '<button type="button" class="btn btn-sub np-del" data-del="' + i + '" aria-label="' + (i + 1) + ' 人目を消す">×</button>' : '') +
+        (st.people.length > 1 ? '<button type="button" class="btn np-del" data-del="' + i + '" aria-label="' + (i + 1) + ' 人目を消す">×</button>' : '') +
         '</div>';
     }).join('');
     $('add-person').hidden = st.people.length >= N.MAX_PEOPLE;
@@ -77,7 +77,7 @@
       return '<div class="np-event" data-i="' + i + '">' +
         '<div class="field"><label for="ev-year-' + i + '">年（西暦）</label><input type="number" id="ev-year-' + i + '" data-k="year" min="1900" max="2200" inputmode="numeric" placeholder="例：2045" value="' + esc(ev.year) + '"></div>' +
         '<div class="field"><label for="ev-text-' + i + '">予定</label><input type="text" id="ev-text-' + i + '" data-k="text" maxlength="30" placeholder="例：住宅ローン完済" value="' + esc(ev.text) + '"></div>' +
-        '<button type="button" class="btn btn-sub np-del" data-del="' + i + '" aria-label="' + (i + 1) + ' 件目の予定を消す">×</button></div>';
+        '<button type="button" class="btn np-del" data-del="' + i + '" aria-label="' + (i + 1) + ' 件目の予定を消す">×</button></div>';
     }).join('');
     $('add-event').hidden = st.events.length >= N.MAX_EVENTS;
   }

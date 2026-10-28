@@ -22,8 +22,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -52,7 +52,7 @@
 <body>
 
   <!-- 上端の固定バー（SCREEN.md 1.2）。印刷ボタンが画面の外にあるときだけ出す -->
-  <div class="fixbar" id="fixbar" role="status" hidden>
+  <div class="fixed-bar" id="fixbar" role="status" hidden>
     <button type="button" id="fixbar-print"><span id="fixbar-text"></span></button>
   </div>
 
@@ -62,7 +62,7 @@
     <p class="lang-switch"><a href="../../gakunen/" hreflang="ja" lang="ja">日本語</a></p>
   </header>
 
-  <main class="app-main">
+  <main class="app-main two-col side">
 
     <!-- 設定 → 出力（SCREEN.md 1.2）。年度と生年月日（任意）→ 印刷ボタン → 表 -->
     <fieldset class="card gk-controls">
@@ -79,10 +79,10 @@
       </div>
       <div id="birth-result" class="result" aria-live="polite"></div>
       <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> Add a small "Made at yorozu-craft.com" line</label></p>
-      <p><button type="button" class="btn" id="print">Print (one page, A4 or Letter)</button></p>
+      <p><button type="button" class="btn-primary" id="print">Print (one page, A4 or Letter)</button></p>
     </fieldset>
 
-    <section class="card print-area" id="sheet" aria-label="Chart">
+    <section class="card print-area col-out" id="sheet" aria-label="Chart">
       <h2 class="hayami-title" id="sheet-title">Japan school grades by age</h2>
       <div class="table-wrap">
         <table class="gk-table gk-en">

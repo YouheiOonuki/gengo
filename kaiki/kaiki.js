@@ -68,7 +68,7 @@
 
     var d = readDeath();
     if (!d) { out.innerHTML = '<p class="empty">—</p>'; sheet.hidden = true; $('chuin-result').innerHTML = ''; return; }
-    if (d.error) { out.innerHTML = '<p class="error">' + esc(d.error) + '</p>'; sheet.hidden = true; $('chuin-result').innerHTML = ''; return; }
+    if (d.error) { out.innerHTML = '<p class="field-error">' + esc(d.error) + '</p>'; sheet.hidden = true; $('chuin-result').innerHTML = ''; return; }
     var death = d.date, list = C.kaikiList(death, opt), chuin = C.chuinList(death, mode);
 
     // いちばん近い、今日以後の法要（忌日を含む）
@@ -78,7 +78,7 @@
     var html = '';
     if (next) html += '<p class="big">次は <strong>' + esc(next.name) + '</strong> ' + esc(ymd(next.date)) + '（' + wd(next.date) + '）</p>';
     html += '<p class="small">命日 ' + esc(ymd(death) + '（' + wa(death) + '・' + wd(death) + '曜日）') + '</p>';
-    html += '<p class="small">この計算は目安です。法要の日取りは、お寺とご家族で決めます。<button type="button" class="btn kk-print" id="print">この表を印刷する（A4 1 枚）</button></p>';
+    html += '<p class="small">この計算は目安です。法要の日取りは、お寺とご家族で決めます。<button type="button" class="btn-primary kk-print" id="print">この表を印刷する（A4 1 枚）</button></p>';
     out.innerHTML = html;
     $('print').addEventListener('click', function () { doPrint('sheet'); });
 

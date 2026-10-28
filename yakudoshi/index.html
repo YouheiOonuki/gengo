@@ -18,8 +18,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -46,7 +46,7 @@
 <body>
 
   <!-- 上端の固定バー（SCREEN.md 1.2。印刷物は主なボタンを固定する）。印刷ボタンが画面の外にあるときだけ出す -->
-  <div class="fixbar" id="fixbar" role="status" hidden>
+  <div class="fixed-bar" id="fixbar" role="status" hidden>
     <button type="button" id="fixbar-print"><span id="fixbar-text"></span></button>
   </div>
 
@@ -55,7 +55,7 @@
     <p class="subtitle">年を選ぶと厄年と年祝いの生まれ年。入力は外部に送信しません。</p>
   </header>
 
-  <main class="app-main">
+  <main class="app-main two-col side">
 
     <!-- 設定 → 出力（SCREEN.md 1.2）。年と生年月日（任意）→ 印刷ボタン → 表 → 数え方（details） -->
     <fieldset class="card gk-controls">
@@ -72,10 +72,10 @@
       </div>
       <div id="birth-result" class="result" aria-live="polite"></div>
       <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> 下に「yorozu-craft.com/gengo/print/ で作成」と小さく入れる</label></p>
-      <p><button type="button" class="btn" id="print">印刷する（A4 縦 1 枚）</button></p>
+      <p><button type="button" class="btn-primary" id="print">印刷する（A4 縦 1 枚）</button></p>
     </fieldset>
 
-    <section class="card print-area" id="sheet" aria-label="厄年・年祝い 早見表">
+    <section class="card print-area col-out" id="sheet" aria-label="厄年・年祝い 早見表">
       <h2 class="hayami-title" id="sheet-title">厄年・年祝い 早見表</h2>
       <div class="yk-cols">
         <div>

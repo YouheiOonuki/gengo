@@ -22,8 +22,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -55,10 +55,10 @@
     <p class="lang-switch"><a href="../" hreflang="ja" lang="ja">日本語</a></p>
   </header>
 
-  <main class="app-main">
+  <main class="app-main two-col">
 
     <!-- 画面の骨組み「入力 → 結果」（yorozu-plans の docs/SCREEN.md 1.1）。和暦か西暦を入れる欄 → 結果（空のときは「—」）→ 年齢・早見表・元号の一覧は details -->
-    <section class="card" aria-labelledby="h-conv">
+    <section class="card col-in" aria-labelledby="h-conv">
       <h2 id="h-conv">Japanese era ⇄ Western year</h2>
       <div class="field">
         <label for="conv">Enter a Japanese era date or a Western year</label>
@@ -74,8 +74,11 @@
         <button type="button" class="chip" data-example="1989">1989</button>
         <button type="button" class="chip" data-example="2019-05-01">2019-05-01</button>
       </p>
-      <div id="conv-result" class="result" aria-live="polite"><p class="empty">—</p></div>
     </section>
+
+    <div class="card col-out">
+      <div id="conv-result" class="result" aria-live="polite"><p class="empty">—</p></div>
+    </div>
 
     <details class="card opt" id="opt-age">
       <summary id="h-age">Age, zodiac and school year</summary>
@@ -88,7 +91,7 @@
           <label for="ref">Reference date</label>
           <div class="inline-row">
             <input type="date" id="ref">
-            <button type="button" class="btn btn-sub" id="ref-today">Today</button>
+            <button type="button" class="btn" id="ref-today">Today</button>
           </div>
         </div>
       </div>
@@ -112,7 +115,7 @@
           </div>
         </div>
         <p class="field"><label class="inline"><input type="checkbox" id="credit" checked> Add a small "Made at yorozu-craft.com/gengo/print/" line</label></p>
-        <p><button type="button" class="btn" id="print">Print (one A4 page)</button></p>
+        <p><button type="button" class="btn-primary" id="print">Print (one A4 page)</button></p>
         <p class="hint">Years with an era change list both eras (S64/H1).</p>
       </div>
       <div id="hayami"></div>

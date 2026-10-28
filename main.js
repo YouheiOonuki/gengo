@@ -122,7 +122,7 @@
     // 空のときは「—」（SCREEN.md 3 章。結果の場所は読み込み時から見せておく）
     if (!text.trim()) { convOut.innerHTML = '<p class="empty">—</p>'; return; }
     var p = C.parseInput(text);
-    if (!p) { convOut.innerHTML = '<p class="error">' + esc(T.err.format) + '</p>'; return; }
+    if (!p) { convOut.innerHTML = '<p class="field-error">' + esc(T.err.format) + '</p>'; return; }
     var now = today();
     var html = '';
     if (p.kind === 'wareki') {
@@ -131,11 +131,11 @@
       if (!r.ok) {
         if (r.error === 'outOfEra' && r.correct) {
           var inputTxt = LANG === 'en' ? era.romaji + ' ' + p.year + ', ' + C.MONTHS_EN[p.m - 1] + ' ' + (p.d || 1) : C.formatEraYear(era, p.year) + p.m + '月' + (p.d || 1) + '日';
-          html = '<p class="error">' + fmt(T.outOfEra, { input: esc(inputTxt), correct: esc(warekiDate(r.date)) }) + '</p>';
+          html = '<p class="field-error">' + fmt(T.outOfEra, { input: esc(inputTxt), correct: esc(warekiDate(r.date)) }) + '</p>';
           html += '<p class="big">' + esc(dateText(r.date)) + '</p>';
         } else if (r.error === 'year' && r.last) {
-          html = '<p class="error">' + esc(fmt(T.lastYear, { era: LANG === 'en' ? era.romaji : era.kanji, n: r.last })) + '</p>';
-        } else html = '<p class="error">' + esc(T.err[r.error] || T.err.format) + '</p>';
+          html = '<p class="field-error">' + esc(fmt(T.lastYear, { era: LANG === 'en' ? era.romaji : era.kanji, n: r.last })) + '</p>';
+        } else html = '<p class="field-error">' + esc(T.err[r.error] || T.err.format) + '</p>';
         convOut.innerHTML = html; return;
       }
       if (r.date) {
@@ -147,9 +147,9 @@
         html += '</tbody></table>';
       } else {
         html += '<p class="big"><span>' + esc(eraYearText(r.era, r.year)) + '</span> = <strong>' + esc(fmt(T.year, { y: r.y })) + '</strong></p>';
-        if (r.partial) html += '<p class="note">' + esc(fmt(T.partial, { w: eraYearShort(r.era, r.year), from: dateText(r.partial.from), to: dateText(r.partial.to) })) + '</p>';
-        if (r.lunar) html += '<p class="note">' + esc(T.lunarNote) + (r.dateIgnored ? ' ' + esc(T.err.lunar) : '') + '</p>';
-        if (r.preMeiji) html += '<p class="note">' + esc(T.preNote) + '</p>';
+        if (r.partial) html += '<p class="notice">' + esc(fmt(T.partial, { w: eraYearShort(r.era, r.year), from: dateText(r.partial.from), to: dateText(r.partial.to) })) + '</p>';
+        if (r.lunar) html += '<p class="notice">' + esc(T.lunarNote) + (r.dateIgnored ? ' ' + esc(T.err.lunar) : '') + '</p>';
+        if (r.preMeiji) html += '<p class="notice">' + esc(T.preNote) + '</p>';
         html += '<table class="result-table"><tbody>';
         html += row(T.eto, esc(etoText(r.y)));
         if (r.y <= now.y && !r.preMeiji) html += row('', esc(fmt(T.ageThisYear, { y: r.y, now: now.y, a: now.y - r.y })));
@@ -161,11 +161,11 @@
       if (p.m && p.y < C.ERAS[0].startD.y && C.preErasOfYear(p.y).length) { dateIgnored = true; p = { kind: 'seireki', y: p.y }; }
       if (p.m) {
         var d = { y: p.y, m: p.m, d: p.d || 1 };
-        if (!C.validDate(d.y, d.m, d.d)) { convOut.innerHTML = '<p class="error">' + esc(T.err.date) + '</p>'; return; }
+        if (!C.validDate(d.y, d.m, d.d)) { convOut.innerHTML = '<p class="field-error">' + esc(T.err.date) + '</p>'; return; }
         var w = C.eraOf(d);
-        if (!w) { convOut.innerHTML = '<p class="error">' + esc(T.err.before) + '</p>'; return; }
+        if (!w) { convOut.innerHTML = '<p class="field-error">' + esc(T.err.before) + '</p>'; return; }
         html += '<p class="big"><span>' + esc(dateText(d)) + '</span> = <strong>' + esc(w.lunar ? eraYearText(w.era, w.year) : warekiDate(d)) + '</strong></p>';
-        if (w.lunar) html += '<p class="note">' + esc(T.lunarNote) + '</p>';
+        if (w.lunar) html += '<p class="notice">' + esc(T.lunarNote) + '</p>';
         html += '<table class="result-table"><tbody>';
         html += row(T.weekday, esc(weekday(d)));
         if (!w.lunar) html += row(T.abbr, esc(C.formatAbbr(d)));
@@ -174,13 +174,13 @@
       } else {
         var list = C.erasOfYear(p.y);
         if (!list.length) list = C.preErasOfYear(p.y);
-        if (!list.length) { convOut.innerHTML = '<p class="error">' + esc(T.err.before) + '</p>'; return; }
+        if (!list.length) { convOut.innerHTML = '<p class="field-error">' + esc(T.err.before) + '</p>'; return; }
         html += '<p class="big"><span>' + esc(fmt(T.year, { y: p.y })) + '</span> = <strong>' + list.map(function (x) { return esc(eraYearText(x.era, x.year)); }).join(LANG === 'en' ? ' / ' : '・') + '</strong></p>';
         if (list.length > 1 && list[0].from) {
-          html += '<ul class="note">' + list.map(function (x) { return '<li>' + esc(eraYearShort(x.era, x.year)) + ': ' + esc(dateText(x.from)) + ' – ' + esc(dateText(x.to)) + '</li>'; }).join('') + '</ul>';
+          html += '<ul class="notice">' + list.map(function (x) { return '<li>' + esc(eraYearShort(x.era, x.year)) + ': ' + esc(dateText(x.from)) + ' – ' + esc(dateText(x.to)) + '</li>'; }).join('') + '</ul>';
         }
-        if (list[0].lunar) html += '<p class="note">' + esc(T.lunarNote) + (dateIgnored ? ' ' + esc(T.err.lunar) : '') + '</p>';
-        if (list[0].preMeiji) html += '<p class="note">' + esc(T.preNote) + '</p>';
+        if (list[0].lunar) html += '<p class="notice">' + esc(T.lunarNote) + (dateIgnored ? ' ' + esc(T.err.lunar) : '') + '</p>';
+        if (list[0].preMeiji) html += '<p class="notice">' + esc(T.preNote) + '</p>';
         html += '<table class="result-table"><tbody>';
         html += row(T.eto, esc(etoText(p.y)));
         if (p.y <= now.y && !list[0].preMeiji) html += row('', esc(fmt(T.ageThisYear, { y: p.y, now: now.y, a: now.y - p.y })));
@@ -215,12 +215,12 @@
     if (!b.ok) {
       var msg = T.err[b.error] || T.err.format;
       if (b.error === 'outOfEra' && b.correct) msg = T.err.date + ' → ' + warekiDate(b.date);
-      ageOut.innerHTML = '<p class="error">' + esc(msg) + '</p>'; return;
+      ageOut.innerHTML = '<p class="field-error">' + esc(msg) + '</p>'; return;
     }
     var ref = C.parseYmd(refIn.value) || today();
     var birth = b.date;
     var a = C.ageAt(birth, ref);
-    if (!a) { ageOut.innerHTML = '<p class="error">' + esc(T.err.date) + '</p>'; return; }
+    if (!a) { ageOut.innerHTML = '<p class="field-error">' + esc(T.err.date) + '</p>'; return; }
     var html = '<p class="big"><strong>' + esc(fmt(T.age, { n: a.years })) + '</strong> <span class="small">' + esc(fmt(T.kazoe, { n: a.kazoe })) + '</span></p>';
     html += '<table class="result-table"><tbody>';
     html += row(T.born, esc(dateText(birth) + ' / ' + warekiDate(birth)) + ' (' + esc(weekday(birth)) + ')');

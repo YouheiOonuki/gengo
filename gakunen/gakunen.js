@@ -82,7 +82,7 @@
       $('credit-line').hidden = !creditChk.checked;
 
       if (!b) out.innerHTML = '';
-      else if (b.error) out.innerHTML = '<p class="error">' + esc(b.error) + '</p>';
+      else if (b.error) out.innerHTML = '<p class="field-error">' + esc(b.error) + '</p>';
       else {
         var row = rows.filter(function (r) { return r.n === mine; })[0];
         var what = row ? GRADE_NAME[row.key] + (row.n >= 1 && row.n <= 16 ? '生' : '') :
@@ -144,7 +144,7 @@
 
       var b = readBirth(bIn);
       if (!b) { resOut.innerHTML = '<p class="empty">—</p>'; lastRows = []; return; }
-      if (b.error) { resOut.innerHTML = '<p class="error">' + esc(b.error) + '</p>'; lastRows = []; return; }
+      if (b.error) { resOut.innerHTML = '<p class="field-error">' + esc(b.error) + '</p>'; lastRows = []; return; }
       var h = C.resumeHistory(b.date, { final: finalSel.value, years: years, ronin: ronin });
       lastRows = h.map(function (r) {
         var w = C.eraOf(r.date);
@@ -162,7 +162,7 @@
         return '<tr><td>' + esc(r.sei) + '</td><td>' + esc(r.wa) + '</td><td>' + esc(r.m) + '</td><td>' + esc(r.what) + '</td></tr>';
       }).join('');
       html += '</tbody></table></div>';
-      html += '<p class="inline-row copy-row"><button type="button" class="btn btn-sub" data-copy="sei">西暦でコピー</button><button type="button" class="btn btn-sub" data-copy="wa">和暦でコピー</button><span class="small" id="copied" role="status"></span></p>';
+      html += '<p class="inline-row copy-row"><button type="button" class="btn" data-copy="sei">西暦でコピー</button><button type="button" class="btn" data-copy="wa">和暦でコピー</button><span class="small" id="copied" role="status"></span></p>';
       html += '<p class="small">この計算は目安です。学校名を足して使ってください。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>';
       resOut.innerHTML = html;
     };
