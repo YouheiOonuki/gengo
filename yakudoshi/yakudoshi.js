@@ -83,7 +83,7 @@
     window.YorozuScreen.detailsSummary({ 'opt-rule': rule === 'mannen' ? 'その年の満年齢（川崎大師）' : '数え年' });
 
     if (!b) out.innerHTML = '';
-    else if (b.error) out.innerHTML = '<p class="error">' + esc(b.error) + '</p>';
+    else if (b.error) out.innerHTML = '<p class="field-error">' + esc(b.error) + '</p>';
     else {
       var d = b.date, kz = C.kazoeAge(d.y, yr);
       var html = '<p class="small">' + esc(d.y + '年' + d.m + '月' + d.d + '日（' + C.formatWareki(d) + '）') + ' は ' +

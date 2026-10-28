@@ -18,8 +18,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -50,7 +50,7 @@
     <p class="subtitle">入学・卒業の年月を西暦と和暦で。入力は外部に送信しません。</p>
   </header>
 
-  <main class="app-main">
+  <main class="app-main two-col side">
 
     <!-- 入力 → 結果（SCREEN.md 1.1）。生年月日と最終学歴 → 学歴の表 → 浪人・在学年数（details） -->
     <fieldset class="card">
@@ -75,8 +75,11 @@
           </select>
         </div>
       </div>
-      <div id="rireki-result" class="result" aria-live="polite"><p class="empty">—</p></div>
     </fieldset>
+
+    <div class="card col-out">
+      <div id="rireki-result" class="result" aria-live="polite"><p class="empty">—</p></div>
+    </div>
 
     <details class="card opt" id="opt-years">
       <summary>浪人・留年: <span class="opt-state">なし</span></summary>

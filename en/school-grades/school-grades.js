@@ -107,7 +107,7 @@
     $('credit-line').hidden = !creditChk.checked;
 
     if (!b) out.innerHTML = '';
-    else if (b.error) out.innerHTML = '<p class="error">' + esc(b.error) + '</p>';
+    else if (b.error) out.innerHTML = '<p class="field-error">' + esc(b.error) + '</p>';
     else {
       var L = lookup(b.date, fy);
       var what = L.grade ? L.grade + ' (' + L.ja + ')' : (L.before ? 'Not yet in kindergarten' : 'Past doctoral year 3');
