@@ -21,6 +21,8 @@
 .np-age { white-space: nowrap; }
 .np-g { color: var(--muted); font-size: var(--fs-s); }
 @media screen and (max-width: 600px) { .np-table th, .np-table td, .np-w, .np-g, .np-e { font-size: 0.8rem; } .np-table th, .np-table td { padding-block: 0.125rem; } }
+/* スマホでは年と和暦を 1 行に並べて、30 年分の行を低くする（3 画面以内: SCREEN 2 章） */
+@media screen and (max-width: 600px) { .np-table .np-y, .np-table .np-w { display: inline; } .np-table .np-w { margin-left: 0.4em; } }
 .np-e { display: block; font-weight: 700; color: var(--accent); font-size: var(--fs-s); }
 .np-table td.ev { background: var(--accent-soft); }
 .np-table tr.me > th { outline: 2px solid var(--accent); outline-offset: -2px; }
