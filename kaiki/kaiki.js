@@ -101,6 +101,7 @@
     $('chuin-result').innerHTML = chuinTable(chuin);
     $('chuin-print').innerHTML = chuinPrintChk.checked ? '<h3 class="yk-h">四十九日・百か日（' + (mode === 'taiya' ? '前日から数える' : '亡くなった日を 1 日目') + '）</h3>' + chuinTable(chuin) : '';
     sheet.hidden = false;
+    window.yzUsed?.();
   }
 
   function renderYear() {
@@ -113,6 +114,7 @@
     }).join('');
     $('year-credit').hidden = !creditChk.checked;
     window.YorozuScreen.detailsSummary({ 'opt-year': yr + '年' });
+    window.yzUsed?.();
   }
 
   // 印刷する表を 1 つにする（body の class で、もう一方を印刷から外す）

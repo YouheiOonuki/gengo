@@ -188,6 +188,7 @@
       }
     }
     convOut.innerHTML = html;
+    window.yzUsed?.();
   }
   conv.addEventListener('input', renderConv);
   Array.prototype.forEach.call(document.querySelectorAll('[data-example]'), function (b) {
@@ -247,6 +248,7 @@
     }).join('');
     html += '</tbody></table></div></details>';
     ageOut.innerHTML = html;
+    window.yzUsed?.();
   }
   birthIn.addEventListener('input', renderAge);
   refIn.addEventListener('input', renderAge);
@@ -281,6 +283,7 @@
       (creditChk.checked ? '<p class="credit">' + esc(T.credit) + '</p>' : '');
     // 早見表の details（SCREEN.md 1.1 の 4）の summary に、何年の表か・年齢の範囲（選択肢の文字のまま）
     window.YorozuScreen.detailsSummary({ 'sec-hayami': yearSel.options[yearSel.selectedIndex].text + (LANG === 'en' ? ', ' : '・') + maxSel.options[maxSel.selectedIndex].text });
+    window.yzUsed?.();
   }
   yearSel.addEventListener('change', renderTable);
   maxSel.addEventListener('change', renderTable);
