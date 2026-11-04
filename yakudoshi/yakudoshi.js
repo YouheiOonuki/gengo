@@ -100,6 +100,7 @@
       out.innerHTML = html;
     }
     bar.set('印刷する（' + yr + '年の厄年・年祝い 早見表）');
+    window.yzUsed?.();
   }
   function doPrint() { window.print(); }
 
