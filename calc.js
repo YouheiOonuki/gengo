@@ -398,6 +398,14 @@
     var s = ((y - 4) % 10 + 10) % 10, b = ((y - 4) % 12 + 12) % 12;
     return { kanji: STEMS[s] + BRANCHES[b], kana: STEMS_KANA[s] + BRANCHES_KANA[b], branch: BRANCHES[b], branchKana: BRANCHES_KANA[b], animalEn: ANIMALS_EN[b] };
   }
+  // 恵方（歳徳神の方位）: その年の十干で決まる。甲・己→甲の方位（東北東）、乙・庚→庚（西南西）、丙・辛→丙（南南東）、丁・壬→壬（北北西）、戊・癸→丙（南南東）。
+  // 出典: 農林水産省「節分と恵方巻レシピ」・国立国会図書館レファレンス協同データベース（名古屋市鶴舞中央図書館の回答）。2026-11-05 確認。guide.html#q-eho の表はこの表と同じ（テスト）
+  var EHOU = [['甲', '東北東'], ['庚', '西南西'], ['丙', '南南東'], ['壬', '北北西'], ['丙', '南南東']]; // 十干の 甲乙丙丁戊 と 己庚辛壬癸 が同じ行
+  /** 西暦の年の恵方（干支と同じく 1 月 1 日の年で数える）。{ stem: その年の十干, at: 方位の名の十干, dir: 16 方位の名 } */
+  function ehou(y) {
+    var s = ((y - 4) % 10 + 10) % 10;
+    return { stem: STEMS[s], at: EHOU[s % 5][0], dir: EHOU[s % 5][1] };
+  }
 
   // --- 年齢早見表 ---
 
@@ -544,7 +552,7 @@
     formatEraYear: formatEraYear, formatWareki: formatWareki, formatAbbr: formatAbbr, MONTHS_EN: MONTHS_EN,
     toSeireki: toSeireki, parseJaNumber: parseJaNumber, parseInput: parseInput, inputToDate: inputToDate,
     ageAt: ageAt, anniversary: anniversary, isHayaumare: isHayaumare, schoolEntryYear: schoolEntryYear,
-    schoolHistory: schoolHistory, gradeAt: gradeAt, eto: eto, ageTable: ageTable,
+    schoolHistory: schoolHistory, gradeAt: gradeAt, eto: eto, ehou: ehou, ageTable: ageTable,
     fiscalYearOf: fiscalYearOf, gradeNumber: gradeNumber, gradeTable: gradeTable, resumeHistory: resumeHistory,
     kazoeAge: kazoeAge, yakuTable: yakuTable, yakuOf: yakuOf, toshiiwaiTable: toshiiwaiTable, toshiiwaiOf: toshiiwaiOf,
     kanjiNumber: kanjiNumber, kaikiName: kaikiName, memorialDay: memorialDay, kaikiList: kaikiList, chuinList: chuinList,

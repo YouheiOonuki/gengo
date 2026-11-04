@@ -164,6 +164,33 @@ test('干支', () => {
   assert.equal(C.eto(1989).kana, 'つちのとみ');
 });
 
+test('恵方（十干で決まる。農林水産省・国会図書館レファレンスの表。ROADMAP 7.183 Q-081）', () => {
+  assert.deepEqual(C.ehou(2025), { stem: '乙', at: '庚', dir: '西南西' });
+  assert.deepEqual(C.ehou(2026), { stem: '丙', at: '丙', dir: '南南東' });
+  assert.deepEqual(C.ehou(2027), { stem: '丁', at: '壬', dir: '北北西' });
+  for (let y = 1900; y < 2100; y++) {
+    assert.equal(C.ehou(y).stem, C.eto(y).kanji[0], `${y} の十干は干支と同じ`);
+    assert.equal(C.ehou(y).at + C.ehou(y).dir, C.ehou(y + 5).at + C.ehou(y + 5).dir, `${y} と ${y + 5}（甲と己のような 5 つ違いの十干）は同じ方位`);
+  }
+});
+
+test('guide.html の恵方の節（#q-eho）が ehou と同じ', () => {
+  const html = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'guide.html'), 'utf8');
+  const sec = html.match(/<article class="card content" id="q-eho">([\s\S]*?)<\/article>/)[1];
+  const rows = [...sec.matchAll(/<tr><td>(.)・(.)<\/td><td>(.+?)（(.)の方位）<\/td><td>(\d{4})年・(\d{4})年<\/td><\/tr>/g)];
+  assert.equal(rows.length, 5);
+  const seen = new Set();
+  for (const [, s1, s2, dir, at, y1, y2] of rows) {
+    for (const [s, y] of [[s1, +y1], [s2, +y2]]) {
+      assert.deepEqual(C.ehou(y), { stem: s, at, dir }, `${y}（${s}）`);
+      seen.add(s);
+    }
+  }
+  assert.equal(seen.size, 10, '十干の 10 個が 1 回ずつ');
+  const e = C.ehou(2027);
+  assert.ok(sec.includes(`2027年の恵方は${e.dir}です。2027年は${C.eto(2027).kanji}の年で、${e.stem}の年は${e.at}の方位（${e.dir}）が恵方になります。`));
+});
+
 test('年齢早見表', () => {
   const rows = C.ageTable(2026, 100);
   assert.equal(rows.length, 101);

@@ -112,6 +112,23 @@
       <p class="small">根拠: 年齢計算ニ関スル法律・民法第 143 条（誕生日の前日の終わりに 1 つ増える）。原文は下の「根拠と確認日」。</p>
     </article>
 
+    <!-- 使い方の問いの節（ROADMAP 7.183 Q-081）。方角は calc.js の ehou と同じ表（tests/calc.test.js が突き合わせる）。トップの「いまの時期」が 1/20〜2/3 にここを指す -->
+    <article class="card content" id="q-eho">
+      <h2>2027年（令和9年）の恵方は？ 節分の方角</h2>
+      <p>2027年の恵方は北北西です。2027年は丁未の年で、丁の年は壬の方位（北北西）が恵方になります。2027年の節分は2月3日です。恵方は歳徳神のいる方位で、その年の十干によって下の 5 通りに決まります。</p>
+      <table>
+        <thead><tr><th>その年の十干</th><th>恵方</th><th>年の例</th></tr></thead>
+        <tbody>
+          <tr><td>甲・己</td><td>東北東（甲の方位）</td><td>2024年・2029年</td></tr>
+          <tr><td>乙・庚</td><td>西南西（庚の方位）</td><td>2025年・2030年</td></tr>
+          <tr><td>丙・辛</td><td>南南東（丙の方位）</td><td>2026年・2031年</td></tr>
+          <tr><td>丁・壬</td><td>北北西（壬の方位）</td><td>2027年・2032年</td></tr>
+          <tr><td>戊・癸</td><td>南南東（丙の方位）</td><td>2028年・2033年</td></tr>
+        </tbody>
+      </table>
+      <p class="small">根拠: 農林水産省「節分と恵方巻レシピ」（十干と恵方の組み合わせ）・国立天文台「六十干支」（2027年は丁未）・国立天文台「令和9年暦要項」（節分は2月3日）。最終確認日 2026-11-05。原文は下の「根拠と確認日」。</p>
+    </article>
+
     <article class="card content" id="table">
       <h2>和暦と西暦の換算（令和・平成・昭和）</h2>
       <p>令和は＋2018、平成は＋1988、昭和は＋1925、大正は＋1911、明治は＋1867 で西暦になります。改元の年は、改元の前日までが前の元号です。</p>
@@ -151,7 +168,7 @@
 
     <article class="card content" id="basis">
       <h2>根拠と確認日</h2>
-      <p>根拠: 元号を改める政令・国立公文書館の改元の記録・年齢計算ニ関スル法律・民法・学校教育法。最終確認日 2026-09-24。</p>
+      <p>根拠: 元号を改める政令・国立公文書館の改元の記録・年齢計算ニ関スル法律・民法・学校教育法。最終確認日 2026-09-24（恵方は農林水産省と国立天文台の資料で 2026-11-05）。</p>
       <details>
         <summary>原文と条文</summary>
         <ul class="sources">
@@ -164,6 +181,7 @@
           <li>元号の決め方: <a href="https://laws.e-gov.go.jp/law/354AC0000000043" target="_blank" rel="noopener">元号法</a></li>
           <li>年齢: <a href="https://laws.e-gov.go.jp/law/135AC1000000050" target="_blank" rel="noopener">年齢計算ニ関スル法律</a>「年齢ハ出生ノ日ヨリ之ヲ起算ス」、<a href="https://laws.e-gov.go.jp/law/129AC0000000089" target="_blank" rel="noopener">民法</a>第 143 条（応当する日の前日に満了。応当する日がないときはその月の末日に満了）</li>
           <li>学年: <a href="https://laws.e-gov.go.jp/law/322AC0000000026" target="_blank" rel="noopener">学校教育法</a>第 17 条（満六歳に達した日の翌日以後における最初の学年の初めから）、<a href="https://laws.e-gov.go.jp/law/322M40000080011" target="_blank" rel="noopener">学校教育法施行規則</a>第 59 条（学年は 4 月 1 日に始まる）</li>
+          <li>恵方（2026-11-05 確認）: <a href="https://www.maff.go.jp/j/keikaku/syokubunka/culture/wagohan/articles/2301/spe13_04.html" target="_blank" rel="noopener">農林水産省「節分と恵方巻レシピ」</a>「甲・己の年…東北東」「乙・庚の年…西南西」「丙・辛・戊・癸の年…南南東」「丁・壬の年…北北西の方角」、<a href="https://crd.ndl.go.jp/reference/entry/index.php?page=ref_view&amp;id=1000061995" target="_blank" rel="noopener">レファレンス協同データベース（国立国会図書館）「恵方はどうやって決まるのか」</a>（名古屋市鶴舞中央図書館の回答。「丁・壬の年→亥子の間・壬の方位（北北西）」）、<a href="https://eco.mtk.nao.ac.jp/koyomi/faq/60kansi.html" target="_blank" rel="noopener">国立天文台 暦計算室「六十干支」</a>（甲子から数えて 44 番目が丁未）、<a href="https://eco.mtk.nao.ac.jp/koyomi/yoko/2027/rekiyou272.html" target="_blank" rel="noopener">国立天文台「令和9年（2027）暦要項 二十四節気および雑節」</a>（節分 2月03日、令和8年2月2日発表）</li>
         </ul>
         <p>元号の境目は <code>constants.js</code> の 1 か所にだけ持ち、日本語・英語のページとテストが同じ値を使います。</p>
       </details>
@@ -180,6 +198,7 @@
       <p>サイト全体の運営者情報・免責事項は<a href="../about.html">こちら</a>、プライバシーポリシーは<a href="../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
       <h3>更新履歴</h3>
       <ul id="changelog">
+        <li><time datetime="2026-11-05">2026年11月5日</time> 「2027年（令和9年）の恵方は？」の節を追加</li>
         <li><time datetime="2026-10-24">2026年10月24日</time> 「令和8年（2026年）に何歳？」の節を追加</li>
         <li><time datetime="2026-09-25">2026年9月25日</time> <a href="./yakudoshi/">厄年・還暦 早見表</a>と<a href="./kaiki/">回忌の計算</a>を追加。年齢の欄にその年の厄年・年祝いを表示</li>
         <li><time datetime="2026-09-25">2026年9月25日</time> <a href="./gakunen/">学年早見表</a>と<a href="./gakunen/rireki.html">履歴書の学歴 計算</a>を追加</li>
