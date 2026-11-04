@@ -167,6 +167,7 @@
     });
     var named = people.filter(function (p) { return p.birth; }).length;
     bar.set(named ? '印刷する（' + named + ' 人・' + st.span + ' 年分）' : '');
+    window.yzUsed?.();
   }
   function doPrint() { window.print(); }
   $('print').addEventListener('click', doPrint);

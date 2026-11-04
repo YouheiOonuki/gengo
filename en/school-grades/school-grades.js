@@ -116,6 +116,7 @@
         (L.early ? ' Born 1 January – 1 April, so among the youngest in the grade.' : '') + '</p>';
     }
     bar.set('Print the ' + fy + '–' + String(fy + 1).slice(2) + ' chart');
+    window.yzUsed?.();
   }
   function doPrint() { root.print(); }
   fySel.addEventListener('change', render);

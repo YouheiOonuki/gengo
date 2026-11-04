@@ -93,6 +93,7 @@
           '<p class="small">' + esc(hayaText(b.date)) + '。同じ学年は ' + esc(ymd(same.from)) + '〜' + esc(ymd(same.to)) + ' 生まれ</p>';
       }
       bar.set('印刷する（' + fy + '年度の学年早見表）');
+      window.yzUsed?.();
     };
     fySel.addEventListener('change', render);
     birthIn.addEventListener('input', render);
@@ -165,6 +166,7 @@
       html += '<p class="inline-row copy-row"><button type="button" class="btn" data-copy="sei">西暦でコピー</button><button type="button" class="btn" data-copy="wa">和暦でコピー</button><span class="small" id="copied" role="status"></span></p>';
       html += '<p class="small">この計算は目安です。学校名を足して使ってください。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>';
       resOut.innerHTML = html;
+      window.yzUsed?.();
     };
 
     // コピー: 1 行 1 項目、年・月・学歴をタブで区切る（表計算の履歴書にそのまま貼れる）
