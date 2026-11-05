@@ -37,8 +37,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - **学年**: 学校教育法 17 条（満 6 歳に達した日の翌日以後の最初の学年の初めに入学）と施行規則 59 条（4 月 1 日始まり）。4 月 2 日〜翌 4 月 1 日生まれが同じ学年
 - **干支**: 1 月 1 日で切り替える一般的な数え方（立春で切り替える考え方もあることを使い方ページに書いた）
 - 確認日 2026-09-24（e-Gov 法令 API で条文を取得して確認）
-- **厄年・年祝い・回忌**（`constants.js` の `yakudoshi`・`toshiiwai`・`kaiki`・`chuin`。2026-09-25 に各ページを開いて確認）: 法令ではなく慣習で、決まった一つの規則は無い。寺社・宗派の公式ページで確かめた「例」として `sources` に名前・URL・確かめたことを持つ。厄年は神社本庁・成田山新勝寺・西新井大師（数え年）と川崎大師（その年の満年齢。男女 60）、年祝いは神社本庁（数え年・満年齢のどちらでも差し支えない）・愛知県神社庁・川崎大師、回忌は浄土宗・曹洞宗（SOTOZEN-NET）・浄土真宗本願寺派 正宣寺・真宗大谷派 三宝寺、四十九日ははせがわと SOTOZEN-NET（亡くなった日を 1 日目。関西は前日から）。テストの期待値は各ページの令和8年の表と SOTOZEN-NET の計算結果
-- **修業年限**（`constants.js` の `schoolLength`・`gradSchoolLength`。2026-09-25 に e-Gov 法令 API で確認）: 学校教育法 32 条（小 6）・47 条（中 3）・56 条（高 全日制 3）・87 条（大学 4、医・歯・薬の臨床・獣医 6）・108 条（短大 2 または 3）・117 条（高専 5、商船 5 年 6 月）・124 条（専修学校 1 年以上。**画面の既定の 2 年は法令の値ではない**）、大学院設置基準 3 条（修士 2）・4 条（博士 5＝前期 2＋後期 3）・45 条（医・歯・薬 6 年制・獣医の博士 4）。入学 4 月・卒業 3 月で数える（大学の学年は施行規則 163 条で学長が定める。秋入学・高専からの編入・飛び級・商船の 9 月卒業は出さない）
+- **厄年・年祝い・回忌**（`yakudoshi-calc.js` の `yakudoshi`・`toshiiwai`〈`constants.js` は指すだけ〉と `constants.js` の `kaiki`・`chuin`。2026-09-25 に各ページを開いて確認）: 法令ではなく慣習で、決まった一つの規則は無い。寺社・宗派の公式ページで確かめた「例」として `sources` に名前・URL・確かめたことを持つ。厄年は神社本庁・成田山新勝寺・西新井大師（数え年）と川崎大師（その年の満年齢。男女 60）、年祝いは神社本庁（数え年・満年齢のどちらでも差し支えない）・愛知県神社庁・川崎大師、回忌は浄土宗・曹洞宗（SOTOZEN-NET）・浄土真宗本願寺派 正宣寺・真宗大谷派 三宝寺、四十九日ははせがわと SOTOZEN-NET（亡くなった日を 1 日目。関西は前日から）。テストの期待値は各ページの令和8年の表と SOTOZEN-NET の計算結果
+- **修業年限**（`gakunen-calc.js` の `schoolLength`・`gradSchoolLength`。`constants.js` は指すだけ。2026-09-25 に e-Gov 法令 API で確認）: 学校教育法 32 条（小 6）・47 条（中 3）・56 条（高 全日制 3）・87 条（大学 4、医・歯・薬の臨床・獣医 6）・108 条（短大 2 または 3）・117 条（高専 5、商船 5 年 6 月）・124 条（専修学校 1 年以上。**画面の既定の 2 年は法令の値ではない**）、大学院設置基準 3 条（修士 2）・4 条（博士 5＝前期 2＋後期 3）・45 条（医・歯・薬 6 年制・獣医の博士 4）。入学 4 月・卒業 3 月で数える（大学の学年は施行規則 163 条で学長が定める。秋入学・高専からの編入・飛び級・商船の 9 月卒業は出さない）
 
 ## 保守
 
@@ -47,7 +47,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 改元のとき | 政令の公布・施行日 | `constants.js` の `ERAS`（末尾に足し、直前の元号に `end`）、`tests/calc.test.js` の境目、`guide.html`・`en/guide.html` の早見・更新履歴 |
 | 年に 1 回 | 年齢早見表の年の選択肢（今年＋10 年まで自動）が足りているか | `main.js` |
 | 毎年 12 月 | 厄年・還暦 早見表の `<title>` の年（今は「2026・2027（令和8・9年）」）を翌年と翌々年に。表そのものは今日の日付から自動 | `yakudoshi/index.html` |
-| 年に 1 回 | 厄年・年祝い・回忌の出典のページ（`constants.js` の `sources`）が変わっていないか。特に各寺社の令和 N 年の厄年表 | `constants.js` の `checked`、`yakudoshi/guide.html`・`kaiki/guide.html` |
+| 年に 1 回 | 厄年・年祝い・回忌の出典のページ（`sources`）が変わっていないか。特に各寺社の令和 N 年の厄年表 | 厄年・年祝いは youheioonuki.github.io の `tools/common/calc/yakudoshi.js`（正本。`node tools/sync-common.mjs --calc` で配る）、回忌は `constants.js` の `checked`、`yakudoshi/guide.html`・`kaiki/guide.html` |
 | 毎年 3 月（新年度の前） | 学年早見表の `<title>` の年度（「2026年度（令和8年度）」）と、使い方ページの FAQ「2026年度の小学 1 年生は何年生まれ？」の年と答え（表そのものは今日の日付から自動）。英語版の FAQ「Which grade is a child born in 2019 in Japan?」（2026–27 の答え）も | `gakunen/index.html`・`gakunen/guide.html`・`en/school-grades/guide.html`（JSON-LD と本文の両方）、`tests/school-grades-en.test.js` |
 
 ## ファイル
@@ -64,7 +64,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `nenpyo/index.html` / `nenpyo/guide.html` / `nenpyo/nenpyo-calc.js` / `nenpyo/nenpyo.js` / `nenpyo/nenpyo.css` | 家族の年表 / その使い方・条文 / 計算（純粋関数）/ 画面・保存 / 見た目と印刷 |
 | `reset-storage.js` | 「保存した内容をすべて消す」ボタン（サイト共通の部品の写し。家族の年表だけが使う） |
 | `gakunen/gakunen.js` | 学年早見表と履歴書の学歴の画面の制御（計算は `calc.js` の `gradeTable`・`gradeNumber`・`resumeHistory`） |
-| `calc.js` | 和暦・年齢・学年・干支・早見表（純粋関数。日英共通） |
+| `calc.js` | 和暦・年齢・干支・早見表（純粋関数。日英共通）。学年と厄年・年祝いの関数は下の 2 つから受けて同じ名前で出す |
+| `gakunen-calc.js` / `yakudoshi-calc.js` | 学年（4 月 2 日の区切り・学年早見表・履歴書の学歴）と厄年・年祝いの計算と値（値・出典・確認日）。**生成物**: 正本は youheioonuki.github.io の `tools/common/calc/gakunen.js`・`yakudoshi.js`（yorozu-plans D484。seido-keisan と共通）。直すときは正本を直して `node tools/sync-common.mjs --calc <このリポジトリ>`。画面は `constants.js` の前に読む |
 | `constants.js` | 元号の境目と法令（値・出典・確認日）。家族の年表の成年 18・年金 65・定年 60 もここ |
 | `main.js` | 画面の制御。日英の文言（`STR`）を `<html lang>` で切り替える |
 | `screen.js` | 画面の部品（折りたたみの状態表示。yorozu-template と同じ） |
