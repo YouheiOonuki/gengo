@@ -74,9 +74,10 @@ test('英語のページに日本語の文字が無い（言語の切り替え�
   for (const s of strings) assert.equal(JA.test(s), false, s);
 });
 
-test('「japan school grades by age」が title と h1 にある', () => {
+// title は検索に出ている語（11-08 の週次: japanese school grades・fifth grade japan age）に合わせた（Q-149、2026-11-11）。h1 は K79 のまま
+test('title に「japanese school grades by age」、h1 に「japan school grades by age」', () => {
   const h = read('en/school-grades/index.html');
-  assert.match(h.match(/<title>([^<]*)<\/title>/)[1], /japan school grades by age/i);
+  assert.match(h.match(/<title>([^<]*)<\/title>/)[1], /japanese school grades by age/i);
   assert.match(h.match(/<h1>([^<]*)<\/h1>/)[1], /japan school grades by age/i);
 });
 
