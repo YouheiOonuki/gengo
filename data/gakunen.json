@@ -7,8 +7,8 @@
   "data_url": "https://yorozu-craft.com/gengo/data/gakunen.json",
   "repository": "https://github.com/YouheiOonuki/gengo",
   "generated_from": "calc.js の gradeTable（画面と同じ関数）と constants.js の法令（tools/build-data.mjs で書き出し）",
-  "checked": "2026-09-25",
-  "generated": "2026-10-03",
+  "checked": "2026-11-16",
+  "generated": "2026-11-16",
   "source": [
     "https://laws.e-gov.go.jp/law/322AC0000000026",
     "https://laws.e-gov.go.jp/law/322M40000080011",
@@ -26,14 +26,14 @@
       "value": "満六歳に達した日の翌日以後における最初の学年の初めから",
       "source": "e-Gov 法令検索「学校教育法」第十七条",
       "url": "https://laws.e-gov.go.jp/law/322AC0000000026",
-      "checked": "2026-09-24"
+      "checked": "2026-11-16"
     },
     {
       "label": "学校教育法施行規則第59条（小学校の学年）",
       "value": "4月1日に始まり、翌年3月31日に終わる",
       "source": "e-Gov 法令検索「学校教育法施行規則」第五十九条",
       "url": "https://laws.e-gov.go.jp/law/322M40000080011",
-      "checked": "2026-09-24"
+      "checked": "2026-11-16"
     },
     {
       "label": "学校教育法第26条（幼稚園に入園できる者）",
