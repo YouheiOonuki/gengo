@@ -50,6 +50,18 @@
     return fy + '年度（' + names.join('・') + '）';
   }
 
+  // ===== 何歳は何年生（きょうの年度） =====
+  var ageBody = $('age-body');
+  if (ageBody) {
+    var ga = C.gradeByAge(today());
+    var gname = function (g) { return g ? (GRADE_NAME[g.key] || '—') : '—'; };
+    $('age-hayami-title').textContent = fyLabel(ga.fy) + ' 何歳は何年生';
+    ageBody.innerHTML = ga.rows.map(function (r) {
+      var cls = r.age === 6 || r.age === 12 || r.age === 15 ? ' class="stage-start"' : '';
+      return '<tr' + cls + '><th scope="row">' + r.age + ' 歳</th><td>' + esc(gname(r.a)) + '</td><td>' + esc(gname(r.b)) + '</td></tr>';
+    }).join('');
+  }
+
   // ===== 学年早見表 =====
   var body = $('gk-body');
   if (body) {

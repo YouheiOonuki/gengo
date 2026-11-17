@@ -203,6 +203,8 @@ fieldset.card { min-width: 0; }
 .gk-table thead th { background: var(--bg-2); }
 .gk-table tbody th { white-space: nowrap; font-weight: 600; }
 .gk-table td:last-child { white-space: nowrap; }
+.age-table td:last-child { white-space: normal; }
+.age-table thead th { font-weight: 600; }
 .gk-table tr.stage-start > * { border-top: 2px solid var(--muted); }
 .gk-table tr.grad > * { color: var(--muted); }
 .gk-table tr.me > * { background: var(--accent-soft); color: var(--text); font-weight: 700; }

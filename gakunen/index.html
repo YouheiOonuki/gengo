@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>学年早見表 2026年度（令和8年度）生年月日・和暦・年齢｜印刷できる｜yorozu-craft</title>
-  <meta name="description" content="年度を選ぶと、年少から大学・大学院まで学年ごとの生年月日の範囲（西暦・和暦）と年齢が出る学年早見表。生年月日を入れると早生まれかどうかと学年が分かります。A4 1 枚で印刷。登録不要・無料。">
+  <title>何歳は何年生？学年早見表 2026年度（令和8年度）生年月日｜yorozu-craft</title>
+  <meta name="description" content="何歳は何年生かを、今年度の早見で。年少から大学・大学院まで学年ごとの生年月日の範囲（西暦・和暦）と年齢が出る学年早見表。生年月日を入れると早生まれかどうかと学年が分かります。A4 1 枚で印刷。">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yorozu-craft.com/gengo/gakunen/">
   <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/gengo/gakunen/">
@@ -54,12 +54,23 @@
   </div>
 
   <header class="app-header">
-    <h1>学年早見表（生年月日・和暦・年齢）</h1>
+    <h1>何歳は何年生？学年早見表（生年月日・和暦・年齢）</h1>
     <p class="subtitle">年度ごとの学年と生まれの範囲。入力は外部に送信しません。</p>
     <p class="lang-switch"><a href="../en/school-grades/" hreflang="en" lang="en">English</a></p>
   </header>
 
   <main class="app-main two-col side">
+
+    <!-- 何歳は何年生（きょうの年度。gakunen.js が calc.js の gradeByAge で埋める。印刷には入れない） -->
+    <section class="card no-print" id="age-hayami" aria-labelledby="age-hayami-title">
+      <h2 class="hayami-title" id="age-hayami-title">何歳は何年生</h2>
+      <div class="table-wrap">
+        <table class="gk-table age-table">
+          <thead><tr><th scope="col">いまの年齢</th><th scope="col">4 月 2 日〜きょうが誕生日の人</th><th scope="col">あした〜4 月 1 日が誕生日の人</th></tr></thead>
+          <tbody id="age-body"></tbody>
+        </table>
+      </div>
+    </section>
 
     <!-- 設定 → 出力（SCREEN.md 1.2）。年度と生年月日（任意）→ 印刷ボタン → 表 -->
     <fieldset class="card gk-controls">
