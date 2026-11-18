@@ -172,6 +172,7 @@ ul.notice { padding-left: 1.6rem; }
 .hayami-title { margin: var(--sp-2) 0 var(--sp-1); text-align: center; }
 .hayami-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--sp-3); }
 @media (max-width: 560px) { .hayami-cols { grid-template-columns: 1fr; } }
+@media screen { .hayami-cols { overflow-x: auto; } }   /* 表が幅に収まらないときは箱の中だけ送る（紙では送らない。Q-504） */
 .hayami-table { border-collapse: collapse; width: 100%; font-size: var(--fs-s); }
 .hayami-table th, .hayami-table td { border: 1px solid var(--border); padding: 0 var(--sp-1); text-align: center; white-space: nowrap; }
 .hayami-table thead th { background: var(--bg-2); white-space: normal; line-height: 1.25; }

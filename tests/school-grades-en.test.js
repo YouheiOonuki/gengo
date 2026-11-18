@@ -124,3 +124,16 @@ test('使い方の年数の表が constants.js の修業年限と同じ', () => 
   assert.match(row('daigaku<'), new RegExp('>' + L.univ4 + ' years; ' + L.univ6 + ' for'));
   assert.match(row('daigakuin'), new RegExp("Master's " + G.master + ' years; doctoral ' + (G.master + G.doctorLater) + ' years, which may be split ' + G.master + ' \\+ ' + G.doctorLater));
 });
+
+// Q-504: 320 幅で表がページを横に押し出した。表を包む箱だけを送り、箱の名前は今ある見出しを指す
+test('幅の広い表は、Tab で入れる名前つきの箱（role=region）に包まれ、名前の先が在る', () => {
+  const g = read('en/school-grades/guide.html');
+  const m = g.match(/<div class="table-wrap" tabindex="0" role="region" aria-labelledby="([^"]+)">\s*<table>/);
+  assert.ok(m, 'school names table');
+  assert.ok(g.includes(`id="${m[1]}"`), m[1]);
+  const js = read('main.js');
+  const h = js.match(/<div class="hayami-cols" tabindex="0" role="region" aria-labelledby="([^"]+)">/);
+  assert.ok(h, 'age chart');
+  assert.ok(js.includes(`<h3 class="hayami-title" id="${h[1]}">`), h[1]);
+  assert.match(read('style.css'), /@media screen \{ \.hayami-cols \{ overflow-x: auto; \} \}/);
+});

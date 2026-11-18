@@ -278,8 +278,9 @@
       }).join('') + '</tbody></table>';
     }
     var w = C.erasOfYear(ry).map(function (x) { return LANG === 'en' ? x.era.romaji + ' ' + x.year : C.formatEraYear(x.era, x.year); }).join(LANG === 'en' ? ' / ' : '・');
-    tableOut.innerHTML = '<h3 class="hayami-title">' + esc(fmt(T.tableTitle, { y: ry, w: w })) + '</h3>' +
-      '<div class="hayami-cols">' + tbl(rows.slice(0, half)) + tbl(rows.slice(half)) + '</div>' +
+    // 2 枚の表を包む箱だけを横に送る（320 幅で英語の表がページを押し出した。Q-504）。名前は表の題を指す
+    tableOut.innerHTML = '<h3 class="hayami-title" id="hayami-title">' + esc(fmt(T.tableTitle, { y: ry, w: w })) + '</h3>' +
+      '<div class="hayami-cols" tabindex="0" role="region" aria-labelledby="hayami-title">' + tbl(rows.slice(0, half)) + tbl(rows.slice(half)) + '</div>' +
       (creditChk.checked ? '<p class="credit">' + esc(T.credit) + '</p>' : '');
     // 早見表の details（SCREEN.md 1.1 の 4）の summary に、何年の表か・年齢の範囲（選択肢の文字のまま）
     window.YorozuScreen.detailsSummary({ 'sec-hayami': yearSel.options[yearSel.selectedIndex].text + (LANG === 'en' ? ', ' : '・') + maxSel.options[maxSel.selectedIndex].text });
