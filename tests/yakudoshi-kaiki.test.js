@@ -147,3 +147,19 @@ test('出典と確認日が constants.js にある', () => {
     for (const s of K[k].sources) assert.match(s.url, /^https:\/\//);
   }
 });
+
+// Q-545: 回忌は命日を入れる前、#sheet が hidden で、年ごとの早見表も body.print-year の時しか出ない。
+// 本文を隠す条件が「.print-area を持つ」だけだと、紙が白紙 1 枚だった。隠すのは、出る物が在る時だけ
+test('紙で本文を隠すのは、hidden でない main の直の .print-area か #sec-hayami が在る時と、body.print-year の時だけ', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const css = fs.readFileSync(path.join(__dirname, '..', 'style.css'), 'utf8');
+  const cond = ':where(body:has(#sec-hayami, main > .print-area:not([hidden])), body.print-year)';
+  for (const tail of [' .app-header,', ' .app-footer,', ' main > :not(#sec-hayami):not(.print-area),']) {
+    assert.ok(css.includes(cond + tail), tail);
+  }
+  assert.ok(!css.includes('body:has(#sec-hayami, .print-area)'), '裸の .print-area の条件が残っていない');
+  const html = fs.readFileSync(path.join(__dirname, '..', 'kaiki', 'index.html'), 'utf8');
+  assert.match(html, /<section class="card print-area col-out" id="sheet"[^>]* hidden>/);
+  assert.match(html, /<section class="print-area" id="year-sheet"/);
+});
