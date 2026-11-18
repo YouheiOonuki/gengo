@@ -270,10 +270,13 @@ fieldset.card { min-width: 0; }
 @media print {
   :root { --bg: #fff; --bg-2: #eee; --card: #fff; --text: #000; --muted: #333; --accent: #000; --accent-soft: #f2f2f2; --border: #888; }
   body { background: #fff; }
-  /* 本文を隠すのは、紙に出す物（#sec-hayami か .print-area）を持つページだけ。使い方などは本文がそのまま紙に出る（Q-445: 全ページで隠して白紙だった）。
+  /* 本文を隠すのは、紙に出す物（#sec-hayami か、main の直の子で hidden でない .print-area）が在る時と、回忌の年ごとの早見表を印刷する時だけ。
+     使い方などは本文がそのまま紙に出る（Q-445: 全ページで隠して白紙だった）。回忌は命日を入れる前は #sheet が hidden で、
+     年ごとの早見表（details の中）も body.print-year の時しか出ないので、本文を隠すと白紙だった（Q-545）。
      :where で囲んで、下の body.print-year の上書きより強くしない */
-  :where(body:has(#sec-hayami, .print-area)) .app-header, :where(body:has(#sec-hayami, .print-area)) .app-footer,
-  :where(body:has(#sec-hayami, .print-area)) main > :not(#sec-hayami):not(.print-area),
+  :where(body:has(#sec-hayami, main > .print-area:not([hidden])), body.print-year) .app-header,
+  :where(body:has(#sec-hayami, main > .print-area:not([hidden])), body.print-year) .app-footer,
+  :where(body:has(#sec-hayami, main > .print-area:not([hidden])), body.print-year) main > :not(#sec-hayami):not(.print-area),
   #sec-hayami > summary, #sec-hayami .controls, .fixed-bar,
   ins.adsbygoogle, iframe, .google-auto-placed { display: none !important; }
   .app-main, .app-main.two-col { display: block; max-width: none; padding: 0; }
