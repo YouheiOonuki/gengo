@@ -84,7 +84,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .app-header > p { max-width: 40em; margin-left: auto; margin-right: auto; }
 @media (max-width: 480px) { .app-header h1 { font-size: var(--fs-l); } }
 .lang-switch { font-size: var(--fs-s); }
-.lang-switch a { display: inline-flex; align-items: center; min-height: var(--tap); }
+.lang-switch a { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); }   /* 「日本語」も幅 44px に（Q-484） */
 
 /* レイアウト。PC（960px 以上）の .two-col は入力を左・結果を右の 2 列（D371）。
    .col-in は左、.col-out は右。.side は右の列が縦に長く流れ、左に入力と折りたたみを積む形 */
@@ -118,10 +118,11 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .field .field-label { display: block; font-weight: 700; margin-bottom: var(--sp-1); }
 label.inline { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: var(--tap); margin-bottom: 0; font-weight: 400; }
 .field > label.inline:has(~ label.inline) { margin-bottom: var(--sp-2); }   /* 縦に並んだ選ぶ所の間 8px（Q-470） */
-input[type="checkbox"], input[type="radio"] { width: var(--tap); height: var(--tap); margin: 0; flex: none; }   /* 押す所は 44px 以上（Q-470） */
+input[type="checkbox"], input[type="radio"] { width: 1.25rem; height: 1.25rem; flex: none; }
 .examples { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; margin-bottom: var(--sp-3); }
 .examples .small { margin: 0; }
 .small { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
+.controls .small { margin-top: var(--sp-2); }   /* 「印刷する」とすぐ下のリンクの間 8px（Q-484） */
 
 /* 読みもの（guide.html） */
 .content h3 { margin: var(--sp-4) 0 var(--sp-1); }
