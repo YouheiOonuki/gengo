@@ -315,5 +315,6 @@ fieldset.card { min-width: 0; }
   body.print-year #opt-year > summary, body.print-year #opt-year > .field, body.print-year #opt-year > p { display: none !important; }
 }
 
-/* 1 行に 1 つのリンク（使い方への行・案内のカード・出典の一覧）も押せる高さに（DESIGN の 44px。K192 段 3 の 4 の検収） */
-:where(html:not([data-skin="base"])) :where(p, li) > a:only-child { display: inline-flex; align-items: center; min-height: var(--tap); }
+/* 1 行に 1 つのリンク（言語の切り替え・案内のカード・下のナビ・class link-row の行）も押せる高さに（DESIGN の 44px。K192 段 3 の 4 の検収）。
+   箱を名指しする。p・li の裸の形は、字の中の唯一のリンク（出典の一覧・「根拠は使い方ページに」）にも当たる（Q-518） */
+:where(html:not([data-skin="base"])) :where(.lang-switch, p.card, .footer-nav li, .link-row) > a:only-child { display: inline-flex; align-items: center; min-height: var(--tap); }
