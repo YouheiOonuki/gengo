@@ -265,7 +265,11 @@ fieldset.card { min-width: 0; }
 @media print {
   :root { --bg: #fff; --bg-2: #eee; --card: #fff; --text: #000; --muted: #333; --accent: #000; --accent-soft: #f2f2f2; --border: #888; }
   body { background: #fff; }
-  .app-header, .app-footer, main > :not(#sec-hayami):not(.print-area), #sec-hayami > summary, #sec-hayami .controls, .fixed-bar,
+  /* 本文を隠すのは、紙に出す物（#sec-hayami か .print-area）を持つページだけ。使い方などは本文がそのまま紙に出る（Q-445: 全ページで隠して白紙だった）。
+     :where で囲んで、下の body.print-year の上書きより強くしない */
+  :where(body:has(#sec-hayami, .print-area)) .app-header, :where(body:has(#sec-hayami, .print-area)) .app-footer,
+  :where(body:has(#sec-hayami, .print-area)) main > :not(#sec-hayami):not(.print-area),
+  #sec-hayami > summary, #sec-hayami .controls, .fixed-bar,
   ins.adsbygoogle, iframe, .google-auto-placed { display: none !important; }
   .app-main, .app-main.two-col { display: block; max-width: none; padding: 0; }
   #sec-hayami { border: none; padding: 0; margin: 0; }
