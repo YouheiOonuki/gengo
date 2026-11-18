@@ -147,6 +147,23 @@ test('幅の広い表は、送れる箱に包まれ、名前の先（data-scroll
   assert.match(read('style.css'), /@media screen \{ \.hayami-cols \{ overflow-x: auto; \} \}/);
 });
 
+// Q-544: 320 幅であふれるのに名前の先が無かった 3 つの表（英語の元号の表・日英の学年早見表）。名前は今ある見出しを指す
+test('320 幅であふれる 3 つの表の箱に、今ある見出しを指す data-scroll-label と、表を組む script より前の scroll-box.js', () => {
+  for (const [f, id, src, js] of [
+    ['en/index.html', 'h-eras', '../', '../main.js'],
+    ['gakunen/index.html', 'sheet-title', '../', './gakunen.js'],
+    ['en/school-grades/index.html', 'sheet-title', '../../', './school-grades.js'],
+  ]) {
+    const html = read(f);
+    assert.ok(html.includes(`<div class="table-wrap" data-scroll-label="${id}">`), f + ': 箱');
+    assert.equal(html.split(`id="${id}"`).length, 2, f + ': 名前の先が 1 つ');
+    assert.ok(html.indexOf(`id="${id}"`) < html.indexOf(`data-scroll-label="${id}"`), f + ': 見出しが箱より前');
+    const sb = html.indexOf(`<script src="${src}scroll-box.js"></script>`);
+    assert.ok(sb !== -1 && sb < html.indexOf(`<script src="${js}"></script>`), f + ': scroll-box.js が ' + js + ' より前');
+    assert.doesNotMatch(html, /table-wrap"[^>]*(tabindex|role=|aria-labelledby|aria-label=)/, f);
+  }
+});
+
 const SB = require('../scroll-box.js');
 test('あふれの判定: 1 px を超えて広い時だけ止める（0・1・2 px）', () => {
   assert.equal(SB.overflows(254, 254), false);
