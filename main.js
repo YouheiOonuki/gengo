@@ -256,6 +256,7 @@
 
   // --- 年齢早見表 ---
   var yearSel = $('table-year'), maxSel = $('table-max'), creditChk = $('credit'), tableOut = $('hayami');
+  var hayamiBox = null;   // 年齢早見表の箱を見ている ResizeObserver（組み直すたびに前のを外す）
   var opts = [];
   for (var y = t0.y + 10; y >= 1990; y--) opts.push('<option value="' + y + '">' + y + (LANG === 'ja' ? '年（' + C.erasOfYear(y).map(function (x) { return C.formatEraYear(x.era, x.year); }).join('・') + '）' : ' (' + C.erasOfYear(y).map(function (x) { return x.era.romaji + ' ' + x.year; }).join(' / ') + ')') + '</option>');
   yearSel.innerHTML = opts.join('');
@@ -278,10 +279,13 @@
       }).join('') + '</tbody></table>';
     }
     var w = C.erasOfYear(ry).map(function (x) { return LANG === 'en' ? x.era.romaji + ' ' + x.year : C.formatEraYear(x.era, x.year); }).join(LANG === 'en' ? ' / ' : '・');
-    // 2 枚の表を包む箱だけを横に送る（320 幅で英語の表がページを押し出した。Q-504）。名前は表の題を指す
+    // 2 枚の表を包む箱だけを横に送る（320 幅で英語の表がページを押し出した。Q-504）。
+    // Tab で止まるのは、あふれている時だけ（scroll-box.js。名前は表の題を指す。Q-532）
     tableOut.innerHTML = '<h3 class="hayami-title" id="hayami-title">' + esc(fmt(T.tableTitle, { y: ry, w: w })) + '</h3>' +
-      '<div class="hayami-cols" tabindex="0" role="region" aria-labelledby="hayami-title">' + tbl(rows.slice(0, half)) + tbl(rows.slice(half)) + '</div>' +
+      '<div class="hayami-cols" data-scroll-label="hayami-title">' + tbl(rows.slice(0, half)) + tbl(rows.slice(half)) + '</div>' +
       (creditChk.checked ? '<p class="credit">' + esc(T.credit) + '</p>' : '');
+    if (hayamiBox) hayamiBox.disconnect();
+    hayamiBox = window.YorozuScrollBox ? window.YorozuScrollBox.watch(tableOut.querySelector('.hayami-cols')) : null;
     // 早見表の details（SCREEN.md 1.1 の 4）の summary に、何年の表か・年齢の範囲（選択肢の文字のまま）
     window.YorozuScreen.detailsSummary({ 'sec-hayami': yearSel.options[yearSel.selectedIndex].text + (LANG === 'en' ? ', ' : '・') + maxSel.options[maxSel.selectedIndex].text });
     window.yzUsed?.();

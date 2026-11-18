@@ -126,14 +126,43 @@ test('使い方の年数の表が constants.js の修業年限と同じ', () => 
 });
 
 // Q-504: 320 幅で表がページを横に押し出した。表を包む箱だけを送り、箱の名前は今ある見出しを指す
-test('幅の広い表は、Tab で入れる名前つきの箱（role=region）に包まれ、名前の先が在る', () => {
+// Q-532: Tab で止まるのはあふれた時だけ。3 つの属性は HTML に書かず、scroll-box.js が付け外しする
+test('幅の広い表は、送れる箱に包まれ、名前の先（data-scroll-label）が在り、属性は HTML に直に書かない', () => {
   const g = read('en/school-grades/guide.html');
-  const m = g.match(/<div class="table-wrap" tabindex="0" role="region" aria-labelledby="([^"]+)">\s*<table>/);
+  const m = g.match(/<div class="table-wrap" data-scroll-label="([^"]+)">\s*<table>/);
   assert.ok(m, 'school names table');
   assert.ok(g.includes(`id="${m[1]}"`), m[1]);
+  assert.match(g, /<script src="\.\.\/\.\.\/scroll-box\.js"><\/script>/);
   const js = read('main.js');
-  const h = js.match(/<div class="hayami-cols" tabindex="0" role="region" aria-labelledby="([^"]+)">/);
+  const h = js.match(/<div class="hayami-cols" data-scroll-label="([^"]+)">/);
   assert.ok(h, 'age chart');
   assert.ok(js.includes(`<h3 class="hayami-title" id="${h[1]}">`), h[1]);
+  assert.match(js, /YorozuScrollBox\.watch\(/);
+  for (const [f, src] of [['index.html', './'], ['en/index.html', '../']]) {
+    const html = read(f);
+    assert.ok(html.indexOf(`<script src="${src}scroll-box.js"></script>`) !== -1, f);
+    assert.ok(html.indexOf(`${src}scroll-box.js`) < html.indexOf(`${src}main.js`), f + ': main.js より前');
+  }
+  assert.doesNotMatch(g + js, /(table-wrap|hayami-cols)"[^>]*(tabindex|role=|aria-labelledby)/);
   assert.match(read('style.css'), /@media screen \{ \.hayami-cols \{ overflow-x: auto; \} \}/);
+});
+
+const SB = require('../scroll-box.js');
+test('あふれの判定: 1 px を超えて広い時だけ止める（0・1・2 px）', () => {
+  assert.equal(SB.overflows(254, 254), false);
+  assert.equal(SB.overflows(255, 254), false);
+  assert.equal(SB.overflows(256, 254), true);
+  assert.equal(SB.overflows(0, 0), false);   // 閉じた details の中
+});
+
+test('箱の属性: あふれている時だけ 3 つを付け、あふれなくなったら 3 つとも外す', () => {
+  const attrs = new Map([['data-scroll-label', 'h-names']]);
+  const el = { scrollWidth: 308, clientWidth: 254, children: [],
+    setAttribute: (k, v) => attrs.set(k, v), removeAttribute: (k) => attrs.delete(k), getAttribute: (k) => attrs.has(k) ? attrs.get(k) : null };
+  SB.apply(el);
+  assert.deepEqual([attrs.get('tabindex'), attrs.get('role'), attrs.get('aria-labelledby')], ['0', 'region', 'h-names']);
+  el.clientWidth = 324; el.scrollWidth = 324;
+  SB.apply(el);
+  assert.deepEqual(['tabindex', 'role', 'aria-labelledby'].map(k => attrs.has(k)), [false, false, false]);
+  assert.equal(attrs.get('data-scroll-label'), 'h-names');
 });
