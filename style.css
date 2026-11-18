@@ -117,7 +117,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .inline-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
 .field .field-label { display: block; font-weight: 700; margin-bottom: var(--sp-1); }
 label.inline { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: var(--tap); margin-bottom: 0; font-weight: 400; }
-input[type="checkbox"], input[type="radio"] { width: 1.25rem; height: 1.25rem; flex: none; }
+.field > label.inline:has(~ label.inline) { margin-bottom: var(--sp-2); }   /* 縦に並んだ選ぶ所の間 8px（Q-470） */
+input[type="checkbox"], input[type="radio"] { width: var(--tap); height: var(--tap); margin: 0; flex: none; }   /* 押す所は 44px 以上（Q-470） */
 .examples { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; margin-bottom: var(--sp-3); }
 .examples .small { margin: 0; }
 .small { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
@@ -134,7 +135,8 @@ input[type="checkbox"], input[type="radio"] { width: 1.25rem; height: 1.25rem; f
 .content th { background: var(--bg-2); }
 .sources li { overflow-wrap: anywhere; }
 .content details { margin-top: var(--sp-2); }
-.content details[open] > summary { margin-bottom: var(--sp-1); }
+.content details[open] > summary { margin-bottom: var(--sp-2); }   /* すぐ下の出典のリンクとの間 8px（Q-470） */
+.sources li + li { margin-top: var(--sp-2); }   /* 行をまたぐ出典のリンクの間 8px（Q-470） */
 
 /* フッター */
 .app-footer {
@@ -145,8 +147,8 @@ input[type="checkbox"], input[type="radio"] { width: 1.25rem; height: 1.25rem; f
   border-top: 1px solid var(--border);
   margin-top: var(--sp-2);
 }
-.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0 var(--sp-4); margin-bottom: var(--sp-2); }
-.footer-nav a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--muted); text-decoration: none; }
+.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); margin-bottom: var(--sp-2); }   /* 折り返した行の間 8px（Q-470） */
+.footer-nav a { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); color: var(--muted); text-decoration: none; }
 .footer-nav a:hover, .footer-nav a[aria-current="page"] { color: var(--accent); }
 
 /* ===== 和暦変換の部品 ===== */
@@ -159,6 +161,7 @@ ul.notice { padding-left: 1.6rem; }
 .result-table th, .result-table td { text-align: left; vertical-align: top; padding: var(--sp-1); border-bottom: 1px solid var(--border); }
 .result-table th { color: var(--muted); width: 30%; }
 .result-table th:empty { width: 0; padding: 0; }
+.result-table td a { display: inline-flex; align-items: center; min-height: var(--tap); }   /* 結果の行の「早見表 →」も押せる高さに（Q-470） */
 .table-wrap { overflow-x: auto; }
 .history { margin-top: var(--sp-3); }
 .hist-table, .era-table { border-collapse: collapse; font-size: var(--fs-s); width: 100%; margin-top: var(--sp-1); }
