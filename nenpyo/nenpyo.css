@@ -8,7 +8,7 @@
 .np-err { display: block; min-height: 1.1em; font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
 .np-err.bad { color: var(--error); font-weight: 700; }
 .np-del { min-width: var(--tap); margin-bottom: var(--sp-3); }
-.np-row-btns { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.np-row-btns { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-2); }   /* 下の「印刷する」との間 8px（Q-470） */
 .np-row-btns .btn { line-height: 1.4; }   /* 共通の font: inherit で行間 1.7 になった分を戻す（3 画面以内: SCREEN 2 章） */
 .np-controls label.inline, #opt-events label.inline { display: flex; }
 
