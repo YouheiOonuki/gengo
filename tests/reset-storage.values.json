@@ -1,0 +1,15 @@
+{
+  "src": "reset-storage.js",
+  "prefixes": [
+    "gengo_"
+  ],
+  "legacy": [],
+  "pagePrefixes": {
+    "nenpyo/index.html": [
+      "gengo_nenpyo"
+    ]
+  },
+  "pageLegacy": {},
+  "inline": [],
+  "skipDirs": []
+}
