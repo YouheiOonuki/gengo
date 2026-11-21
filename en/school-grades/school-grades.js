@@ -68,7 +68,7 @@
   // ===== 画面 =====
   function $(id) { return document.getElementById(id); }
   function nb(s) { return esc(s).replace(/ /g, '&nbsp;'); }
-  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var esc = C.esc;
   var body = $('gk-body');
   if (!body) return;
   var fySel = $('fy'), birthIn = $('birth'), out = $('birth-result'), creditChk = $('credit');

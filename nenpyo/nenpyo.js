@@ -8,7 +8,7 @@
   var C = window.Calc, N = window.Nenpyo;
   var KEY = 'gengo_nenpyo';
   function $(id) { return document.getElementById(id); }
-  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var esc = C.esc;
   var thisYear = new Date().getFullYear();
   var ERR = {
     format: '読み取れません（例: 昭和60年3月5日／1985-03-05）', needDate: '年・月・日まで入れてください', date: 'ありえない日付です',
