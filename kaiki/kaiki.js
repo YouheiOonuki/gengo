@@ -8,7 +8,7 @@
 
   var C = window.Calc;
   function $(id) { return document.getElementById(id); }
-  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var esc = C.esc;
   function today() { var n = new Date(); return { y: n.getFullYear(), m: n.getMonth() + 1, d: n.getDate() }; }
   var WD = ['日', '月', '火', '水', '木', '金', '土'];
   function ymd(o) { return o.y + '年' + o.m + '月' + o.d + '日'; }
