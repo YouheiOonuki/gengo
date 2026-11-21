@@ -82,7 +82,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 .app-header .subtitle { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
 .app-header > p { max-width: 40em; margin-left: auto; margin-right: auto; }
-@media (max-width: 480px) { .app-header h1 { font-size: var(--fs-l); } }
 .lang-switch { font-size: var(--fs-s); }
 .lang-switch a { display: inline-flex; align-items: center; min-height: var(--tap); }   /* 「日本語」も幅 44px に（Q-484） */
 
@@ -195,7 +194,7 @@ details.about-tool ul { padding-left: 1.2rem; margin: var(--sp-1) 0 var(--sp-2);
 .fixed-bar { position: fixed; top: 0; bottom: auto; left: 0; right: 0; z-index: 50; border-top: 0; border-bottom: 1px solid var(--border); padding: 0; }
 .fixed-bar button {
   display: block; width: 100%; max-width: 680px; margin: 0 auto; padding: 0 var(--sp-4); height: var(--tap);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: 0; border-radius: 0; color: var(--accent);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: 0; color: var(--accent);
 }
 .fixed-bar button:focus-visible { outline-offset: -4px; }   /* 共通の輪を内側に（端で切れないように） */
 
