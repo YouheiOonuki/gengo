@@ -183,3 +183,12 @@ test('箱の属性: あふれている時だけ 3 つを付け、あふれなく
   assert.deepEqual(['tabindex', 'role', 'aria-labelledby'].map(k => attrs.has(k)), [false, false, false]);
   assert.equal(attrs.get('data-scroll-label'), 'h-names');
 });
+
+// 型 A（yorozu-plans D896・Q-1138）: <main> の最初の段落は答えの文。「▶ Open…」のリンクはその後ろ。2 つ目の段落（This page covers…）は答えの文が代わるので消した
+test('英語の学年の使い方: 最初の段落は答えの文、リンクはその後ろ', () => {
+  const main = read('en/school-grades/guide.html').split('<main')[1];
+  const first = main.match(/<p[^>]*>([\s\S]*?)<\/p>/)[1];
+  assert.equal(first, 'In Japan, children born from 2 April to 1 April of the next year are in the same grade. School is 6 years of elementary school, 3 of junior high and 3 of high school.');
+  assert.ok(main.indexOf(first) < main.indexOf('▶ Open the Japan school grades chart'));
+  assert.ok(!main.includes('This page covers'));
+});
