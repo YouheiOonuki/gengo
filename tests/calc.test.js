@@ -210,3 +210,18 @@ test('constants: 法令・出典に URL と確認日がある', () => {
     assert.match(c.checked, /^\d{4}-\d{2}-\d{2}$/);
   }
 });
+
+test('英語 2 枚の title と使い方の description（Q-982、ROADMAP 7.260 の追補の 4、D746。字は関門を通したまま）', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const read = (p) => fs.readFileSync(path.join(__dirname, '..', p), 'utf8');
+  const title = (h) => h.match(/<title>([\s\S]*?)<\/title>/)[1];
+  const desc = (h) => h.match(/<meta name="description" content="([^"]*)">/)[1];
+  const idx = read('en/index.html');
+  const guide = read('en/guide.html');
+  assert.equal(title(idx), 'Japanese Year Converter: Era Year to Western Year | yorozu-craft');
+  assert.equal(title(guide), 'Japanese Era Years Explained: Reiwa, Heisei, Showa | yorozu-craft');
+  assert.equal(desc(guide), 'How Japanese era years work: Reiwa + 2018, Heisei + 1988, Showa + 1925. What gannen means, and how age and the school year are counted. With official sources.');
+  assert.ok(title(idx).length <= 65 && title(guide).length <= 65);
+  assert.ok(desc(guide).length <= 160);
+});
