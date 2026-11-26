@@ -1,3 +1,4 @@
+// 名前を guide-date.test.js から変えた（2026-11-27）: 共通の本体（root の tools/common/guide-date.test.js）は「ページ → 値 1 つ」で比べるが、gengo は「ページの外のリンクが指す値の checked の最古」で比べるので、repo だけの型として残す。
 // ページに書いた「最終確認日」が、値ファイルの checked と同じか（Q-255、yorozu-plans の QUEUE 2026-11-16 朝。otasuke の tests/guide-date.test.js と同じ型）。
 // 2026-11-18 に guide 4 枚から、日付を書いた全ページに広げた（Q-347）。
 // gengo の値は constants.js・gakunen-calc.js・yakudoshi-calc.js に値ごとの checked で持つ。比べる相手はページごとに EXPECT に書く:
